@@ -9,7 +9,7 @@ export function init(): void {
 }
 
 export function draw(): ArrayBuffer {
-  ctx.fillStyle = "blue";
+  ctx.fillStyle = "red";
   ctx.fillRect(100.0, 100.0, 100.0, 100.0);
   return ctx.commit();
 }

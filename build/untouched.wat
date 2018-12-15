@@ -6,9 +6,9 @@
  (type $iiiv (func (param i32 i32 i32)))
  (type $iiii (func (param i32 i32 i32) (result i32)))
  (type $iii (func (param i32 i32) (result i32)))
+ (type $iv (func (param i32)))
  (type $iFi (func (param i32 f64) (result i32)))
  (type $FFFFFFi (func (param f64 f64 f64 f64 f64 f64) (result i32)))
- (type $iv (func (param i32)))
  (type $i (func (result i32)))
  (type $iFFFFv (func (param i32 f64 f64 f64 f64)))
  (type $iiiiii (func (param i32 i32 i32 i32 i32) (result i32)))
@@ -29,7 +29,7 @@
  (data (i32.const 304) "\13\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s\00")
  (data (i32.const 352) "\00\00\00\00\00\00\00\00")
  (data (i32.const 360) "`\01\00\00\00\00\00\00")
- (data (i32.const 368) "\04\00\00\00b\00l\00u\00e\00")
+ (data (i32.const 368) "\03\00\00\00r\00e\00d\00")
  (table $0 1 anyfunc)
  (elem (i32.const 0) $null)
  (global $~lib/internal/allocator/AL_BITS i32 (i32.const 3))
@@ -1517,7 +1517,7 @@
   if
    i32.const 0
    i32.const 120
-   i32.const 23
+   i32.const 26
    i32.const 2
    call $~lib/env/abort
    unreachable
@@ -1790,7 +1790,7 @@
    end
   end
  )
- (func $~lib/internal/typedarray/TypedArray<f64,f64>#constructor (; 24 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/typedarray/TypedArray<f64>#constructor (; 24 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -1801,7 +1801,7 @@
   if
    i32.const 0
    i32.const 56
-   i32.const 24
+   i32.const 23
    i32.const 34
    call $~lib/env/abort
    unreachable
@@ -3283,12 +3283,54 @@
    end
   end
  )
- (func $~lib/internal/arraybuffer/reallocateUnsafe (; 27 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/allocator/tlsf/__memory_free (; 27 ;) (type $iv) (param $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  get_local $0
+  if
+   get_global $~lib/allocator/tlsf/ROOT
+   set_local $1
+   get_local $1
+   if
+    get_local $0
+    get_global $~lib/allocator/tlsf/Block.INFO
+    i32.sub
+    set_local $2
+    get_local $2
+    i32.load
+    set_local $3
+    get_local $3
+    get_global $~lib/allocator/tlsf/FREE
+    i32.and
+    i32.eqz
+    i32.eqz
+    if
+     i32.const 0
+     i32.const 8
+     i32.const 494
+     i32.const 6
+     call $~lib/env/abort
+     unreachable
+    end
+    get_local $2
+    get_local $3
+    get_global $~lib/allocator/tlsf/FREE
+    i32.or
+    i32.store
+    get_local $1
+    get_local $0
+    get_global $~lib/allocator/tlsf/Block.INFO
+    i32.sub
+    call $~lib/allocator/tlsf/Root#insert
+   end
+  end
+ )
+ (func $~lib/internal/arraybuffer/reallocateUnsafe (; 28 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
-  (local $6 i32)
   get_local $0
   i32.load
   set_local $2
@@ -3303,7 +3345,7 @@
    if
     i32.const 0
     i32.const 120
-    i32.const 37
+    i32.const 40
     i32.const 4
     call $~lib/env/abort
     unreachable
@@ -3318,57 +3360,50 @@
     get_local $0
     get_local $1
     i32.store
-    get_local $0
-    get_global $~lib/internal/arraybuffer/HEADER_SIZE
-    i32.add
-    get_local $2
-    i32.add
-    set_local $3
-    i32.const 0
-    set_local $4
-    get_local $1
-    get_local $2
-    i32.sub
-    set_local $5
-    get_local $3
-    get_local $4
-    get_local $5
-    call $~lib/internal/memory/memset
    else    
     get_local $1
     call $~lib/internal/arraybuffer/allocateUnsafe
-    set_local $5
-    get_local $5
+    set_local $3
+    get_local $3
     get_global $~lib/internal/arraybuffer/HEADER_SIZE
     i32.add
     set_local $4
     get_local $0
     get_global $~lib/internal/arraybuffer/HEADER_SIZE
     i32.add
-    set_local $3
+    set_local $5
     get_local $4
-    get_local $3
+    get_local $5
     get_local $2
     call $~lib/internal/memory/memmove
-    get_local $5
-    get_global $~lib/internal/arraybuffer/HEADER_SIZE
-    i32.add
-    get_local $2
-    i32.add
-    set_local $3
-    i32.const 0
-    set_local $4
-    get_local $1
-    get_local $2
-    i32.sub
-    set_local $6
+    block $~lib/memory/memory.free|inlined.0
+     block
+      get_local $0
+      call $~lib/allocator/tlsf/__memory_free
+      br $~lib/memory/memory.free|inlined.0
+      unreachable
+     end
+     unreachable
+    end
     get_local $3
-    get_local $4
-    get_local $6
-    call $~lib/internal/memory/memset
-    get_local $5
-    return
+    set_local $0
    end
+   get_local $0
+   get_global $~lib/internal/arraybuffer/HEADER_SIZE
+   i32.add
+   get_local $2
+   i32.add
+   set_local $3
+   i32.const 0
+   set_local $5
+   get_local $1
+   get_local $2
+   i32.sub
+   set_local $4
+   get_local $3
+   get_local $5
+   get_local $4
+   call $~lib/internal/memory/memset
   else   
    get_local $1
    get_local $2
@@ -3381,7 +3416,7 @@
     if
      i32.const 0
      i32.const 120
-     i32.const 61
+     i32.const 62
      i32.const 4
      call $~lib/env/abort
      unreachable
@@ -3393,11 +3428,12 @@
   end
   get_local $0
  )
- (func $~lib/array/Array<i32>#push (; 28 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i32>#push (; 29 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
+  (local $6 i32)
   get_local $0
   i32.load offset=4
   set_local $2
@@ -3441,16 +3477,20 @@
   get_local $0
   get_local $5
   i32.store offset=4
+  i32.const 0
+  set_local $6
   get_local $3
   get_local $2
   i32.const 2
   i32.shl
   i32.add
+  get_local $6
+  i32.add
   get_local $1
   i32.store offset=8
   get_local $5
  )
- (func $assembly/primitives/Stackable/Stackable<i32>#constructor (; 29 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/primitives/Stackable/Stackable<i32>#constructor (; 30 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   get_local $0
   get_local $0
@@ -3499,11 +3539,12 @@
   i32.store offset=16
   get_local $0
  )
- (func $~lib/array/Array<String>#push (; 30 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#push (; 31 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
+  (local $6 i32)
   get_local $0
   i32.load offset=4
   set_local $2
@@ -3547,16 +3588,20 @@
   get_local $0
   get_local $5
   i32.store offset=4
+  i32.const 0
+  set_local $6
   get_local $3
   get_local $2
   i32.const 2
   i32.shl
   i32.add
+  get_local $6
+  i32.add
   get_local $1
   i32.store offset=8
   get_local $5
  )
- (func $assembly/primitives/Stackable/Stackable<String>#constructor (; 31 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/primitives/Stackable/Stackable<String>#constructor (; 32 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   get_local $0
   get_local $0
@@ -3605,11 +3650,12 @@
   i32.store offset=16
   get_local $0
  )
- (func $~lib/array/Array<f64>#push (; 32 ;) (type $iFi) (param $0 i32) (param $1 f64) (result i32)
+ (func $~lib/array/Array<f64>#push (; 33 ;) (type $iFi) (param $0 i32) (param $1 f64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
+  (local $6 i32)
   get_local $0
   i32.load offset=4
   set_local $2
@@ -3653,16 +3699,20 @@
   get_local $0
   get_local $5
   i32.store offset=4
+  i32.const 0
+  set_local $6
   get_local $3
   get_local $2
   i32.const 3
   i32.shl
   i32.add
+  get_local $6
+  i32.add
   get_local $1
   f64.store offset=8
   get_local $5
  )
- (func $assembly/primitives/Stackable/Stackable<f64>#constructor (; 33 ;) (type $iFi) (param $0 i32) (param $1 f64) (result i32)
+ (func $assembly/primitives/Stackable/Stackable<f64>#constructor (; 34 ;) (type $iFi) (param $0 i32) (param $1 f64) (result i32)
   (local $2 i32)
   get_local $0
   get_local $0
@@ -3711,11 +3761,12 @@
   f64.store offset=24
   get_local $0
  )
- (func $~lib/array/Array<bool>#push (; 34 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<bool>#push (; 35 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
+  (local $6 i32)
   get_local $0
   i32.load offset=4
   set_local $2
@@ -3759,16 +3810,20 @@
   get_local $0
   get_local $5
   i32.store offset=4
+  i32.const 0
+  set_local $6
   get_local $3
   get_local $2
   i32.const 0
   i32.shl
   i32.add
+  get_local $6
+  i32.add
   get_local $1
   i32.store8 offset=8
   get_local $5
  )
- (func $assembly/primitives/Stackable/Stackable<bool>#constructor (; 35 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/primitives/Stackable/Stackable<bool>#constructor (; 36 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   get_local $0
   get_local $0
@@ -3811,21 +3866,22 @@
   i32.store
   get_local $0
   get_local $1
-  i32.const 1
-  i32.and
+  i32.const 0
+  i32.ne
   i32.store8 offset=12
   get_local $0
   get_local $1
-  i32.const 1
-  i32.and
+  i32.const 0
+  i32.ne
   i32.store8 offset=13
   get_local $0
  )
- (func $~lib/array/Array<Array<f64>>#push (; 36 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Array<f64>>#push (; 37 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
+  (local $6 i32)
   get_local $0
   i32.load offset=4
   set_local $2
@@ -3869,16 +3925,20 @@
   get_local $0
   get_local $5
   i32.store offset=4
+  i32.const 0
+  set_local $6
   get_local $3
   get_local $2
   i32.const 2
   i32.shl
   i32.add
+  get_local $6
+  i32.add
   get_local $1
   i32.store offset=8
   get_local $5
  )
- (func $assembly/primitives/Stackable/Stackable<Array<f64>>#constructor (; 37 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/primitives/Stackable/Stackable<Array<f64>>#constructor (; 38 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   get_local $0
   get_local $0
@@ -3927,7 +3987,7 @@
   i32.store offset=16
   get_local $0
  )
- (func $assembly/primitives/Matrix/Matrix.create (; 38 ;) (type $FFFFFFi) (param $0 f64) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64) (param $5 f64) (result i32)
+ (func $assembly/primitives/Matrix/Matrix.create (; 39 ;) (type $FFFFFFi) (param $0 f64) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64) (param $5 f64) (result i32)
   (local $6 i32)
   (local $7 i32)
   block (result i32)
@@ -3975,7 +4035,7 @@
   f64.store offset=40
   get_local $7
  )
- (func $assembly/primitives/CloningStackable/CloningStackable<Matrix>#constructor (; 39 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/primitives/CloningStackable/CloningStackable<Matrix>#constructor (; 40 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   get_local $0
   drop
@@ -4010,7 +4070,7 @@
   end
   tee_local $0
  )
- (func $~lib/arraybuffer/ArrayBuffer#constructor (; 40 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBuffer#constructor (; 41 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4029,8 +4089,8 @@
   call $~lib/internal/arraybuffer/allocateUnsafe
   set_local $3
   get_local $2
-  i32.const 1
-  i32.and
+  i32.const 0
+  i32.ne
   i32.eqz
   if
    get_local $3
@@ -4046,7 +4106,7 @@
   end
   get_local $3
  )
- (func $~lib/map/Map<String,i32>#clear (; 41 ;) (type $iv) (param $0 i32)
+ (func $~lib/map/Map<String,i32>#clear (; 42 ;) (type $iv) (param $0 i32)
   get_local $0
   i32.const 0
   i32.const 16
@@ -4074,7 +4134,7 @@
   i32.const 0
   i32.store offset=20
  )
- (func $~lib/map/Map<String,i32>#constructor (; 42 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/map/Map<String,i32>#constructor (; 43 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   get_local $0
   if (result i32)
@@ -4110,7 +4170,7 @@
   call $~lib/map/Map<String,i32>#clear
   get_local $0
  )
- (func $assembly/index/init (; 43 ;) (type $v)
+ (func $assembly/index/init (; 44 ;) (type $v)
   (local $0 i32)
   block (result i32)
    i32.const 112
@@ -4122,7 +4182,7 @@
    get_local $0
    i32.const 0
    i32.const 8000
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#constructor
+   call $~lib/internal/typedarray/TypedArray<f64>#constructor
    i32.store offset=4
    get_local $0
    i32.const 0
@@ -4257,13 +4317,13 @@
   end
   set_global $assembly/index/ctx
  )
- (func $assembly/renderer/CanvasSerializerContext2D/CanvasSerializerContext2D#set:fillStyle (; 44 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $assembly/renderer/CanvasSerializerContext2D/CanvasSerializerContext2D#set:fillStyle (; 45 ;) (type $iiv) (param $0 i32) (param $1 i32)
   get_local $0
   i32.load offset=12
   get_local $1
   i32.store offset=12
  )
- (func $~lib/internal/string/compareUnsafe (; 45 ;) (type $iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
+ (func $~lib/internal/string/compareUnsafe (; 46 ;) (type $iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -4316,7 +4376,7 @@
   end
   get_local $5
  )
- (func $~lib/string/String.__eq (; 46 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__eq (; 47 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -4360,13 +4420,13 @@
   call $~lib/internal/string/compareUnsafe
   i32.eqz
  )
- (func $~lib/string/String.__ne (; 47 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__ne (; 48 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   get_local $0
   get_local $1
   call $~lib/string/String.__eq
   i32.eqz
  )
- (func $assembly/primitives/Stackable/Stackable<String>#shouldUpdate (; 48 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/primitives/Stackable/Stackable<String>#shouldUpdate (; 49 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=16
   get_local $0
@@ -4382,7 +4442,7 @@
   end
   i32.const 0
  )
- (func $~lib/internal/hash/hashStr (; 49 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/hash/hashStr (; 50 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4424,7 +4484,7 @@
   end
   get_local $1
  )
- (func $~lib/map/Map<String,i32>#find (; 50 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/map/Map<String,i32>#find (; 51 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   get_local $0
@@ -4475,26 +4535,26 @@
   end
   i32.const 0
  )
- (func $~lib/map/Map<String,i32>#has (; 51 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/map/Map<String,i32>#has (; 52 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   get_local $0
   get_local $1
-  block $~lib/internal/hash/hash<String>|inlined.0 (result i32)
+  block $~lib/internal/hash/HASH<String>|inlined.0 (result i32)
    get_local $1
    call $~lib/internal/hash/hashStr
-   br $~lib/internal/hash/hash<String>|inlined.0
+   br $~lib/internal/hash/HASH<String>|inlined.0
   end
   call $~lib/map/Map<String,i32>#find
   i32.const 0
   i32.ne
  )
- (func $~lib/map/Map<String,i32>#get (; 52 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/map/Map<String,i32>#get (; 53 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   get_local $0
   get_local $1
-  block $~lib/internal/hash/hash<String>|inlined.1 (result i32)
+  block $~lib/internal/hash/HASH<String>|inlined.1 (result i32)
    get_local $1
    call $~lib/internal/hash/hashStr
-   br $~lib/internal/hash/hash<String>|inlined.1
+   br $~lib/internal/hash/HASH<String>|inlined.1
   end
   call $~lib/map/Map<String,i32>#find
   set_local $2
@@ -4506,7 +4566,7 @@
    unreachable
   end
  )
- (func $~lib/map/Map<String,i32>#rehash (; 53 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/map/Map<String,i32>#rehash (; 54 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4587,13 +4647,13 @@
        get_local $9
        i32.load offset=4
        i32.store offset=4
-       block $~lib/internal/hash/hash<String>|inlined.3 (result i32)
+       block $~lib/internal/hash/HASH<String>|inlined.3 (result i32)
         get_local $9
         i32.load
         set_local $11
         get_local $11
         call $~lib/internal/hash/hashStr
-        br $~lib/internal/hash/hash<String>|inlined.3
+        br $~lib/internal/hash/HASH<String>|inlined.3
        end
        get_local $1
        i32.and
@@ -4646,15 +4706,15 @@
   i32.load offset=20
   i32.store offset=16
  )
- (func $~lib/map/Map<String,i32>#set (; 54 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/map/Map<String,i32>#set (; 55 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
-  block $~lib/internal/hash/hash<String>|inlined.2 (result i32)
+  block $~lib/internal/hash/HASH<String>|inlined.2 (result i32)
    get_local $1
    call $~lib/internal/hash/hashStr
-   br $~lib/internal/hash/hash<String>|inlined.2
+   br $~lib/internal/hash/HASH<String>|inlined.2
   end
   set_local $3
   get_local $0
@@ -4750,7 +4810,7 @@
    i32.store offset=8
   end
  )
- (func $~lib/internal/typedarray/TypedArray<f64,f64>#__get (; 55 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
+ (func $~lib/internal/typedarray/TypedArray<f64>#__get (; 56 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
   (local $2 i32)
   (local $3 i32)
   get_local $1
@@ -4762,12 +4822,12 @@
   if
    i32.const 0
    i32.const 56
-   i32.const 40
+   i32.const 39
    i32.const 63
    call $~lib/env/abort
    unreachable
   end
-  block $~lib/internal/arraybuffer/loadUnsafeWithOffset<f64,f64>|inlined.0 (result f64)
+  block $~lib/internal/arraybuffer/LOAD<f64,f64>|inlined.0 (result f64)
    get_local $0
    i32.load
    set_local $2
@@ -4775,16 +4835,16 @@
    i32.load offset=4
    set_local $3
    get_local $2
-   get_local $3
-   i32.add
    get_local $1
    i32.const 3
    i32.shl
    i32.add
+   get_local $3
+   i32.add
    f64.load offset=8
   end
  )
- (func $~lib/internal/typedarray/TypedArray<f64,f64>#__set (; 56 ;) (type $iiFv) (param $0 i32) (param $1 i32) (param $2 f64)
+ (func $~lib/internal/typedarray/TypedArray<f64>#__set (; 57 ;) (type $iiFv) (param $0 i32) (param $1 i32) (param $2 f64)
   (local $3 i32)
   (local $4 i32)
   get_local $1
@@ -4796,7 +4856,7 @@
   if
    i32.const 0
    i32.const 56
-   i32.const 51
+   i32.const 50
    i32.const 63
    call $~lib/env/abort
    unreachable
@@ -4808,16 +4868,16 @@
   i32.load offset=4
   set_local $4
   get_local $3
-  get_local $4
-  i32.add
   get_local $1
   i32.const 3
   i32.shl
   i32.add
+  get_local $4
+  i32.add
   get_local $2
   f64.store offset=8
  )
- (func $assembly/renderer/Serializer/Serializer<i32>#grow (; 57 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/Serializer/Serializer<i32>#grow (; 58 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4825,7 +4885,7 @@
   get_local $0
   i32.load offset=4
   set_local $1
-  block $~lib/internal/typedarray/TypedArray<f64,f64>#get:length|inlined.2 (result i32)
+  block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.2 (result i32)
    get_local $0
    i32.load offset=4
    set_local $2
@@ -4840,7 +4900,7 @@
   get_local $3
   i32.const 1
   i32.shl
-  call $~lib/internal/typedarray/TypedArray<f64,f64>#constructor
+  call $~lib/internal/typedarray/TypedArray<f64>#constructor
   i32.store offset=4
   i32.const 0
   set_local $4
@@ -4856,8 +4916,8 @@
       get_local $4
       get_local $1
       get_local $4
-      call $~lib/internal/typedarray/TypedArray<f64,f64>#__get
-      call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+      call $~lib/internal/typedarray/TypedArray<f64>#__get
+      call $~lib/internal/typedarray/TypedArray<f64>#__set
       get_local $4
       i32.const 1
       i32.add
@@ -4868,7 +4928,7 @@
    end
   end
  )
- (func $assembly/primitives/Stackable/Stackable<Matrix>#shouldUpdate (; 58 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/primitives/Stackable/Stackable<Matrix>#shouldUpdate (; 59 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=16
   get_local $0
@@ -4884,7 +4944,7 @@
   end
   i32.const 0
  )
- (func $assembly/renderer/CanvasSerializerContext2D/CanvasSerializerContext2D#fillRect (; 59 ;) (type $iFFFFv) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64)
+ (func $assembly/renderer/CanvasSerializerContext2D/CanvasSerializerContext2D#fillRect (; 60 ;) (type $iFFFFv) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64)
   (local $5 i32)
   (local $6 i32)
   (local $7 f64)
@@ -4939,7 +4999,7 @@
     f64.convert_s/i32
    end
    set_local $7
-   block $~lib/internal/typedarray/TypedArray<f64,f64>#get:length|inlined.1 (result i32)
+   block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.1 (result i32)
     get_local $0
     i32.load offset=4
     set_local $6
@@ -4971,7 +5031,7 @@
    end
    get_local $5
    f64.convert_s/i32
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
    block (result i32)
@@ -4985,7 +5045,7 @@
     get_local $6
    end
    f64.const 3
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
    block (result i32)
@@ -4999,7 +5059,7 @@
     get_local $6
    end
    get_local $7
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
   get_local $0
   i32.load offset=92
@@ -5037,7 +5097,7 @@
    i32.load offset=12
    f64.load offset=40
    set_local $12
-   block $~lib/internal/typedarray/TypedArray<f64,f64>#get:length|inlined.4 (result i32)
+   block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.4 (result i32)
     get_local $0
     i32.load offset=4
     set_local $6
@@ -5069,7 +5129,7 @@
    end
    get_local $5
    f64.convert_s/i32
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
    block (result i32)
@@ -5083,7 +5143,7 @@
     get_local $6
    end
    f64.const 8
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
    block (result i32)
@@ -5097,7 +5157,7 @@
     get_local $6
    end
    get_local $7
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
    block (result i32)
@@ -5111,7 +5171,7 @@
     get_local $6
    end
    get_local $8
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
    block (result i32)
@@ -5125,7 +5185,7 @@
     get_local $6
    end
    get_local $9
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
    block (result i32)
@@ -5139,7 +5199,7 @@
     get_local $6
    end
    get_local $10
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
    block (result i32)
@@ -5153,7 +5213,7 @@
     get_local $6
    end
    get_local $11
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
    block (result i32)
@@ -5167,11 +5227,11 @@
     get_local $6
    end
    get_local $12
-   call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.FillRect
   set_local $5
-  block $~lib/internal/typedarray/TypedArray<f64,f64>#get:length|inlined.6 (result i32)
+  block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.6 (result i32)
    get_local $0
    i32.load offset=4
    set_local $6
@@ -5203,7 +5263,7 @@
   end
   get_local $5
   f64.convert_s/i32
-  call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+  call $~lib/internal/typedarray/TypedArray<f64>#__set
   get_local $0
   i32.load offset=4
   block (result i32)
@@ -5217,7 +5277,7 @@
    get_local $6
   end
   f64.const 6
-  call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+  call $~lib/internal/typedarray/TypedArray<f64>#__set
   get_local $0
   i32.load offset=4
   block (result i32)
@@ -5231,7 +5291,7 @@
    get_local $6
   end
   get_local $1
-  call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+  call $~lib/internal/typedarray/TypedArray<f64>#__set
   get_local $0
   i32.load offset=4
   block (result i32)
@@ -5245,7 +5305,7 @@
    get_local $6
   end
   get_local $2
-  call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+  call $~lib/internal/typedarray/TypedArray<f64>#__set
   get_local $0
   i32.load offset=4
   block (result i32)
@@ -5259,7 +5319,7 @@
    get_local $6
   end
   get_local $3
-  call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+  call $~lib/internal/typedarray/TypedArray<f64>#__set
   get_local $0
   i32.load offset=4
   block (result i32)
@@ -5273,14 +5333,14 @@
    get_local $6
   end
   get_local $4
-  call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+  call $~lib/internal/typedarray/TypedArray<f64>#__set
  )
- (func $assembly/renderer/CanvasSerializerContext2D/CanvasSerializerContext2D#commit (; 60 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/CanvasSerializerContext2D/CanvasSerializerContext2D#commit (; 61 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.Commit
   set_local $1
-  block $~lib/internal/typedarray/TypedArray<f64,f64>#get:length|inlined.8 (result i32)
+  block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.8 (result i32)
    get_local $0
    i32.load offset=4
    set_local $2
@@ -5312,7 +5372,7 @@
   end
   get_local $1
   f64.convert_s/i32
-  call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+  call $~lib/internal/typedarray/TypedArray<f64>#__set
   get_local $0
   i32.load offset=4
   block (result i32)
@@ -5326,7 +5386,7 @@
    get_local $2
   end
   f64.const 2
-  call $~lib/internal/typedarray/TypedArray<f64,f64>#__set
+  call $~lib/internal/typedarray/TypedArray<f64>#__set
   get_local $0
   i32.const 0
   i32.store
@@ -5334,7 +5394,7 @@
   i32.load offset=4
   i32.load
  )
- (func $assembly/index/draw (; 61 ;) (type $i) (result i32)
+ (func $assembly/index/draw (; 62 ;) (type $i) (result i32)
   get_global $assembly/index/ctx
   i32.const 368
   call $assembly/renderer/CanvasSerializerContext2D/CanvasSerializerContext2D#set:fillStyle
@@ -5347,7 +5407,7 @@
   get_global $assembly/index/ctx
   call $assembly/renderer/CanvasSerializerContext2D/CanvasSerializerContext2D#commit
  )
- (func $start (; 62 ;) (type $v)
+ (func $start (; 63 ;) (type $v)
   i32.const 1
   get_global $~lib/allocator/tlsf/SL_BITS
   i32.shl
@@ -5363,6 +5423,6 @@
    unreachable
   end
  )
- (func $null (; 63 ;) (type $v)
+ (func $null (; 64 ;) (type $v)
  )
 )
