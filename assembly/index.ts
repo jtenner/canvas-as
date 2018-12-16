@@ -1,11 +1,11 @@
 import "allocator/tlsf";
 
-import { CanvasContextSerializer2D } from "./renderer";
+import { CanvasRenderingContextSerializer2D } from "./renderer";
 
-var ctx: CanvasContextSerializer2D;
+var ctx: CanvasRenderingContextSerializer2D;
 
 export function init(): void {
-  ctx = new CanvasContextSerializer2D();
+  ctx = new CanvasRenderingContextSerializer2D();
 }
 
 export function draw(): ArrayBuffer {
