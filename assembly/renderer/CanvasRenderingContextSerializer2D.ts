@@ -11,15 +11,14 @@ import {
 } from "../shared";
 import { Serializer } from "./Serializer";
 import { ImageBitmap } from "../primitives";
-
-declare function send_string_to_js(index: i32, value: string): void;
+import { send_string_to_js } from "../linked";
 
 export class CanvasRenderingContextSerializer2D extends Serializer<CanvasInstruction> {
   private _stringMap: Map<string, i32> = new Map<string, i32>();
   private _stringIndex: i32 = -1;
 
   @inline
-  protected write_arc(x: f64, y: f64, radius: f64, startAngle: f64, endAngle: f64, anticlockwise: bool = false): void {
+  protected write_arc(x: f64, y: f64, radius: f64, startAngle: f64, endAngle: f64, anticlockwise: bool): void {
     this.write_six(
       CanvasInstruction.Arc,
       x,
@@ -73,7 +72,7 @@ export class CanvasRenderingContextSerializer2D extends Serializer<CanvasInstruc
   }
 
   @inline
-  protected write_clip(fillRule: FillRule = FillRule.nonzero): void {
+  protected write_clip(fillRule: FillRule): void {
     this.write_one(
       CanvasInstruction.Clip,
       <f64>fillRule,
@@ -100,7 +99,6 @@ export class CanvasRenderingContextSerializer2D extends Serializer<CanvasInstruc
 
   @inline
   protected write_draw_image(img: ImageBitmap, x: f64, y: f64, width: f64, height: f64, sx: f64, sy: f64, swidth: f64, sheight: f64): void {
-    if (img._loaded == 0) return;
     this.write_nine(
       CanvasInstruction.DrawImage,
       <f64>img._index,
@@ -116,7 +114,7 @@ export class CanvasRenderingContextSerializer2D extends Serializer<CanvasInstruc
   }
 
   @inline
-  protected write_ellipse(x: f64, y: f64, radiusX: f64, radiusY: f64, rotation: f64, startAngle: f64, endAngle: f64, anticlockwise: bool = false): void {
+  protected write_ellipse(x: f64, y: f64, radiusX: f64, radiusY: f64, rotation: f64, startAngle: f64, endAngle: f64, anticlockwise: bool): void {
     this.write_eight(
       CanvasInstruction.Ellipse,
       x,
@@ -427,9 +425,10 @@ export class CanvasRenderingContextSerializer2D extends Serializer<CanvasInstruc
     );
   }
 
+  @inline
   protected write_transform(a: f64, b: f64, c: f64, d: f64, e: f64, f: f64): void {
     this.write_six(
-      CanvasInstruction.Transfrom,
+      CanvasInstruction.Transform,
       a,
       b,
       c,

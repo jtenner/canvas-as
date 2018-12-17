@@ -1,5 +1,3 @@
-import { Clonable } from "./Clonable";
-
 export class Stackable<T> {
   constructor(initial: T) {
     this.length = this.stack.push(initial);
@@ -25,7 +23,7 @@ export class Stackable<T> {
     if (this.index >= this.length) {
       this.length = this.stack.push(this.value);
     } else {
-      this.stack[this.index] = this.value;
+      unchecked(this.stack[this.index] = this.value);
     }
   }
 

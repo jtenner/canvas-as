@@ -1,6 +1,7 @@
 import { Clonable } from "./Clonable";
 
 export class Matrix extends Clonable {
+  @inline
   public static create(a: f64, b: f64, c: f64, d: f64, e: f64, f: f64): Matrix {
     var result = new Matrix();
     result.a = a;
@@ -10,6 +11,16 @@ export class Matrix extends Clonable {
     result.e = e;
     result.f = f;
     return result;
+  }
+
+  @inline
+  public static set(left: Matrix, right: Matrix): void {
+    left.a = right.a;
+    left.b = right.b;
+    left.c = right.c;
+    left.d = right.d;
+    left.e = right.e;
+    left.f = right.f;
   }
 
   a: f64;

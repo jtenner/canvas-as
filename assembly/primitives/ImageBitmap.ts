@@ -1,10 +1,10 @@
-declare function loadImage(index: i32, pointer: ImageBitmap, src: string): void;
+import { load_image } from "../linked";
 
 var index: i32 = 0;
 
 export function createImageBitmap(src: string): ImageBitmap {
   var img: ImageBitmap = ImageBitmap.create(index++);
-  loadImage(index, img, src);
+  load_image(index, img, src);
   return img;
 }
 
@@ -14,7 +14,7 @@ export class ImageBitmap {
   public width: i32 = 0;
   public height: i32 = 0;
 
-  public static create(index: i32) {
+  public static create(index: i32): ImageBitmap {
     return new ImageBitmap(index);
   }
 
