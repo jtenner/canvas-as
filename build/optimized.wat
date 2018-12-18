@@ -524,22 +524,16 @@
    get_local $1
    call $~lib/allocator/tlsf/Block#get:left
    tee_local $2
-   if (result i32)
-    get_local $2
-   else    
-    block
-     i32.const 0
-     i32.const 8
-     i32.const 211
-     i32.const 24
-     call $~lib/env/abort
-     unreachable
-     unreachable
-    end
-    unreachable
-    tee_local $2
+   i32.eqz
+   if
+    i32.const 0
+    i32.const 8
+    i32.const 211
+    i32.const 24
+    call $~lib/env/abort
     unreachable
    end
+   get_local $2
    i32.load
    tee_local $5
    i32.const 1
@@ -566,10 +560,10 @@
    i32.add
    tee_local $5
    i32.store
-   get_local $2
-   set_local $1
    get_local $5
    set_local $4
+   get_local $2
+   set_local $1
   end
   get_local $3
   get_local $6
@@ -726,13 +720,13 @@
    get_local $3
    i32.eq
    if
+    get_local $3
+    i32.load
+    set_local $4
     get_local $1
     i32.const 8
     i32.sub
     set_local $1
-    get_local $3
-    i32.load
-    set_local $4
    end
   else   
    get_local $1
@@ -922,7 +916,6 @@
     i32.const 0
    end
   end
-  tee_local $0
  )
  (func $~lib/allocator/tlsf/Root#use (; 19 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
@@ -1016,22 +1009,16 @@
    get_local $1
    call $~lib/allocator/tlsf/Block#get:right
    tee_local $3
-   if (result i32)
-    get_local $3
-   else    
-    block
-     i32.const 0
-     i32.const 8
-     i32.const 368
-     i32.const 25
-     call $~lib/env/abort
-     unreachable
-     unreachable
-    end
-    unreachable
-    tee_local $3
+   i32.eqz
+   if
+    i32.const 0
+    i32.const 8
+    i32.const 368
+    i32.const 25
+    call $~lib/env/abort
     unreachable
    end
+   get_local $3
    get_local $3
    i32.load
    i32.const -3
@@ -1143,87 +1130,85 @@
   if
    unreachable
   end
-  get_local $2
-  get_local $0
-  i32.const 7
-  i32.add
-  i32.const -8
-  i32.and
-  tee_local $1
-  i32.const 16
-  tee_local $4
-  get_local $1
-  get_local $4
-  i32.gt_u
-  select
-  tee_local $0
-  call $~lib/allocator/tlsf/Root#search
-  tee_local $1
-  i32.eqz
-  if
-   current_memory
-   tee_local $1
-   tee_local $5
+  block (result i32)
+   get_local $2
    get_local $0
-   i32.const 65535
+   i32.const 7
    i32.add
-   i32.const -65536
+   i32.const -8
    i32.and
+   tee_local $1
    i32.const 16
-   i32.shr_u
    tee_local $4
-   tee_local $3
-   get_local $5
-   get_local $3
-   i32.gt_s
-   select
-   grow_memory
-   i32.const 0
-   i32.lt_s
-   if
-    get_local $4
-    grow_memory
-    i32.const 0
-    i32.lt_s
-    if
-     unreachable
-    end
-   end
-   get_local $2
    get_local $1
-   i32.const 16
-   i32.shl
-   current_memory
-   i32.const 16
-   i32.shl
-   call $~lib/allocator/tlsf/Root#addMemory
-   drop
-   get_local $2
-   get_local $0
+   get_local $4
+   i32.gt_u
+   select
+   tee_local $0
    call $~lib/allocator/tlsf/Root#search
    tee_local $1
    i32.eqz
    if
-    block
+    current_memory
+    tee_local $1
+    tee_local $5
+    get_local $0
+    i32.const 65535
+    i32.add
+    i32.const -65536
+    i32.and
+    i32.const 16
+    i32.shr_u
+    tee_local $4
+    tee_local $3
+    get_local $5
+    get_local $3
+    i32.gt_s
+    select
+    grow_memory
+    i32.const 0
+    i32.lt_s
+    if
+     get_local $4
+     grow_memory
+     i32.const 0
+     i32.lt_s
+     if
+      unreachable
+     end
+    end
+    get_local $2
+    get_local $1
+    i32.const 16
+    i32.shl
+    current_memory
+    i32.const 16
+    i32.shl
+    call $~lib/allocator/tlsf/Root#addMemory
+    drop
+    get_local $2
+    get_local $0
+    call $~lib/allocator/tlsf/Root#search
+    tee_local $1
+    if (result i32)
+     get_local $1
+    else     
      i32.const 0
      i32.const 8
      i32.const 480
      i32.const 12
      call $~lib/env/abort
      unreachable
-     unreachable
     end
-    unreachable
-    tee_local $1
-    unreachable
+    set_local $1
    end
+   get_local $1
+   i32.load
+   i32.const -4
+   i32.and
+   get_local $0
+   i32.lt_u
   end
-  get_local $1
-  i32.load
-  i32.const -4
-  i32.and
-  get_local $0
-  i32.lt_u
   if
    i32.const 0
    i32.const 8
@@ -1791,14 +1776,14 @@
     i32.add
     i32.load
     i32.store
-    get_local $0
-    i32.const 8
-    i32.add
-    set_local $0
     get_local $1
     i32.const 8
     i32.add
     set_local $1
+    get_local $0
+    i32.const 8
+    i32.add
+    set_local $0
    end
    get_local $2
    i32.const 4
@@ -1808,14 +1793,14 @@
     get_local $1
     i32.load
     i32.store
-    get_local $0
-    i32.const 4
-    i32.add
-    set_local $0
     get_local $1
     i32.const 4
     i32.add
     set_local $1
+    get_local $0
+    i32.const 4
+    i32.add
+    set_local $0
    end
    get_local $2
    i32.const 2
@@ -1825,14 +1810,14 @@
     get_local $1
     i32.load16_u
     i32.store16
-    get_local $0
-    i32.const 2
-    i32.add
-    set_local $0
     get_local $1
     i32.const 2
     i32.add
     set_local $1
+    get_local $0
+    i32.const 2
+    i32.add
+    set_local $0
    end
    get_local $2
    i32.const 1
@@ -3757,7 +3742,7 @@
   get_local $1
   i32.const 0
   i32.lt_s
-  if
+  if (result i32)
    get_local $1
    get_local $3
    i32.add
@@ -3767,41 +3752,36 @@
    get_local $4
    i32.gt_s
    select
-   set_local $1
   else   
+   get_local $3
+   get_local $1
    get_local $1
    get_local $3
    i32.gt_s
-   if
-    get_local $3
-    set_local $1
-   end
+   select
   end
+  set_local $1
+  get_local $2
+  get_local $3
+  i32.add
+  get_local $3
+  get_local $2
+  get_local $2
+  get_local $3
+  i32.gt_s
+  select
   get_local $2
   i32.const 0
   i32.lt_s
-  if
-   get_local $2
-   get_local $3
-   i32.add
-   set_local $2
-  else   
-   get_local $2
-   get_local $3
-   i32.gt_s
-   if
-    get_local $3
-    set_local $2
-   end
-  end
-  get_local $2
+  select
+  tee_local $2
   get_local $1
   i32.lt_s
-  if
+  if (result i32)
    get_local $1
-   set_local $2
+  else   
+   get_local $2
   end
-  get_local $2
   get_local $1
   i32.sub
   tee_local $2
