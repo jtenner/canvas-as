@@ -9,7 +9,7 @@ var img: ImageBitmap;
 export function init(): void {
   ctx = new CanvasRenderingContext2D();
   ctx.init();
-  img = createImageBitmap("http://placekitten.com/400/300");
+  img = createImageBitmap("https://placekitten.com/400/300");
 }
 
 var frame: i32 = 0;
