@@ -1,6 +1,6 @@
-import { Clonable } from "./Clonable";
 
-export class Matrix extends Clonable {
+
+export class Matrix {
   @inline
   public static create(a: f64, b: f64, c: f64, d: f64, e: f64, f: f64): Matrix {
     var result = new Matrix();

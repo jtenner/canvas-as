@@ -10,6 +10,7 @@ import {
   TextBaseline,
 } from "../shared";
 import { CanvasRenderingContext2DSerializer } from "./CanvasRenderingContext2DSerializer";
+import { log } from "../linked/util";
 
 export function getContext(type: string): CanvasRenderingContext2D | null {
   if (type == "2d") return new CanvasRenderingContext2D();
@@ -17,96 +18,102 @@ export function getContext(type: string): CanvasRenderingContext2D | null {
 }
 
 export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer {
-  private _direction: Direction[] = new Array<Direction>(100);
-  private _fillStyle: string[] = new Array<string>(100);
-  private _filter: string[] = new Array<string>(100);
-  private _font: string[] = new Array<string>(100);
-  private _globalAlpha: f64[] = new Array<f64>(100);
-  private _globalCompositeOperation: GlobalCompositeOperation[] = new Array<GlobalCompositeOperation>(100);
-  private _imageSmoothingEnabled: bool[] = new Array<bool>(100);
-  private _imageSmoothingQuality: ImageSmoothingQuality[] = new Array<ImageSmoothingQuality>(100);
-  private _lineCap: LineCap[] = new Array<LineCap>(100);
-  private _lineDash: f64[][] = new Array<f64[]>(100);
-  private _lineDashOffset: f64[] = new Array<f64>(100);
-  private _lineJoin: LineJoin[] = new Array<LineJoin>(100);
-  private _lineWidth: f64[] = new Array<f64>(100);
-  private _miterLimit: f64[] = new Array<f64>(100);
-  private _transformA: f64[] = new Array<f64>(100);
-  private _transformB: f64[] = new Array<f64>(100);
-  private _transformC: f64[] = new Array<f64>(100);
-  private _transformD: f64[] = new Array<f64>(100);
-  private _transformE: f64[] = new Array<f64>(100);
-  private _transformF: f64[] = new Array<f64>(100);
-  private _shadowBlur: f64[] = new Array<f64>(100);
-  private _shadowColor: string[] = new Array<string>(100);
-  private _shadowOffsetX: f64[] = new Array<f64>(100);
-  private _shadowOffsetY: f64[] = new Array<f64>(100);
-  private _strokeStyle: string[] = new Array<string>(100);
-  private _textAlign: TextAlign[] = new Array<TextAlign>(100);
-  private _textBaseline: TextBaseline[] = new Array<TextBaseline>(100);
+  private _direction: Direction[] = new Array<Direction>(0);
+  private _fillStyle: string[] = new Array<string>(0);
+  private _filter: string[] = new Array<string>(0);
+  private _font: string[] = new Array<string>(0);
+  private _globalAlpha: f64[] = new Array<f64>(0);
+  private _globalCompositeOperation: GlobalCompositeOperation[] = new Array<GlobalCompositeOperation>(0);
+  private _imageSmoothingEnabled: bool[] = new Array<bool>(0);
+  private _imageSmoothingQuality: ImageSmoothingQuality[] = new Array<ImageSmoothingQuality>(0);
+  private _lineCap: LineCap[] = new Array<LineCap>(0);
+  private _lineDash: f64[][] = new Array<f64[]>(0);
+  private _lineDashOffset: f64[] = new Array<f64>(0);
+  private _lineJoin: LineJoin[] = new Array<LineJoin>(0);
+  private _lineWidth: f64[] = new Array<f64>(0);
+  private _miterLimit: f64[] = new Array<f64>(0);
+  private _transformA: f64[] = new Array<f64>(0);
+  private _transformB: f64[] = new Array<f64>(0);
+  private _transformC: f64[] = new Array<f64>(0);
+  private _transformD: f64[] = new Array<f64>(0);
+  private _transformE: f64[] = new Array<f64>(0);
+  private _transformF: f64[] = new Array<f64>(0);
+  private _shadowBlur: f64[] = new Array<f64>(0);
+  private _shadowColor: string[] = new Array<string>(0);
+  private _shadowOffsetX: f64[] = new Array<f64>(0);
+  private _shadowOffsetY: f64[] = new Array<f64>(0);
+  private _strokeStyle: string[] = new Array<string>(0);
+  private _textAlign: TextAlign[] = new Array<TextAlign>(0);
+  private _textBaseline: TextBaseline[] = new Array<TextBaseline>(0);
   private _stackIndex: i32 = 0;
 
   public init(): void {
-    unchecked(this._direction[0] = Direction.inherit);
-    unchecked(this._fillStyle[0] = "#000");
-    unchecked(this._filter[0] = "none");
-    unchecked(this._font[0] = "none");
-    unchecked(this._globalAlpha[0] = 1.0);
-    unchecked(this._globalCompositeOperation[0] = GlobalCompositeOperation.source_over);
-    unchecked(this._imageSmoothingEnabled[0] = true);
-    unchecked(this._imageSmoothingQuality[0] = ImageSmoothingQuality.low);
-    unchecked(this._lineCap[0] = LineCap.butt);
-    unchecked(this._lineDash[0] = []);
-    unchecked(this._lineDashOffset[0] = 0.0);
-    unchecked(this._lineJoin[0] = LineJoin.miter);
-    unchecked(this._lineWidth[0] = 1.0);
-    unchecked(this._miterLimit[0] = 10.0);
-    unchecked(this._transformA[0] = 1.0);
-    unchecked(this._transformB[0] = 0.0);
-    unchecked(this._transformC[0] = 0.0);
-    unchecked(this._transformD[0] = 1.0);
-    unchecked(this._transformE[0] = 0.0);
-    unchecked(this._transformF[0] = 0.0);
-    unchecked(this._shadowBlur[0] = 0.0);
-    unchecked(this._shadowColor[0] = "#000");
-    unchecked(this._shadowOffsetX[0] = 0.0);
-    unchecked(this._shadowOffsetY[0] = 0.0);
-    unchecked(this._strokeStyle[0] = "#000");
-    unchecked(this._textAlign[0] = TextAlign.start);
-    unchecked(this._textBaseline[0] = TextBaseline.alphabetic);
+    var i: i32 = 0;
+    while (i < 100) {
+      this._direction.push(Direction.inherit);
+      this._fillStyle.push("#000");
+      this._filter.push("none");
+      this._font.push("none");
+      this._globalAlpha.push(1.0);
+      this._globalCompositeOperation.push(GlobalCompositeOperation.source_over);
+      this._imageSmoothingEnabled.push(true);
+      this._imageSmoothingQuality.push(ImageSmoothingQuality.low);
+      this._lineCap.push(LineCap.butt);
+      this._lineDash.push([]);
+      this._lineDashOffset.push(0.0);
+      this._lineJoin.push(LineJoin.miter);
+      this._lineWidth.push(1.0);
+      this._miterLimit.push(10.0);
+      this._transformA.push(1.0);
+      this._transformB.push(0.0);
+      this._transformC.push(0.0);
+      this._transformD.push(1.0);
+      this._transformE.push(0.0);
+      this._transformF.push(0.0);
+      this._shadowBlur.push(0.0);
+      this._shadowColor.push("#000");
+      this._shadowOffsetX.push(0.0);
+      this._shadowOffsetY.push(0.0);
+      this._strokeStyle.push("#000");
+      this._textAlign.push(TextAlign.start);
+      this._textBaseline.push(TextBaseline.alphabetic);
+      i++;
+    }
+    super.init();
   }
 
   public save(): void {
     super.write_save();
-    var previous: i32 = this._stackIndex++;
+    var next: i32 = this._stackIndex + 1;
+    unchecked(this._direction[next] = this.direction);
+    unchecked(this._fillStyle[next] = this.fillStyle);
+    unchecked(this._filter[next] = this.filter);
+    unchecked(this._font[next] = this.font);
+    unchecked(this._globalAlpha[next] = this.globalAlpha);
+    unchecked(this._globalCompositeOperation[next] = this.globalCompositeOperation);
+    unchecked(this._imageSmoothingEnabled[next] = this.imageSmoothingEnabled);
+    unchecked(this._imageSmoothingQuality[next] = this.imageSmoothingQuality);
+    unchecked(this._lineCap[next] = this.lineCap);
+    unchecked(this._lineDash[next] = this.getLineDash());
+    unchecked(this._lineDashOffset[next] = this.lineDashOffset);
+    unchecked(this._lineJoin[next] = this.lineJoin);
+    unchecked(this._lineWidth[next] = this.lineWidth);
+    unchecked(this._miterLimit[next] = this.miterLimit);
+    unchecked(this._transformA[next] = this._transformA[this._stackIndex]);
+    unchecked(this._transformB[next] = this._transformB[this._stackIndex]);
+    unchecked(this._transformC[next] = this._transformC[this._stackIndex]);
+    unchecked(this._transformD[next] = this._transformD[this._stackIndex]);
+    unchecked(this._transformE[next] = this._transformE[this._stackIndex]);
+    unchecked(this._transformF[next] = this._transformF[this._stackIndex]);
+    unchecked(this._shadowBlur[next] = this.shadowBlur);
+    unchecked(this._shadowColor[next] = this.shadowColor);
+    unchecked(this._shadowOffsetX[next] = this.shadowOffsetX);
+    unchecked(this._shadowOffsetY[next] = this.shadowOffsetY);
+    unchecked(this._strokeStyle[next] = this.strokeStyle);
+    unchecked(this._textAlign[next] = this.textAlign);
+    unchecked(this._textBaseline[next] = this.textBaseline);
 
-    unchecked(this._direction[this._stackIndex] = this._direction[previous]);
-    unchecked(this._fillStyle[this._stackIndex] = this._fillStyle[previous]);
-    unchecked(this._filter[this._stackIndex] = this._filter[previous]);
-    unchecked(this._font[this._stackIndex] = this._font[previous]);
-    unchecked(this._globalAlpha[this._stackIndex] = this._globalAlpha[previous]);
-    unchecked(this._globalCompositeOperation[this._stackIndex] = this._globalCompositeOperation[previous]);
-    unchecked(this._imageSmoothingEnabled[this._stackIndex] = this._imageSmoothingEnabled[previous]);
-    unchecked(this._imageSmoothingQuality[this._stackIndex] = this._imageSmoothingQuality[previous]);
-    unchecked(this._lineCap[this._stackIndex] = this._lineCap[previous]);
-    unchecked(this._lineDash[this._stackIndex] = this._lineDash[previous]);
-    unchecked(this._lineDashOffset[this._stackIndex] = this._lineDashOffset[previous]);
-    unchecked(this._lineJoin[this._stackIndex] = this._lineJoin[previous]);
-    unchecked(this._lineWidth[this._stackIndex] = this._lineWidth[previous]);
-    unchecked(this._miterLimit[this._stackIndex] = this._miterLimit[previous]);
-    unchecked(this._transformA[this._stackIndex] = this._transformA[previous]);
-    unchecked(this._transformB[this._stackIndex] = this._transformB[previous]);
-    unchecked(this._transformC[this._stackIndex] = this._transformC[previous]);
-    unchecked(this._transformD[this._stackIndex] = this._transformD[previous]);
-    unchecked(this._transformE[this._stackIndex] = this._transformE[previous]);
-    unchecked(this._transformF[this._stackIndex] = this._transformF[previous]);
-    unchecked(this._shadowBlur[this._stackIndex] = this._shadowBlur[previous]);
-    unchecked(this._shadowColor[this._stackIndex] = this._shadowColor[previous]);
-    unchecked(this._shadowOffsetX[this._stackIndex] = this._shadowOffsetX[previous]);
-    unchecked(this._shadowOffsetY[this._stackIndex] = this._shadowOffsetY[previous]);
-    unchecked(this._strokeStyle[this._stackIndex] = this._strokeStyle[previous]);
-    unchecked(this._textAlign[this._stackIndex] = this._textAlign[previous]);
-    unchecked(this._textBaseline[this._stackIndex] = this._textBaseline[previous]);
+    this._stackIndex = next;
   }
 
   public restore(): void {
@@ -181,19 +188,19 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   public drawFocusedIfNeeded(): void {
     super.write_draw_focus_if_needed();
   }
-  
+
   public drawImage(img: ImageBitmap, x: f64, y: f64, width: f64, height: f64, sx: f64, sy: f64, swidth: f64, sheight: f64): void {
-    if (img._loaded == 0) return;
+    if (!img._loaded) return;
     super.write_draw_image(img, x, y, width, height, sx, sy, swidth, sheight);
   }
-  
+
   public drawImagePosition(img: ImageBitmap, x: f64, y: f64): void {
-    if (img._loaded == 0) return;
+    if (!img._loaded) return;
     super.write_draw_image(img, x, y, img.width, img.height, 0.0, 0.0, img.width, img.height);
   }
-  
+
   public drawImageSize(img: ImageBitmap, x: f64, y: f64, width: f64, height: f64): void {
-    if (img._loaded == 0) return;
+    if (!img._loaded) return;
     super.write_draw_image(img, x, y, width, height, 0.0, 0.0, img.width, img.height);
   }
 
@@ -204,7 +211,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   public fill(fillRule: FillRule = FillRule.nonzero): void {
     super.write_fill(fillRule);
   }
-   
+
   public fillRect(x: f64, y: f64, width: f64, height: f64): void {
     super.write_fill_rect(x, y, width, height);
   }
@@ -286,7 +293,8 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   }
 
   public getLineDash(): Array<f64> {
-    return unchecked(this._lineDash[this._stackIndex]).slice(0);
+    var lineDash: f64[] = unchecked(this._lineDash[this._stackIndex]);
+    return lineDash.slice(0);
   }
 
   public setLineDash(value: Array<f64>): void {

@@ -1,4 +1,4 @@
-export const enum FillRule {
-  nonzero,
-  evenodd,
+export enum FillRule {
+  nonzero = 0,
+  evenodd = 1,
 }

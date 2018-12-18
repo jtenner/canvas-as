@@ -17,6 +17,10 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
   private _stringMap: Map<string, i32> = new Map<string, i32>();
   private _stringIndex: i32 = -1;
 
+  public init(): void {
+    super.init();
+  }
+
   @inline
   protected write_arc(x: f64, y: f64, radius: f64, startAngle: f64, endAngle: f64, anticlockwise: bool): void {
     this.write_six(
@@ -181,7 +185,7 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
       this.send_string(value),
     )
   }
-  
+
   @inline
   protected write_global_alpha(value: f64): void {
     this.write_one(
@@ -270,7 +274,7 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
       value,
     );
   }
-  
+
   @inline
   protected write_move_to(x: f64, y: f64): void {
     this.write_two(
@@ -319,7 +323,7 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
   protected write_save(): void {
     this.write_zero(CanvasInstruction.Save);
   }
-  
+
   @inline
   protected write_scale(x: f64, y: f64): void {
     this.write_two(
@@ -450,6 +454,7 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
   @inline
   protected write_commit(): void {
     this.write_zero(CanvasInstruction.Commit);
+    this.index = 0;
   }
 
   @inline

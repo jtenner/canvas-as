@@ -4,7 +4,7 @@ var index: i32 = 0;
 
 export function createImageBitmap(src: string): ImageBitmap {
   var img: ImageBitmap = ImageBitmap.create(index++);
-  load_image(index, img, src);
+  load_image(img, src);
   return img;
 }
 
