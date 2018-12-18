@@ -4229,6 +4229,12 @@
   (local $7 f64)
   (local $8 i32)
   get_local $1
+  i32.load offset=4
+  i32.eqz
+  if
+   return
+  end
+  get_local $1
   i32.load offset=8
   f64.convert_s/i32
   set_local $3

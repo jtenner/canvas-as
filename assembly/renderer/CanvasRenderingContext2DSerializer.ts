@@ -13,7 +13,7 @@ import { Serializer } from "./Serializer";
 import { ImageBitmap } from "../primitives";
 import { send_string_to_js } from "../linked";
 
-export class CanvasRenderingContextSerializer2D extends Serializer<CanvasInstruction> {
+export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruction> {
   private _stringMap: Map<string, i32> = new Map<string, i32>();
   private _stringIndex: i32 = -1;
 
