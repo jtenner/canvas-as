@@ -28,7 +28,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   private _lineCap: LineCap[] = new Array<LineCap>(100);
   private _lineDash: f64[][] = new Array<f64[]>(100);
   private _lineDashOffset: f64[] = new Array<f64>(100);
-  private _lineJoin: LineJoin[] = new Array<LineJoin>(100); 
+  private _lineJoin: LineJoin[] = new Array<LineJoin>(100);
   private _lineWidth: f64[] = new Array<f64>(100);
   private _miterLimit: f64[] = new Array<f64>(100);
   private _transformA: f64[] = new Array<f64>(100);
@@ -46,7 +46,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   private _textBaseline: TextBaseline[] = new Array<TextBaseline>(100);
   private _stackIndex: i32 = 0;
 
-  public constructor(): CanvasRenderingContext2D {
+  public constructor() {
     super();
     unchecked(this._direction[0] = Direction.inherit);
     unchecked(this._fillStyle[0] = "#000");
