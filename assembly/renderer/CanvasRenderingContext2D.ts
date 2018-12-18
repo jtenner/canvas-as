@@ -46,8 +46,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   private _textBaseline: TextBaseline[] = new Array<TextBaseline>(100);
   private _stackIndex: i32 = 0;
 
-  public constructor() {
-    super();
+  public init(): void {
     unchecked(this._direction[0] = Direction.inherit);
     unchecked(this._fillStyle[0] = "#000");
     unchecked(this._filter[0] = "none");
@@ -59,7 +58,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
     unchecked(this._lineCap[0] = LineCap.butt);
     unchecked(this._lineDash[0] = []);
     unchecked(this._lineDashOffset[0] = 0.0);
-    unchecked(this._lineJoin[0] = LineJoin.miter); 
+    unchecked(this._lineJoin[0] = LineJoin.miter);
     unchecked(this._lineWidth[0] = 1.0);
     unchecked(this._miterLimit[0] = 10.0);
     unchecked(this._transformA[0] = 1.0);
@@ -130,7 +129,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   public bezierCurveTo(cp1x: f64, cp1y: f64, cp2x: f64, cp2y: f64, x: f64, y: f64): void {
     super.write_bezier_curve_to(cp1x, cp1y, cp2x, cp2y, x, y);
   }
- 
+
   public clearRect(x: f64, y: f64, width: f64, height: f64): void {
     super.write_clear_rect(x, y, width, height);
   }
