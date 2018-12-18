@@ -1,5 +1,3 @@
-import { log } from "../linked/util";
-
 export class Serializer<T> {
   index: i32 = 0;
   data: Float64Array = new Float64Array(8000);

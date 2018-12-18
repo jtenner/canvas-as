@@ -10,7 +10,7 @@ const canvas: HTMLCanvasElement = document.querySelector("canvas") || document.c
 if (!canvas.parentElement) {
   document.body.appendChild(canvas);
 }
-const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
+const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!;
 canvas.width = 800;
 canvas.height = 600;
 
@@ -20,13 +20,14 @@ async function main(): Promise<void> {
   const images: IImageBitmapIndex = {};
   const result: WebAssembly.ResultObject = await WebAssembly.instantiate(binary as WebAssembly.BufferSource, {
     env: {
-      abort(a, b, c, d) {
+      abort(a: number, b: number, c: number, d: number) {
         console.error(a, b, c, d);
       },
     },
     Math,
     util: {
       log: console.log.bind(console),
+      log_two: console.log.bind(console),
       load_image(imagePointer: number, sourcePointer: number): void {
         var view = new DataView(result.instance.exports.memory.buffer);
         const length: number = view.getInt32(sourcePointer, true);
@@ -45,7 +46,6 @@ async function main(): Promise<void> {
           view.setInt32(imagePointer + 4, 1, true);
           view.setInt32(imagePointer + 8, img.width, true);
           view.setInt32(imagePointer + 12, img.height, true);
-          result.instance.exports.check();
         }
         loadImage();
       },
