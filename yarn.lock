@@ -823,9 +823,9 @@ asn1.js@^4.0.0:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
 
-"assemblyscript@https://github.com/maxgraey/assemblyscript.git#update-binaryen":
+assemblyscript@MaxGraey/assemblyscript#update-binaryen:
   version "0.5.0"
-  resolved "https://github.com/maxgraey/assemblyscript.git#2a69079521fda740248f58090feb3a136907d3fe"
+  resolved "https://codeload.github.com/MaxGraey/assemblyscript/tar.gz/2a69079521fda740248f58090feb3a136907d3fe"
   dependencies:
     "@protobufjs/utf8" "^1.1.0"
     binaryen "61.0.0"

@@ -10,7 +10,6 @@ import {
   CanvasInstruction,
 } from "../shared";
 import { Path2DElement, Matrix, ImageBitmap } from "../primitives";
-import { log, log_two } from "../linked";
 
 export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DSerializer {
   private _direction: Direction[] = new Array<Direction>(0);
@@ -107,7 +106,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
       this._textBaseline.push(TextBaseline.alphabetic);
       this._hardSave.push(false);
       this._path.push(new Path2DElement());
-      i++;
+      ++i;
     }
     this._directionCurrent = Direction.inherit;
     this._fillStyleCurrent = "#000";
@@ -210,7 +209,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
       this._textBaselineCurrent = this.textBaseline;
       this.write_restore();
     } else {
-      this._stackIndex--;
+      --this._stackIndex;
     }
   }
 
