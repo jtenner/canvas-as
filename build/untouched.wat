@@ -10533,7 +10533,6 @@
   i32.store
   get_local $0
   i32.load offset=4
-  i32.load
  )
  (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#commit (; 141 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
@@ -10649,7 +10648,6 @@
   i32.store
   get_local $0
   i32.load offset=4
-  i32.load
  )
  (func $assembly/index/draw (; 142 ;) (type $i) (result i32)
   get_global $assembly/index/frame

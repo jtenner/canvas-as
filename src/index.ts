@@ -2,6 +2,7 @@ import { Buffer } from "buffer";
 import { IStringIndex, IImageBitmapIndex } from "./util";
 import regeneratorRuntime from "regenerator-runtime";
 import { render } from "./render";
+import { ASUtil, instantiateStreaming } from "assemblyscript/lib/loader";
 const fs = require("fs");
 window.Buffer = Buffer;
 window.regeneratorRuntime = regeneratorRuntime;
@@ -15,59 +16,41 @@ canvas.width = 800;
 canvas.height = 600;
 
 async function main(): Promise<void> {
-  const binary: Buffer = fs.readFileSync("./build/untouched.wasm");
+  const binary: Buffer = fs.readFileSync("./build/optimized.wasm");
   const strings: IStringIndex = {};
   const images: IImageBitmapIndex = {};
-  const result: WebAssembly.ResultObject = await WebAssembly.instantiate(binary as WebAssembly.BufferSource, {
-    env: {
-      abort(a: number, b: number, c: number, d: number) {
-        console.error(a, b, c, d);
-      },
-    },
-    Math,
+  const blob: Blob = new Blob([binary], { type: "application/wasm" });
+  const url: string = URL.createObjectURL(blob);
+
+  const result: ASUtil = await instantiateStreaming(fetch(url), {
     util: {
-      log: console.log.bind(console),
-      log_two: console.log.bind(console),
       load_image(imagePointer: number, sourcePointer: number): void {
-        var view = new DataView(result.instance.exports.memory.buffer);
-        const length: number = view.getInt32(sourcePointer, true);
-        const sourceArray = new Uint16Array(
-          result.instance.exports.memory.buffer,
-          sourcePointer + 4,
-          length,
-        );
-        var source: string = String.fromCharCode.apply(String, sourceArray);
+        const source: string = result.getString(sourcePointer);
 
         async function loadImage(): Promise<void> {
           var res: Response = await fetch(source);
           var blob: Blob = await res.blob();
           var img: ImageBitmap = await createImageBitmap(blob);
-          images[view.getInt32(imagePointer, true)] = img;
-          view.setInt32(imagePointer + 4, 1, true);
-          view.setInt32(imagePointer + 8, img.width, true);
-          view.setInt32(imagePointer + 12, img.height, true);
+          var imageIndex: number = imagePointer / Int32Array.BYTES_PER_ELEMENT;
+
+          images[result.I32[imageIndex]] = img;
+          result.I32[imageIndex + 1] = 1;
+          result.I32[imageIndex + 2] = img.width;
+          result.I32[imageIndex + 3] = img.height;
         }
         loadImage();
       },
       send_string_to_js(index: number, pointer: number): void {
-        var view = new DataView(result.instance.exports.memory.buffer);
-        const length: number = view.getInt32(pointer, true);
-        const array = new Uint16Array(
-          result.instance.exports.memory.buffer,
-          pointer + 4,
-          length,
-        );
-        strings[index] = String.fromCharCode.apply(String, array);
+        strings[index] = result.getString(pointer);
       },
-    },
-    Serializer: {
-      logger_grow() {
-        console.log("asking to grow");
+      check(a: number, b: number, c: number): void {
+        console.log(a, b, c);
       }
     }
-  });
+  } as any);
 
-  result.instance.exports.init();
+
+  result.init();
 
   if (!window.frameFunc) {
     requestAnimationFrame(function repeat() {
@@ -77,14 +60,8 @@ async function main(): Promise<void> {
   }
 
   window.frameFunc = function frameFunc() {
-    const pointer: number = result.instance.exports.draw();
-    const length: number = new DataView(result.instance.exports.memory.buffer)
-      .getInt32(pointer, true) / Float64Array.BYTES_PER_ELEMENT;
-    const view: Float64Array = new Float64Array(
-      result.instance.exports.memory.buffer,
-      pointer + 8,
-      length,
-    );
+    const pointer: number = (result as any).draw();
+    const view: Float64Array = result.getArray(Float64Array, pointer);
     render(view, ctx, strings, images);
   };
 }

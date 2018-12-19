@@ -2,7 +2,6 @@ import "allocator/tlsf";
 
 import { CanvasRenderingContext2D, OptimizedCanvasRenderingContext2D } from "./renderer";
 import { ImageBitmap, createImageBitmap } from "./primitives";
-import { log } from "./linked/util";
 
 var ctx: OptimizedCanvasRenderingContext2D;
 var ctx2: CanvasRenderingContext2D;
@@ -16,7 +15,7 @@ export function init(): void {
 }
 
 var frame: i32 = 0;
-export function draw(): ArrayBuffer {
+export function draw(): Float64Array {
   ++frame;
   if (frame >= 360) frame -= 360;
   ctx.clearRect(0.0, 0.0, 800.0, 600.0);

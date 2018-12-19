@@ -213,10 +213,10 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     }
   }
 
-  public commit(): ArrayBuffer {
+  public commit(): Float64Array {
     super.write_commit();
     super.index = 0;
-    return super.data.buffer;
+    return super.data;
   }
 
   public arc(x: f64, y: f64, radius: f64, startAngle: f64, endAngle: f64, anticlockwise: bool = false): void {

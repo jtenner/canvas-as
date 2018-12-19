@@ -10,7 +10,6 @@ import {
   TextBaseline,
 } from "../shared";
 import { CanvasRenderingContext2DSerializer } from "./CanvasRenderingContext2DSerializer";
-import { log_two } from "../linked/util";
 
 export function getContext(type: string): CanvasRenderingContext2D | null {
   if (type == "2d") return new CanvasRenderingContext2D();
@@ -149,10 +148,10 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
     super.write_close_path();
   }
 
-  public commit(): ArrayBuffer {
+  public commit(): Float64Array {
     super.write_commit();
     super.index = 0;
-    return super.data.buffer;
+    return super.data;
   }
 
   get currentTransform(): Matrix {

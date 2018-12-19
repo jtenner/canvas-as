@@ -8402,7 +8402,6 @@
   i32.store
   get_local $0
   i32.load offset=4
-  i32.load
  )
  (func $assembly/index/draw (; 103 ;) (type $i) (result i32)
   get_global $assembly/index/frame
