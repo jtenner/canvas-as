@@ -4,7 +4,7 @@ A small canvas rendering framerwork powered by `AssemblyScript` 🎉🎉🎉.
 
 # Philosophy
 
-This framework aims to solve the problem of calling canvas functions by creating a queue of instructions for javascript to interpret later using the `CanvasASInterop#render` function. It's also painstaking to create `ImagePatterns`, `CanvasPattern`s and `ImageBitmap`s from within an `AssemblyScript` application. The `canvas-as` framework attempts to solve this problem by creating all the glue code for you, with only a single peer dependency in the form of `Assemblyscript`.
+This framework aims to solve the problem of calling canvas functions from wasm by creating a queue of instructions for javascript to interpret later. It's also painstaking to create `ImagePatterns`, `CanvasPattern`s and `ImageBitmap`s from within an `AssemblyScript` application, so `canvas-as` framework attempts to solve this problem by creating all the glue code for you, assembling all the patterns and gradients behind the scenes for you.
 
 # Usage
 
@@ -59,7 +59,7 @@ let rotation: f64 = 0;
 let rotValue: f64 = Math.PI / 180.0;
 
 export function init(): void {
-  // You cannot load an image until the module has been completely loaded
+  // You cannot load an image until the wasm module has been completely loaded
   kitten.src = "https://placekitten.com/300/300";
   // contexts must be initialized until the `constructor()` bugs are fixed in assemblyscript on the main branch
   ctx.init();
@@ -87,7 +87,7 @@ export function draw(): Float64Array {
 
 ## Glue Code Setup
 
-The setup uses glue code provided by the `AssemblyScript` loader. Currently the only way to instantiate a `canvas-as` module is to use the constructor
+The setup uses glue code provided by the `AssemblyScript` loader. Currently the only way to instantiate a `canvas-as` module is to use the constructor, and a fetch call.
 
 ```ts
 // import the canvas interop
