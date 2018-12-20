@@ -125,7 +125,7 @@ main();
 
 ## Using Parcel?
 
-Note that using `parcel-bundler`, you must use the `fs.readFileSync()` method to import your wasm into a buffer.  The following glue code is unfortunately necessary:
+Note that when using `parcel-bundler`, you must use the `fs.readFileSync()` method to import your wasm into a buffer, since importing the wasm file directly bypasses the `assemblyscript` loader.  The following glue code is unfortunately necessary:
 
 ```ts
 const fs = require("fs");
