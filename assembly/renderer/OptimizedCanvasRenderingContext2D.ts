@@ -9,7 +9,8 @@ import {
   TextBaseline,
   CanvasInstruction,
 } from "../shared";
-import { Path2DElement, Matrix, ImageBitmap } from "../primitives";
+import { Path2DElement, Matrix, Image } from "../primitives";
+import { doubleTypedArray, copyTypedArray } from "../util";
 
 export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DSerializer {
   private _direction: Direction[] = new Array<Direction>(0);
@@ -30,8 +31,8 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
   private _imageSmoothingQualityCurrent: ImageSmoothingQuality;
   private _lineCap: LineCap[] = new Array<LineCap>(0);
   private _lineCapCurrent: LineCap;
-  private _lineDash: f64[][] = new Array<f64[]>(0);
-  private _lineDashCurrent: f64[];
+  private _lineDash: Float64Array[] = new Array<Float64Array>(0);
+  private _lineDashCurrent: Float64Array = new Float64Array(0);
   private _lineDashOffset: f64[] = new Array<f64>(0);
   private _lineDashOffsetCurrent: f64;
   private _lineJoin: LineJoin[] = new Array<LineJoin>(0);
@@ -86,7 +87,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
       this._imageSmoothingEnabled.push(true);
       this._imageSmoothingQuality.push(ImageSmoothingQuality.low);
       this._lineCap.push(LineCap.butt);
-      this._lineDash.push([]);
+      this._lineDash.push(new Float64Array(0));
       this._lineDashOffset.push(0.0);
       this._lineJoin.push(LineJoin.miter);
       this._lineWidth.push(1.0);
@@ -117,7 +118,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this._imageSmoothingEnabledCurrent = true;
     this._imageSmoothingQualityCurrent = ImageSmoothingQuality.low;
     this._lineCapCurrent = LineCap.butt;
-    this._lineDashCurrent = [];
+    this._lineDashCurrent = new Float64Array(0);
     this._lineDashOffsetCurrent = 0.0;
     this._lineJoinCurrent = LineJoin.miter;
     this._lineWidthCurrent = 1.0;
@@ -306,7 +307,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this._direction[this._stackIndex] = value;
   }
 
-  public drawImage(img: ImageBitmap, x: f64, y: f64, width: f64, height: f64, sx: f64, sy: f64, swidth: f64, sheight: f64): void {
+  public drawImage(img: Image, x: f64, y: f64, width: f64, height: f64, sx: f64, sy: f64, swidth: f64, sheight: f64): void {
     if (!img._loaded) return;
     if (this.globalAlpha == 0.0) return;
     this.update_filter();
@@ -322,7 +323,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     super.write_draw_image(img, x, y, width, height, sx, sy, swidth, sheight);
   }
 
-  public drawImagePosition(img: ImageBitmap, x: f64, y: f64): void {
+  public drawImagePosition(img: Image, x: f64, y: f64): void {
     if (!img._loaded) return;
     if (this.globalAlpha == 0.0) return;
     this.update_filter();
@@ -338,7 +339,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     super.write_draw_image(img, x, y, img.width, img.height, 0.0, 0.0, img.width, img.height);
   }
 
-  public drawImageSize(img: ImageBitmap, x: f64, y: f64, width: f64, height: f64): void {
+  public drawImageSize(img: Image, x: f64, y: f64, width: f64, height: f64): void {
     if (!img._loaded) return;
     if (this.globalAlpha == 0.0) return;
     this.update_filter();
@@ -458,13 +459,15 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this._globalAlpha[this._stackIndex] = value;
   }
 
-  public getLineDash(): Array<f64> {
-    var lineDash: f64[] = this._lineDash[this._stackIndex];
-    return lineDash.slice(0);
+  public getLineDash(): Float64Array {
+    return copyTypedArray(this._lineDash[this._stackIndex]);
   }
 
-  public setLineDash(value: Array<f64>): void {
-    this._lineDash[this._stackIndex] = ((value.length & 1) == 1) ? value.concat(value) : value.slice(0);
+  public setLineDash(value: Float64Array): void {
+    this._lineDash[this._stackIndex] =
+      ((value.length & 1) == 1)
+        ? doubleTypedArray(value)
+        : copyTypedArray(value);
   }
 
   get globalCompositeOperation(): GlobalCompositeOperation {
@@ -829,10 +832,10 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
 
   @inline
   private update_line_dash(): void {
-    var next: f64[] = this._lineDash[this._stackIndex];
-    var current: f64[] = this._lineDashCurrent;
+    var next: Float64Array = this._lineDash[this._stackIndex];
+    var current: Float64Array = this._lineDashCurrent;
     if (next.length != current.length) {
-      this._lineDashCurrent = next.slice(0);
+      this._lineDashCurrent = copyTypedArray(next);
       super.write_line_dash(next);
       return;
     }
@@ -840,7 +843,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     var length: i32 = next.length;
     while (i < length) {
       if (next[i] != current[i]) {
-        this._lineDashCurrent = next.slice(0);
+        this._lineDashCurrent = copyTypedArray(next);
         super.write_line_dash(next);
         break;
       }

@@ -1,0 +1,1 @@
+export { copyTypedArray, doubleTypedArray } from "./TypedArray";

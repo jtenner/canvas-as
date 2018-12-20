@@ -1,1 +1,10 @@
-export { load_image, send_string_to_js } from "./util";
+export {
+  create_image,
+  create_linear_gradient,
+  create_pattern,
+  create_radial_gradient,
+  create_string,
+  remove_image,
+  remove_pattern,
+  remove_string,
+} from "./util";

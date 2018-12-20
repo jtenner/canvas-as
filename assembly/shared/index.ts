@@ -1,4 +1,5 @@
 export { CanvasInstruction } from "./CanvasInstruction";
+export { CanvasPatternType } from "./CanvasPatternType";
 export { Direction } from "./Direction";
 export { FillRule } from "./FillRule";
 export { GlobalCompositeOperation } from "./GlobalCompositeOperation";

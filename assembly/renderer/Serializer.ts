@@ -99,19 +99,6 @@ export class Serializer<T> {
   }
 
   @inline
-  protected write_variable(instruction: T, props: f64[]): void {
-    if (this.data.length <= (this.index + props.length + 2)) this.grow();
-    this.data[this.index++] = <f64>instruction;
-    this.data[this.index++] = <f64>(props.length + 2);
-    var i: i32 = 0;
-    var length: i32 = props.length;
-    while (i < length) {
-      this.data[this.index++] = props[i];
-      ++i;
-    }
-  }
-
-  @inline
   protected grow(): void {
     var data: Float64Array = new Float64Array(this.data.length + 8000);
     var length: i32 = this.data.length;

@@ -10,8 +10,8 @@ import {
   TextBaseline,
 } from "../shared";
 import { Serializer } from "./Serializer";
-import { ImageBitmap } from "../primitives";
-import { send_string_to_js } from "../linked";
+import { Image } from "../primitives";
+import { create_string } from "../linked";
 
 export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruction> {
   private _stringMap: Map<string, i32> = new Map<string, i32>();
@@ -102,7 +102,7 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
   }
 
   @inline
-  protected write_draw_image(img: ImageBitmap, x: f64, y: f64, width: f64, height: f64, sx: f64, sy: f64, swidth: f64, sheight: f64): void {
+  protected write_draw_image(img: Image, x: f64, y: f64, width: f64, height: f64, sx: f64, sy: f64, swidth: f64, sheight: f64): void {
     this.write_nine(
       CanvasInstruction.DrawImage,
       <f64>img._index,
@@ -227,10 +227,10 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
   }
 
   @inline
-  protected write_line_dash(lineDash: f64[]): void {
-    this.write_variable(
+  protected write_line_dash(lineDash: Float64Array): void {
+    this.write_one(
       CanvasInstruction.LineDash,
-      lineDash,
+      <f64>changetype<usize>(lineDash),
     );
   }
 
@@ -464,7 +464,7 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
     }
     ++this._stringIndex;
     this._stringMap.set(value, this._stringIndex);
-    send_string_to_js(this._stringIndex, value);
+    create_string(this._stringIndex, value);
     return <f64>this._stringIndex;
   }
 }

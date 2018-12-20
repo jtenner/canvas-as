@@ -1,30 +1,41 @@
-import "allocator/tlsf";
+export {
+  create_image,
+  create_linear_gradient,
+  create_pattern,
+  create_radial_gradient,
+  create_string,
+  remove_image,
+  remove_pattern,
+  remove_string,
+} from "./linked";
 
-import { CanvasRenderingContext2D, OptimizedCanvasRenderingContext2D } from "./renderer";
-import { ImageBitmap, createImageBitmap } from "./primitives";
+export {
+  Image,
+  Matrix,
+  Path2DElement,
+} from "./primitives";
 
-var ctx: OptimizedCanvasRenderingContext2D;
-var img: ImageBitmap;
-export function init(): void {
-  ctx = new OptimizedCanvasRenderingContext2D();
-  ctx.init();
-  img = createImageBitmap("https://placekitten.com/400/300");
-}
+export {
+  CanvasRenderingContext2D,
+  CanvasRenderingContext2DSerializer,
+  OptimizedCanvasRenderingContext2D,
+  Serializer,
+} from "./renderer";
 
-var frame: i32 = 0;
-export function draw(): Float64Array {
-  ++frame;
-  if (frame >= 360) frame -= 360;
-  ctx.clearRect(0.0, 0.0, 800.0, 600.0);
-  ctx.save();
+export {
+  CanvasInstruction,
+  CanvasPatternType,
+  Direction,
+  FillRule,
+  GlobalCompositeOperation,
+  ImageSmoothingQuality,
+  LineCap,
+  LineJoin,
+  TextAlign,
+  TextBaseline,
+} from "./shared";
 
-  if (img._loaded) {
-    ctx.translate(200.0, 200.0);
-    ctx.rotate(Math.PI / 180.0 * frame * 2);
-    ctx.translate(-200.0, -200.0);
-    ctx.drawImagePosition(img, 0.0, 0.0);
-  }
-
-  ctx.restore();
-  return ctx.commit();
-}
+export {
+  copyTypedArray,
+  doubleTypedArray,
+} from "./util";
