@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   const blob: Blob = new Blob([binary], { type: "application/wasm" });
   const url: string = URL.createObjectURL(blob);
 
-  const result: ASUtil = await instantiateStreaming(fetch(url), {
+  const result: ASUtil = await instantiateStreaming<any>(fetch(url), {
     util: {
       load_image(imagePointer: number, sourcePointer: number): void {
         const source: string = result.getString(sourcePointer);
@@ -42,9 +42,6 @@ async function main(): Promise<void> {
       },
       send_string_to_js(index: number, pointer: number): void {
         strings[index] = result.getString(pointer);
-      },
-      check(a: number, b: number, c: number): void {
-        console.log(a, b, c);
       }
     }
   } as any);
