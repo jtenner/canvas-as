@@ -33,7 +33,7 @@ export class CanvasASInterop {
   public images: IImageBitmapIndex = {};
   public patterns: ICanvasPatternIndex = {};
   public wasm: (ASUtil & CanvasASInteropAPI) | null = null;
-  public loaded: Promise<void> = Promise.reject();
+  public loaded: Promise<void>;
 
   constructor(ctx: CanvasRenderingContext2D, res: Promise<Response>, imports: any) {
     this.ctx = ctx;
@@ -52,6 +52,7 @@ export class CanvasASInterop {
       remove_pattern: this.remove_pattern.bind(this),
     };
     this.wasm = await instantiateStreaming<CanvasASInteropAPI>(res, imports);
+    this.wasm.init();
   }
 
   public update(): void {

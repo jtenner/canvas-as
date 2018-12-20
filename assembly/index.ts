@@ -7,35 +7,27 @@ export {
   remove_image,
   remove_pattern,
   remove_string,
-} from "./linked";
+} from "./linked/util";
 
-export {
-  Image,
-  Matrix,
-  Path2DElement,
-} from "./primitives";
+export { Image } from "./primitives/Image";
+export { Matrix } from "./primitives/Matrix";
+export { Path2DElement } from "./primitives/Path2DElement";
 
-export {
-  CanvasRenderingContext2D,
-  CanvasRenderingContext2DSerializer,
-  OptimizedCanvasRenderingContext2D,
-  Serializer,
-} from "./renderer";
 
-export {
-  CanvasInstruction,
-  CanvasPatternType,
-  Direction,
-  FillRule,
-  GlobalCompositeOperation,
-  ImageSmoothingQuality,
-  LineCap,
-  LineJoin,
-  TextAlign,
-  TextBaseline,
-} from "./shared";
+export { CanvasRenderingContext2D } from "./renderer/CanvasRenderingContext2D";
+export { CanvasRenderingContext2DSerializer } from "./renderer/CanvasRenderingContext2DSerializer";
+export { OptimizedCanvasRenderingContext2D } from "./renderer/OptimizedCanvasRenderingContext2D";
+export { Serializer } from "./renderer/Serializer";
 
-export {
-  copyTypedArray,
-  doubleTypedArray,
-} from "./util";
+export { CanvasInstruction } from "./shared/CanvasInstruction";
+export { CanvasPatternType } from "./shared/CanvasPatternType";
+export { Direction } from "./shared/Direction";
+export { FillRule } from "./shared/FillRule";
+export { GlobalCompositeOperation } from "./shared/GlobalCompositeOperation";
+export { ImageSmoothingQuality } from "./shared/ImageSmoothingQuality";
+export { LineCap } from "./shared/LineCap";
+export { LineJoin } from "./shared/LineJoin";
+export { TextAlign } from "./shared/TextAlign";
+export { TextBaseline } from "./shared/TextBaseline";
+
+export { copyTypedArray, doubleTypedArray } from "./util/TypedArray";
