@@ -1,17 +1,20 @@
+import "allocator/tlsf";
 import { CanvasRenderingContext2D, Image } from "./index";
 
-
-var ctx: CanvasRenderingContext2D;
-var kitten: Image;
+let ctx: CanvasRenderingContext2D;
+let kitten: Image;
+let rotation: f64;
+let rotValue: f64;
 
 export function init(): void {
+  ctx = new CanvasRenderingContext2D();
   kitten = new Image();
   kitten.src = "https://placekitten.com/300/300";
-  ctx = new CanvasRenderingContext2D();
+  rotation = 0;
+  rotValue = Math.PI / 180.0;
 }
 
-var rotation: f64 = 0;
-var rotValue: f64 = Math.PI / 180.0
+
 export function update(): void {
   rotation += rotValue;
 }
