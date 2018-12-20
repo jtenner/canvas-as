@@ -4,7 +4,7 @@ A small canvas rendering framerwork powered by `AssemblyScript` 🎉🎉🎉.
 
 # Philosophy
 
-This framework aims to solve the problem of calling canvas functions from wasm by creating a queue of instructions for javascript to interpret later. It's also painstaking to create `ImagePatterns`, `CanvasPattern`s and `ImageBitmap`s from within an `AssemblyScript` application, so `canvas-as` framework attempts to solve this problem by creating all the glue code for you, assembling all the patterns and gradients behind the scenes for you.
+This framework aims to solve the problem of calling canvas functions from wasm by creating a queue of instructions for javascript to interpret later. It's also painstaking to create ImagePatterns, CanvasPatterns and ImageBitmaps from within an AssemblyScript application, so canvas-as framework attempts to solve this problem by creating all the glue code and assembling all the patterns and gradients behind the scenes for you.
 
 # Usage
 
