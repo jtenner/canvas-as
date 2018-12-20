@@ -20,7 +20,7 @@
   "scripts": {
     "start": "run-s asbuild canvas-as:watch",
     "canvas-as:watch": "run-p parcel:watch asbuild:watch server:dev",
-    "server:dev": "http-server ./demo -p 8080 -c0 ",
+    "server:dev": "http-server ./demo -p 8080 -c0 -o",
     "parcel:watch": "parcel watch demo-src/index.html --public-url . --out-dir demo --no-cache",
     "asbuild:watch": "onchange \"assembly/**/*.ts\" -- npm run asbuild",
     "asbuild:untouched": "asc assembly/example.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug --use Math=JSMath",
