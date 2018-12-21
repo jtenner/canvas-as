@@ -13,12 +13,12 @@ This framework aims to solve the problem of calling canvas functions from wasm b
 First, install `canvas-as` and `assemblyscript`:
 
 ```
-npm install --save canvas-as assemblyscript
+npm install --save jtenner/canvas-as assemblyscript/assemblyscript
 ```
 or...
 
 ```
-yarn add canvas-as assemblyscript
+yarn add jtenner/canvas-as assemblyscript/assemblyscript
 ```
 
 ## Start Assemblyscript
@@ -122,6 +122,35 @@ async function main(): Promise<void> {
 
 main();
 ```
+
+## OptimizedCanvasRenderingContext2D
+
+This renderer is used when you want to minimize the number of javascript function calls. It's an exact drop in replacement for the `CanvasRenderingContext2D` class that only emits `setTransform`s and modified properties when they need to be modified.
+
+For instance, take the following example.
+
+```ts
+var ctx = new OptimizedCanvasRenderingContext2D();
+
+ctx.beginPath();
+ctx.moveTo(10.0, 10.0);
+ctx.translate(100.0, 100.0);
+ctx.lineTo(100.0, 100.0);
+ctx.rotate(200.0);
+
+// the above instructions are effectively ignored, except for the `rotate` and `translate` functions
+ctx.beginPath();
+ctx.rect(100.0, 100.0, 100.0, 100.0);
+ctx.stroke();
+```
+
+In this case, the first path created with `beginPath()` gets effectively ignored by the browser.
+
+There is no reason to actually call those functions when `draw()` is called.
+
+Instead, the `OptimizedCanvasRenderingContext2D` emits *no* instructions and waits until a `fill()` or a `stroke()` is called. Thus when it gets to the `ctx.stroke()` call, it checks to see if the transform changed since the last time the `transform` property was updated, and emits a single `setTransform()` instruction, a `rect()` instruction, and a `stroke()` instruction.
+
+This costs more cpu power from within wasm, but doing cpu intensive things without garbage collection is what wasm does best!
 
 ## Using Parcel?
 

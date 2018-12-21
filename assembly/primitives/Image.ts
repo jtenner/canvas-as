@@ -19,4 +19,9 @@ export class Image {
     create_image(this, value);
     this._src = value;
   }
+
+  @inline
+  get loaded(): bool {
+    return this._loaded == 1;
+  }
 }

@@ -1,5 +1,7 @@
+import { create_pattern, create_linear_gradient, create_radial_gradient } from "../linked";
 import { Image, Matrix } from "../primitives";
 import {
+  CanvasPatternType,
   Direction,
   FillRule,
   GlobalCompositeOperation,
@@ -9,8 +11,11 @@ import {
   TextAlign,
   TextBaseline,
 } from "../shared";
+import { CanvasGradient } from "./CanvasGradient";
+import { CanvasPattern } from "./CanvasPattern";
 import { CanvasRenderingContext2DSerializer } from "./CanvasRenderingContext2DSerializer";
 import { doubleTypedArray, copyTypedArray } from "../util";
+import { FillStrokeWhichValue, FillStrokeWhich } from "../primitives/FillStrokeWhichValue";
 
 export function getContext(type: string): CanvasRenderingContext2D | null {
   if (type == "2d") return new CanvasRenderingContext2D();
@@ -19,7 +24,7 @@ export function getContext(type: string): CanvasRenderingContext2D | null {
 
 export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer {
   private _direction: Direction[] = new Array<Direction>(0);
-  private _fillStyle: string[] = new Array<string>(0);
+  private _fillStyle: FillStrokeWhichValue[] = new Array<FillStrokeWhichValue>(0);
   private _filter: string[] = new Array<string>(0);
   private _font: string[] = new Array<string>(0);
   private _globalAlpha: f64[] = new Array<f64>(0);
@@ -42,7 +47,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   private _shadowColor: string[] = new Array<string>(0);
   private _shadowOffsetX: f64[] = new Array<f64>(0);
   private _shadowOffsetY: f64[] = new Array<f64>(0);
-  private _strokeStyle: string[] = new Array<string>(0);
+  private _strokeStyle: FillStrokeWhichValue[] = new Array<FillStrokeWhichValue>(0);
   private _textAlign: TextAlign[] = new Array<TextAlign>(0);
   private _textBaseline: TextBaseline[] = new Array<TextBaseline>(0);
   private _stackIndex: i32 = 0;
@@ -51,7 +56,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
     var i: i32 = 0;
     while (i < 100) {
       this._direction.push(Direction.inherit);
-      this._fillStyle.push("#000");
+      this._fillStyle.push(new FillStrokeWhichValue());
       this._filter.push("none");
       this._font.push("none");
       this._globalAlpha.push(1.0);
@@ -74,7 +79,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
       this._shadowColor.push("#000");
       this._shadowOffsetX.push(0.0);
       this._shadowOffsetY.push(0.0);
-      this._strokeStyle.push("#000");
+      this._strokeStyle.push(new FillStrokeWhichValue());
       this._textAlign.push(TextAlign.start);
       this._textBaseline.push(TextBaseline.alphabetic);
       i++;
@@ -86,7 +91,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
     super.write_save();
     var next: i32 = this._stackIndex + 1;
     this._direction[next] = this.direction;
-    this._fillStyle[next] = this.fillStyle;
+    this._fillStyle[this._stackIndex].set(this._fillStyle[next]);
     this._filter[next] = this.filter;
     this._font[next] = this.font;
     this._globalAlpha[next] = this.globalAlpha;
@@ -109,7 +114,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
     this._shadowColor[next] = this.shadowColor;
     this._shadowOffsetX[next] = this.shadowOffsetX;
     this._shadowOffsetY[next] = this.shadowOffsetY;
-    this._strokeStyle[next] = this.strokeStyle;
+    this._strokeStyle[this._stackIndex].set(this._strokeStyle[next]);
     this._textAlign[next] = this.textAlign;
     this._textBaseline[next] = this.textBaseline;
 
@@ -147,6 +152,24 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
 
   public closePath(): void {
     super.write_close_path();
+  }
+
+  public createLinearGradient(x0: f64, y0: f64, x1: f64, y1: f64): CanvasGradient {
+    var result: CanvasGradient = new CanvasGradient();
+    create_linear_gradient(result._id, x0, y0, x1, y1);
+    return result;
+  }
+
+  public createPattern(image: Image, type: CanvasPatternType): CanvasPattern {
+    var pattern = new CanvasPattern();
+    create_pattern(pattern._id, image._index, type);
+    return pattern;
+  }
+
+  public createRadialGradient(x0: f64, y0: f64, r0: f64, x1: f64, y1: f64, r1: f64): CanvasGradient {
+    var result: CanvasGradient = new CanvasGradient();
+    create_radial_gradient(result._id, x0, y0, r0, x1, y1, r1);
+    return result;
   }
 
   public commit(): Float64Array {
@@ -216,13 +239,40 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
     super.write_fill_rect(x, y, width, height);
   }
 
-  get fillStyle(): string {
-    return this._fillStyle[this._stackIndex];
+  get fillGradient(): CanvasGradient | null {
+    if (this._fillStyle[this._stackIndex].which != FillStrokeWhich.Gradient) return null;
+    return this._fillStyle[this._stackIndex].gradient;
   }
 
-  set fillStyle(value: string) {
-    this._fillStyle[this._stackIndex] = value;
-    super.write_fill_style(value);
+  set fillGradient(value: CanvasGradient | null)  {
+    if (value == null) return;
+    this._fillStyle[this._stackIndex].gradient = value;
+    this._fillStyle[this._stackIndex].which = FillStrokeWhich.Gradient;
+    super.write_fill_gradient(<CanvasGradient>value);
+  }
+
+  get fillPattern(): CanvasPattern | null {
+    if (this._fillStyle[this._stackIndex].which != FillStrokeWhich.Pattern) return null;
+    return this._fillStyle[this._stackIndex].pattern;
+  }
+
+  set fillPattern(value: CanvasPattern | null)  {
+    if (value == null) return;
+    this._fillStyle[this._stackIndex].pattern = value;
+    this._fillStyle[this._stackIndex].which = FillStrokeWhich.Pattern;
+    super.write_fill_pattern(<CanvasPattern>value);
+  }
+
+  get fillStyle(): string | null {
+    if (this._fillStyle[this._stackIndex].which != FillStrokeWhich.Style) return null;
+    return this._fillStyle[this._stackIndex].style;
+  }
+
+  set fillStyle(value: string | null) {
+    var result: string = value === null ? "#000" : value;
+    this._fillStyle[this._stackIndex].style = result;
+    this._fillStyle[this._stackIndex].which = FillStrokeWhich.Style;
+    super.write_fill_style(result);
   }
 
   public fillText(text: string, x: f64, y: f64, maxWidth: f64 = -1.0): void {
@@ -433,13 +483,40 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
     super.write_stroke_rect(x, y, width, height);
   }
 
-  get strokeStyle(): string {
-    return this._strokeStyle[this._stackIndex];
+  get strokeStyle(): string | null {
+    if (this._strokeStyle[this._stackIndex].which != FillStrokeWhich.Style) return null;
+    return this._strokeStyle[this._stackIndex].style;
   }
 
-  set strokeStyle(value: string) {
-    this._strokeStyle[this._stackIndex] = value;
-    super.write_stroke_style(value);
+  set strokeStyle(value: string | null) {
+    var result: string = value === null ? "#000" : value;
+    this._strokeStyle[this._stackIndex].style = result;
+    this._strokeStyle[this._stackIndex].which = FillStrokeWhich.Style;
+    super.write_stroke_style(result);
+  }
+
+  get strokeGradient(): CanvasGradient | null {
+    if (this._strokeStyle[this._stackIndex].which != FillStrokeWhich.Gradient) return null;
+    return this._strokeStyle[this._stackIndex].gradient;
+  }
+
+  set strokeGradient(value: CanvasGradient | null)  {
+    if (value == null) return;
+    this._strokeStyle[this._stackIndex].gradient = value;
+    this._strokeStyle[this._stackIndex].which = FillStrokeWhich.Gradient;
+    super.write_stroke_gradient(<CanvasGradient>value);
+  }
+
+  get strokePattern(): CanvasPattern | null {
+    if (this._strokeStyle[this._stackIndex].which != FillStrokeWhich.Pattern) return null;
+    return this._strokeStyle[this._stackIndex].pattern;
+  }
+
+  set strokePattern(value: CanvasPattern | null)  {
+    if (value == null) return;
+    this._strokeStyle[this._stackIndex].pattern = value;
+    this._strokeStyle[this._stackIndex].which = FillStrokeWhich.Pattern;
+    super.write_stroke_pattern(<CanvasPattern>value);
   }
 
   public strokeText(text: string, x: f64, y: f64, maxWidth: f64 = -1.0): void {

@@ -2,6 +2,9 @@ import { Image } from "../primitives";
 import { CanvasPatternType } from "../shared";
 
 
+@external("__as_interop", "add_color_stop")
+export declare function add_color_stop(index: i32, point: f64, color: string): void;
+
 @external("__as_interop", "create_linear_gradient")
 export declare function create_linear_gradient(index: i32, x0: f64, y0: f64, x1: f64, y1: f64): void;
 

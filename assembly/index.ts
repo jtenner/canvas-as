@@ -13,7 +13,8 @@ export { Image } from "./primitives/Image";
 export { Matrix } from "./primitives/Matrix";
 export { Path2DElement } from "./primitives/Path2DElement";
 
-
+export { CanvasGradient } from "./renderer/CanvasGradient";
+export { CanvasPattern } from "./renderer/CanvasPattern";
 export { CanvasRenderingContext2D } from "./renderer/CanvasRenderingContext2D";
 export { CanvasRenderingContext2DSerializer } from "./renderer/CanvasRenderingContext2DSerializer";
 export { OptimizedCanvasRenderingContext2D } from "./renderer/OptimizedCanvasRenderingContext2D";

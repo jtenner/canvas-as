@@ -1,4 +1,5 @@
 export {
+  add_color_stop,
   create_image,
   create_linear_gradient,
   create_pattern,

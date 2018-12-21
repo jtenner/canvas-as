@@ -1,5 +1,4 @@
 import { CanvasInstruction } from "../shared";
-import { Matrix } from "./Matrix";
 
 export class Path2DElement {
   instruction: CanvasInstruction = CanvasInstruction.Commit;

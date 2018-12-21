@@ -11,7 +11,11 @@ export interface IImageBitmapIndex {
 }
 
 export interface ICanvasPatternIndex {
-  [index: number]: CanvasPattern | CanvasGradient | null;
+  [index: number]: CanvasPattern | null;
+}
+
+export interface ICanvasGradientIndex {
+  [index: number]: CanvasGradient | null;
 }
 
 export const canvasPatternTypes = {
@@ -32,6 +36,7 @@ export class CanvasASInterop {
   public strings: IStringIndex = {};
   public images: IImageBitmapIndex = {};
   public patterns: ICanvasPatternIndex = {};
+  public gradients: ICanvasGradientIndex = {};
   public wasm: (ASUtil & CanvasASInteropAPI) | null = null;
   public loaded: Promise<void>;
 
@@ -42,6 +47,7 @@ export class CanvasASInterop {
 
   private async init(res: Promise<Response>, imports: any = {}): Promise<void> {
     imports.__as_interop = {
+      add_color_stop: this.add_color_stop.bind(this),
       create_image: this.create_image.bind(this),
       create_linear_gradient: this.create_linear_gradient.bind(this),
       create_pattern: this.create_pattern.bind(this),
@@ -157,6 +163,14 @@ export class CanvasASInterop {
         }
         case CanvasInstruction.Fill: {
           this.ctx.fill(FillRule[data[index + 2]] as CanvasFillRule);
+          break;
+        }
+        case CanvasInstruction.FillGradient: {
+          this.ctx.fillStyle = this.gradients[data[index + 2]]!;
+          break;
+        }
+        case CanvasInstruction.FillPattern: {
+          this.ctx.fillStyle = this.patterns[data[index + 2]]!;
           break;
         }
         case CanvasInstruction.FillRect: {
@@ -298,6 +312,18 @@ export class CanvasASInterop {
           this.ctx.shadowOffsetY = data[index + 2];
           break;
         }
+        case CanvasInstruction.StrokeStyle: {
+          this.ctx.fillStyle = this.strings[data[index + 2]]!;
+          break;
+        }
+        case CanvasInstruction.StrokeGradient: {
+          this.ctx.strokeStyle = this.gradients[data[index + 2]]!;
+          break;
+        }
+        case CanvasInstruction.StrokePattern: {
+          this.ctx.strokeStyle = this.patterns[data[index + 2]]!;
+          break;
+        }
         case CanvasInstruction.TextAlign: {
           this.ctx.textAlign = TextAlign[data[index + 2]] as CanvasTextAlign;
           break;
@@ -328,12 +354,16 @@ export class CanvasASInterop {
     }
   }
 
+  private add_color_stop(index: number, point: number, color: number): void {
+    this.gradients[index]!.addColorStop(point, this.wasm!.getString(color));
+  }
+
   private create_image(imagePointer: number, sourcePointer: number): void {
     this.load_image(imagePointer, sourcePointer);
   }
 
   private create_linear_gradient(index: number, x0: number, y0: number, x1: number, y1: number): void {
-    this.patterns[index] = this.ctx.createLinearGradient(x0, y0, x1, y1);
+    this.gradients[index] = this.ctx.createLinearGradient(x0, y0, x1, y1);
   }
 
   private create_pattern(index: number, imageIndex: number, patternType: CanvasPatternType): void {
@@ -341,7 +371,7 @@ export class CanvasASInterop {
   }
 
   private create_radial_gradient(index: number, x0: number, y0: number, r0: number, x1: number, y1: number, r1: number): void {
-    this.patterns[index] = this.ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
+    this.gradients[index] = this.ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
   }
 
   private create_string(index: number, stringPointer: number): void {

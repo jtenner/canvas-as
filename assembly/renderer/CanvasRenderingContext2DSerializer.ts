@@ -12,6 +12,8 @@ import {
 import { Serializer } from "./Serializer";
 import { Image } from "../primitives";
 import { create_string } from "../linked";
+import { CanvasPattern } from "./CanvasPattern";
+import { CanvasGradient } from "./CanvasGradient";
 
 export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruction> {
   private _stringMap: Map<string, i32> = new Map<string, i32>();
@@ -137,6 +139,22 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
     this.write_one(
       CanvasInstruction.Fill,
       <f64>fillRule,
+    );
+  }
+
+  @inline
+  protected write_fill_gradient(fillGradient: CanvasGradient): void {
+    this.write_one(
+      CanvasInstruction.FillGradient,
+      <f64>fillGradient._id,
+    );
+  }
+
+  @inline
+  protected write_fill_pattern(fillPattern: CanvasPattern): void {
+    this.write_one(
+      CanvasInstruction.FillPattern,
+      <f64>fillPattern._id,
     );
   }
 
@@ -391,6 +409,22 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
       y,
       width,
       height,
+    );
+  }
+
+  @inline
+  protected write_stroke_gradient(strokeGradient: CanvasGradient): void {
+    this.write_one(
+      CanvasInstruction.StrokeGradient,
+      <f64>strokeGradient._id,
+    );
+  }
+
+  @inline
+  protected write_stroke_pattern(strokePattern: CanvasPattern): void {
+    this.write_one(
+      CanvasInstruction.StrokePattern,
+      <f64>strokePattern._id,
     );
   }
 
