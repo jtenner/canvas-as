@@ -2,9 +2,31 @@
 
 A small canvas rendering framerwork powered by `AssemblyScript` 🎉🎉🎉.
 
-# Philosophy
+## About
 
-This framework aims to solve the problem of calling canvas functions from wasm by creating a queue of instructions for javascript to interpret later. It's also painstaking to create ImagePatterns, CanvasPatterns and ImageBitmaps from within an AssemblyScript application, so canvas-as framework attempts to solve this problem by creating all the glue code and assembling all the patterns and gradients behind the scenes for you.
+The `canvas-as` framework is a fun project that utilizes a lot of the hard work provided by the AssemblyScript project, which actually turned out to be quite performant! It avoids using repeated function calls over the wasm bridge, and compiles a set of canvas instructions to make drawing onto a canvas much easier from within `AssemblyScript`.  
+
+## Goal
+
+To provide a performant framework for utilizing the `CanvasRenderingContext2D`prototype in the browser, while following the javascript specification as closely as possible, and deviating where it makes sense.
+
+## Current Compatibility
+
+Currently, `canvas-as` supports the following things:
+
+- Rendering and tracking canvas paths
+- Optimizing calls to setTransfrom and style properties via `OptimizedCanvasRenderingContext2D`
+- fillStyles and strokeStyles: strings, patterns, and gradients
+- Loading images from within the browser via the `Image#src` property
+- Virtual `ctx#save` and `ctx#restore` function calls which actually modify the assemblyscript canvas context itself
+
+On the roadmap, we plan to support:
+
+- Injecting image references into AssemblyScript (for image loading/preloading)
+- modifying style properties on the canvas
+- Garbage collection calls to the JS host to do memory cleanup (when AssemblyScript finally supports `@destructor`)
+- A declarative renderer (if AssemblyScript allows us to return `struct`s on the stack instead of on the heap via multi-valued parameters)
+
 
 # Usage
 
