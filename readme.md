@@ -27,7 +27,6 @@ On the roadmap, we plan to support:
 - Garbage collection calls to the JS host to do memory cleanup (when AssemblyScript finally supports `@destructor`)
 - A declarative renderer (if AssemblyScript allows us to return `struct`s on the stack instead of on the heap via multi-valued parameters)
 
-
 # Usage
 
 ## Installation
