@@ -1,2 +1,2 @@
-export * from "./interop/index";
+export * from "./interop";
 export * from "./util/index";
