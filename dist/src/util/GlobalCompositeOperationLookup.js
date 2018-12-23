@@ -1,0 +1,32 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var GlobalCompositeOperationLookup;
+(function (GlobalCompositeOperationLookup) {
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["source-over"] = 0] = "source-over";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["source-in"] = 1] = "source-in";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["source-out"] = 2] = "source-out";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["source-atop"] = 3] = "source-atop";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["destination-over"] = 4] = "destination-over";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["destination-in"] = 5] = "destination-in";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["destination-out"] = 6] = "destination-out";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["destination-atop"] = 7] = "destination-atop";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["lighter"] = 8] = "lighter";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["copy"] = 9] = "copy";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["xor"] = 10] = "xor";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["multiply"] = 11] = "multiply";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["screen"] = 12] = "screen";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["overlay"] = 13] = "overlay";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["darken"] = 14] = "darken";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["lighten"] = 15] = "lighten";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["color-dodge"] = 16] = "color-dodge";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["color-burn"] = 17] = "color-burn";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["hard-light"] = 18] = "hard-light";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["soft-light"] = 19] = "soft-light";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["difference"] = 20] = "difference";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["exclusion"] = 21] = "exclusion";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["hue"] = 22] = "hue";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["saturation"] = 23] = "saturation";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["color"] = 24] = "color";
+    GlobalCompositeOperationLookup[GlobalCompositeOperationLookup["luminosity"] = 25] = "luminosity";
+})(GlobalCompositeOperationLookup = exports.GlobalCompositeOperationLookup || (exports.GlobalCompositeOperationLookup = {}));
+//# sourceMappingURL=GlobalCompositeOperationLookup.js.map
