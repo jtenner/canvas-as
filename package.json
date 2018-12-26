@@ -25,7 +25,7 @@
   "scripts": {
     "start": "run-s asbuild:all canvas-as:watch",
     "build": "run-p asbuild:all build:glue",
-    "build:glue": "microbundle build --output dist --strict",
+    "build:glue": "microbundle build --output dist --strict --umd canvasas",
     "canvas-as:watch": "run-p parcel:watch asbuild:watch",
     "parcel:watch": "parcel watch demo-src/index.html --public-url . --out-dir demo --no-cache",
     "asbuild:watch": "onchange \"assembly/**/*.ts\" -- npm run asbuild:all",
