@@ -1,7 +1,10 @@
 {
   "name": "canvas-as",
   "version": "1.0.0",
-  "main": "dist/src/index.js",
+  "main": "dist/canvas-as.js",
+  "module": "dist/canvas-as.mjs",
+  "umd:main": "dist/canvas-as.umd.js",
+  "source": "src/index.ts",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -9,6 +12,8 @@
     "@babel/preset-typescript": "^7.1.0",
     "@types/webassembly-web-api": "^0.0.1",
     "http-server": "^0.11.1",
+    "microbundle": "^0.9.0",
+    "node-fetch": "^2.3.0",
     "npm-run-all": "^4.1.5",
     "onchange": "^5.2.0",
     "parcel-bundler": "^1.11.0",
@@ -20,7 +25,7 @@
   "scripts": {
     "start": "run-s asbuild:all canvas-as:watch",
     "build": "run-p asbuild:all build:glue",
-    "build:glue": "tsc",
+    "build:glue": "microbundle build --output dist --strict",
     "canvas-as:watch": "run-p parcel:watch asbuild:watch",
     "parcel:watch": "parcel watch demo-src/index.html --public-url . --out-dir demo --no-cache",
     "asbuild:watch": "onchange \"assembly/**/*.ts\" -- npm run asbuild:all",
