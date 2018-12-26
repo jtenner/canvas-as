@@ -5,7 +5,7 @@ import "allocator/tlsf";
 import { OptimizedCanvasRenderingContext2D, Image } from "./index";
 import { CanvasGradient } from "./renderer/CanvasGradient";
 import { CanvasPattern } from "./renderer/CanvasPattern";
-import { CanvasPatternType } from "./shared";
+import { CanvasPatternType } from "../src/shared";
 
 let ctx: OptimizedCanvasRenderingContext2D = new OptimizedCanvasRenderingContext2D();
 let kitten: Image = new Image();

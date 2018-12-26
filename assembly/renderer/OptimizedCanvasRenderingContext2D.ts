@@ -9,7 +9,7 @@ import {
   TextBaseline,
   CanvasInstruction,
   CanvasPatternType,
-} from "../shared";
+} from "../../src/shared";
 import { FillStrokeWhichValue, Path2DElement, Matrix, Image, FillStrokeWhich } from "../primitives";
 import { doubleTypedArray, copyTypedArray } from "../util";
 import { create_linear_gradient, create_pattern, create_radial_gradient } from "../linked";

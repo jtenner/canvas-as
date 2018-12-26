@@ -8,7 +8,7 @@ import {
   LineJoin,
   TextAlign,
   TextBaseline,
-} from "../shared";
+} from "../../src/shared";
 import { Serializer } from "./Serializer";
 import { Image } from "../primitives";
 import { create_string } from "../linked";

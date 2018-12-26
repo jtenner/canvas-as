@@ -77,116 +77,116 @@
  (global $assembly/example/gradient (mut i32) (i32.const 0))
  (global $assembly/example/kittenPattern (mut i32) (i32.const 0))
  (global $assembly/example/kittenLoaded (mut i32) (i32.const 0))
- (global $assembly/shared/Direction/Direction.ltr (mut i32) (i32.const 0))
- (global $assembly/shared/Direction/Direction.rtl (mut i32) (i32.const 1))
- (global $assembly/shared/Direction/Direction.inherit (mut i32) (i32.const 2))
+ (global $src/shared/Direction/Direction.ltr (mut i32) (i32.const 0))
+ (global $src/shared/Direction/Direction.rtl (mut i32) (i32.const 1))
+ (global $src/shared/Direction/Direction.inherit (mut i32) (i32.const 2))
  (global $assembly/primitives/FillStrokeWhichValue/FillStrokeWhich.Style i32 (i32.const 0))
  (global $assembly/primitives/FillStrokeWhichValue/FillStrokeWhich.Gradient i32 (i32.const 1))
  (global $assembly/primitives/FillStrokeWhichValue/FillStrokeWhich.Pattern i32 (i32.const 2))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over (mut i32) (i32.const 0))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_in (mut i32) (i32.const 1))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_out (mut i32) (i32.const 2))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_atop (mut i32) (i32.const 3))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.destination_over (mut i32) (i32.const 4))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.destination_in (mut i32) (i32.const 5))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.destination_out (mut i32) (i32.const 6))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.destination_atop (mut i32) (i32.const 7))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.lighter (mut i32) (i32.const 8))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.copy (mut i32) (i32.const 9))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.xor (mut i32) (i32.const 10))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.multiply (mut i32) (i32.const 11))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.screen (mut i32) (i32.const 12))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.overlay (mut i32) (i32.const 13))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.darken (mut i32) (i32.const 14))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.lighten (mut i32) (i32.const 15))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.color_dodge (mut i32) (i32.const 16))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.color_burn (mut i32) (i32.const 17))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.hard_light (mut i32) (i32.const 18))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.soft_light (mut i32) (i32.const 19))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.difference (mut i32) (i32.const 20))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.exclusion (mut i32) (i32.const 21))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.hue (mut i32) (i32.const 22))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.saturation (mut i32) (i32.const 23))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.color (mut i32) (i32.const 24))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.luminosity (mut i32) (i32.const 25))
- (global $assembly/shared/ImageSmoothingQuality/ImageSmoothingQuality.low (mut i32) (i32.const 0))
- (global $assembly/shared/ImageSmoothingQuality/ImageSmoothingQuality.medium (mut i32) (i32.const 1))
- (global $assembly/shared/ImageSmoothingQuality/ImageSmoothingQuality.high (mut i32) (i32.const 2))
- (global $assembly/shared/LineCap/LineCap.butt (mut i32) (i32.const 0))
- (global $assembly/shared/LineCap/LineCap.round (mut i32) (i32.const 1))
- (global $assembly/shared/LineCap/LineCap.square (mut i32) (i32.const 2))
- (global $assembly/shared/LineJoin/LineJoin.bevel (mut i32) (i32.const 0))
- (global $assembly/shared/LineJoin/LineJoin.round (mut i32) (i32.const 1))
- (global $assembly/shared/LineJoin/LineJoin.miter (mut i32) (i32.const 2))
- (global $assembly/shared/TextAlign/TextAlign.left (mut i32) (i32.const 0))
- (global $assembly/shared/TextAlign/TextAlign.right (mut i32) (i32.const 1))
- (global $assembly/shared/TextAlign/TextAlign.center (mut i32) (i32.const 2))
- (global $assembly/shared/TextAlign/TextAlign.start (mut i32) (i32.const 3))
- (global $assembly/shared/TextAlign/TextAlign.end (mut i32) (i32.const 4))
- (global $assembly/shared/TextBaseline/TextBaseline.top (mut i32) (i32.const 0))
- (global $assembly/shared/TextBaseline/TextBaseline.hanging (mut i32) (i32.const 1))
- (global $assembly/shared/TextBaseline/TextBaseline.middle (mut i32) (i32.const 2))
- (global $assembly/shared/TextBaseline/TextBaseline.alphabetic (mut i32) (i32.const 3))
- (global $assembly/shared/TextBaseline/TextBaseline.ideographic (mut i32) (i32.const 4))
- (global $assembly/shared/TextBaseline/TextBaseline.bottom (mut i32) (i32.const 5))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Arc i32 (i32.const 0))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.ArcTo i32 (i32.const 1))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.BeginPath i32 (i32.const 2))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.BezierCurveTo i32 (i32.const 3))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Clip i32 (i32.const 4))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.ClosePath i32 (i32.const 5))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Commit i32 (i32.const 6))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.ClearRect i32 (i32.const 7))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Direction i32 (i32.const 8))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.DrawFocusIfNeeded i32 (i32.const 9))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.DrawImage i32 (i32.const 10))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Ellipse i32 (i32.const 11))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Fill i32 (i32.const 12))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.FillGradient i32 (i32.const 13))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.FillPattern i32 (i32.const 14))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.FillRect i32 (i32.const 15))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.FillStyle i32 (i32.const 16))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.FillText i32 (i32.const 17))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Filter i32 (i32.const 18))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Font i32 (i32.const 19))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.GlobalAlpha i32 (i32.const 20))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.GlobalCompositeOperation i32 (i32.const 21))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.ImageSmoothingEnabled i32 (i32.const 22))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.ImageSmoothingQuality i32 (i32.const 23))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.LineCap i32 (i32.const 24))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.LineDash i32 (i32.const 25))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.LineDashOffset i32 (i32.const 26))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.LineJoin i32 (i32.const 27))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.LineTo i32 (i32.const 28))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.LineWidth i32 (i32.const 29))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.MiterLimit i32 (i32.const 30))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.MoveTo i32 (i32.const 31))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.QuadraticCurveTo i32 (i32.const 32))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Rect i32 (i32.const 33))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Restore i32 (i32.const 34))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Rotate i32 (i32.const 35))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Save i32 (i32.const 36))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Scale i32 (i32.const 37))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.SetTransform i32 (i32.const 38))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.ShadowBlur i32 (i32.const 39))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.ShadowColor i32 (i32.const 40))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.ShadowOffsetX i32 (i32.const 41))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.ShadowOffsetY i32 (i32.const 42))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Stroke i32 (i32.const 43))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.StrokeGradient i32 (i32.const 44))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.StrokePattern i32 (i32.const 45))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.StrokeRect i32 (i32.const 46))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.StrokeStyle i32 (i32.const 47))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.StrokeText i32 (i32.const 48))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.TextAlign i32 (i32.const 49))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.TextBaseline i32 (i32.const 50))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Translate i32 (i32.const 51))
- (global $assembly/shared/CanvasInstruction/CanvasInstruction.Transform i32 (i32.const 52))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over (mut i32) (i32.const 0))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_in (mut i32) (i32.const 1))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_out (mut i32) (i32.const 2))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_atop (mut i32) (i32.const 3))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.destination_over (mut i32) (i32.const 4))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.destination_in (mut i32) (i32.const 5))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.destination_out (mut i32) (i32.const 6))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.destination_atop (mut i32) (i32.const 7))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.lighter (mut i32) (i32.const 8))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.copy (mut i32) (i32.const 9))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.xor (mut i32) (i32.const 10))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.multiply (mut i32) (i32.const 11))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.screen (mut i32) (i32.const 12))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.overlay (mut i32) (i32.const 13))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.darken (mut i32) (i32.const 14))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.lighten (mut i32) (i32.const 15))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.color_dodge (mut i32) (i32.const 16))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.color_burn (mut i32) (i32.const 17))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.hard_light (mut i32) (i32.const 18))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.soft_light (mut i32) (i32.const 19))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.difference (mut i32) (i32.const 20))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.exclusion (mut i32) (i32.const 21))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.hue (mut i32) (i32.const 22))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.saturation (mut i32) (i32.const 23))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.color (mut i32) (i32.const 24))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.luminosity (mut i32) (i32.const 25))
+ (global $src/shared/ImageSmoothingQuality/ImageSmoothingQuality.low (mut i32) (i32.const 0))
+ (global $src/shared/ImageSmoothingQuality/ImageSmoothingQuality.medium (mut i32) (i32.const 1))
+ (global $src/shared/ImageSmoothingQuality/ImageSmoothingQuality.high (mut i32) (i32.const 2))
+ (global $src/shared/LineCap/LineCap.butt (mut i32) (i32.const 0))
+ (global $src/shared/LineCap/LineCap.round (mut i32) (i32.const 1))
+ (global $src/shared/LineCap/LineCap.square (mut i32) (i32.const 2))
+ (global $src/shared/LineJoin/LineJoin.bevel (mut i32) (i32.const 0))
+ (global $src/shared/LineJoin/LineJoin.round (mut i32) (i32.const 1))
+ (global $src/shared/LineJoin/LineJoin.miter (mut i32) (i32.const 2))
+ (global $src/shared/TextAlign/TextAlign.left (mut i32) (i32.const 0))
+ (global $src/shared/TextAlign/TextAlign.right (mut i32) (i32.const 1))
+ (global $src/shared/TextAlign/TextAlign.center (mut i32) (i32.const 2))
+ (global $src/shared/TextAlign/TextAlign.start (mut i32) (i32.const 3))
+ (global $src/shared/TextAlign/TextAlign.end (mut i32) (i32.const 4))
+ (global $src/shared/TextBaseline/TextBaseline.top (mut i32) (i32.const 0))
+ (global $src/shared/TextBaseline/TextBaseline.hanging (mut i32) (i32.const 1))
+ (global $src/shared/TextBaseline/TextBaseline.middle (mut i32) (i32.const 2))
+ (global $src/shared/TextBaseline/TextBaseline.alphabetic (mut i32) (i32.const 3))
+ (global $src/shared/TextBaseline/TextBaseline.ideographic (mut i32) (i32.const 4))
+ (global $src/shared/TextBaseline/TextBaseline.bottom (mut i32) (i32.const 5))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Arc i32 (i32.const 0))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.ArcTo i32 (i32.const 1))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.BeginPath i32 (i32.const 2))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.BezierCurveTo i32 (i32.const 3))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Clip i32 (i32.const 4))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.ClosePath i32 (i32.const 5))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Commit i32 (i32.const 6))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.ClearRect i32 (i32.const 7))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Direction i32 (i32.const 8))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.DrawFocusIfNeeded i32 (i32.const 9))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.DrawImage i32 (i32.const 10))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Ellipse i32 (i32.const 11))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Fill i32 (i32.const 12))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.FillGradient i32 (i32.const 13))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.FillPattern i32 (i32.const 14))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.FillRect i32 (i32.const 15))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.FillStyle i32 (i32.const 16))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.FillText i32 (i32.const 17))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Filter i32 (i32.const 18))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Font i32 (i32.const 19))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.GlobalAlpha i32 (i32.const 20))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.GlobalCompositeOperation i32 (i32.const 21))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.ImageSmoothingEnabled i32 (i32.const 22))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.ImageSmoothingQuality i32 (i32.const 23))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.LineCap i32 (i32.const 24))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.LineDash i32 (i32.const 25))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.LineDashOffset i32 (i32.const 26))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.LineJoin i32 (i32.const 27))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.LineTo i32 (i32.const 28))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.LineWidth i32 (i32.const 29))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.MiterLimit i32 (i32.const 30))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.MoveTo i32 (i32.const 31))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.QuadraticCurveTo i32 (i32.const 32))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Rect i32 (i32.const 33))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Restore i32 (i32.const 34))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Rotate i32 (i32.const 35))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Save i32 (i32.const 36))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Scale i32 (i32.const 37))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.SetTransform i32 (i32.const 38))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.ShadowBlur i32 (i32.const 39))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.ShadowColor i32 (i32.const 40))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.ShadowOffsetX i32 (i32.const 41))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.ShadowOffsetY i32 (i32.const 42))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Stroke i32 (i32.const 43))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.StrokeGradient i32 (i32.const 44))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.StrokePattern i32 (i32.const 45))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.StrokeRect i32 (i32.const 46))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.StrokeStyle i32 (i32.const 47))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.StrokeText i32 (i32.const 48))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.TextAlign i32 (i32.const 49))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.TextBaseline i32 (i32.const 50))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Translate i32 (i32.const 51))
+ (global $src/shared/CanvasInstruction/CanvasInstruction.Transform i32 (i32.const 52))
  (global $~lib/internal/string/HEADER_SIZE i32 (i32.const 4))
- (global $assembly/shared/CanvasPatternType/CanvasPatternType.repeat i32 (i32.const 0))
- (global $assembly/shared/CanvasPatternType/CanvasPatternType.repeat_x i32 (i32.const 1))
- (global $assembly/shared/CanvasPatternType/CanvasPatternType.repeat_y i32 (i32.const 2))
- (global $assembly/shared/CanvasPatternType/CanvasPatternType.no_repeat i32 (i32.const 3))
+ (global $src/shared/CanvasPatternType/CanvasPatternType.repeat i32 (i32.const 0))
+ (global $src/shared/CanvasPatternType/CanvasPatternType.repeat_x i32 (i32.const 1))
+ (global $src/shared/CanvasPatternType/CanvasPatternType.repeat_y i32 (i32.const 2))
+ (global $src/shared/CanvasPatternType/CanvasPatternType.no_repeat i32 (i32.const 3))
  (global $~lib/internal/hash/FNV_OFFSET i32 (i32.const -2128831035))
  (global $~lib/internal/hash/FNV_PRIME i32 (i32.const 16777619))
  (global $~lib/map/EMPTY i32 (i32.const 1))
@@ -4523,7 +4523,7 @@
      block
       get_local $0
       i32.load offset=16
-      get_global $assembly/shared/Direction/Direction.inherit
+      get_global $src/shared/Direction/Direction.inherit
       call $~lib/array/Array<i32>#push
       drop
       get_local $0
@@ -4565,7 +4565,7 @@
       drop
       get_local $0
       i32.load offset=64
-      get_global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over
+      get_global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over
       call $~lib/array/Array<i32>#push
       drop
       get_local $0
@@ -4575,12 +4575,12 @@
       drop
       get_local $0
       i32.load offset=80
-      get_global $assembly/shared/ImageSmoothingQuality/ImageSmoothingQuality.low
+      get_global $src/shared/ImageSmoothingQuality/ImageSmoothingQuality.low
       call $~lib/array/Array<i32>#push
       drop
       get_local $0
       i32.load offset=88
-      get_global $assembly/shared/LineCap/LineCap.butt
+      get_global $src/shared/LineCap/LineCap.butt
       call $~lib/array/Array<i32>#push
       drop
       get_local $0
@@ -4597,7 +4597,7 @@
       drop
       get_local $0
       i32.load offset=120
-      get_global $assembly/shared/LineJoin/LineJoin.miter
+      get_global $src/shared/LineJoin/LineJoin.miter
       call $~lib/array/Array<i32>#push
       drop
       get_local $0
@@ -4684,12 +4684,12 @@
       drop
       get_local $0
       i32.load offset=320
-      get_global $assembly/shared/TextAlign/TextAlign.start
+      get_global $src/shared/TextAlign/TextAlign.start
       call $~lib/array/Array<i32>#push
       drop
       get_local $0
       i32.load offset=328
-      get_global $assembly/shared/TextBaseline/TextBaseline.alphabetic
+      get_global $src/shared/TextBaseline/TextBaseline.alphabetic
       call $~lib/array/Array<i32>#push
       drop
       get_local $0
@@ -4704,7 +4704,7 @@
        call $~lib/memory/memory.allocate
        set_local $2
        get_local $2
-       get_global $assembly/shared/CanvasInstruction/CanvasInstruction.Commit
+       get_global $src/shared/CanvasInstruction/CanvasInstruction.Commit
        i32.store
        get_local $2
        f64.const 1
@@ -4768,7 +4768,7 @@
    end
   end
   get_local $0
-  get_global $assembly/shared/Direction/Direction.inherit
+  get_global $src/shared/Direction/Direction.inherit
   i32.store offset=20
   get_local $0
   block (result i32)
@@ -4800,16 +4800,16 @@
   f64.const 1
   f64.store offset=56
   get_local $0
-  get_global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over
+  get_global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over
   i32.store offset=68
   get_local $0
   i32.const 1
   i32.store8 offset=76
   get_local $0
-  get_global $assembly/shared/ImageSmoothingQuality/ImageSmoothingQuality.low
+  get_global $src/shared/ImageSmoothingQuality/ImageSmoothingQuality.low
   i32.store offset=84
   get_local $0
-  get_global $assembly/shared/LineCap/LineCap.butt
+  get_global $src/shared/LineCap/LineCap.butt
   i32.store offset=92
   get_local $0
   i32.const 0
@@ -4820,7 +4820,7 @@
   f64.const 0
   f64.store offset=112
   get_local $0
-  get_global $assembly/shared/LineJoin/LineJoin.miter
+  get_global $src/shared/LineJoin/LineJoin.miter
   i32.store offset=124
   get_local $0
   f64.const 1
@@ -4879,12 +4879,12 @@
   end
   i32.store offset=316
   get_local $0
-  get_global $assembly/shared/TextAlign/TextAlign.start
+  get_global $src/shared/TextAlign/TextAlign.start
   i32.store offset=324
   get_local $0
-  get_global $assembly/shared/TextBaseline/TextBaseline.alphabetic
+  get_global $src/shared/TextBaseline/TextBaseline.alphabetic
   i32.store offset=332
-  get_global $assembly/shared/CanvasInstruction/CanvasInstruction.BeginPath
+  get_global $src/shared/CanvasInstruction/CanvasInstruction.BeginPath
   set_local $2
   i32.const 1
   set_local $3
@@ -5193,7 +5193,7 @@
    set_global $assembly/example/kittenLoaded
    get_global $assembly/example/ctx
    get_global $assembly/example/kitten
-   get_global $assembly/shared/CanvasPatternType/CanvasPatternType.repeat
+   get_global $src/shared/CanvasPatternType/CanvasPatternType.repeat
    call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#createPattern
    set_global $assembly/example/kittenPattern
   end
@@ -5417,7 +5417,7 @@
   f64.load offset=248
   set_local $7
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.SetTransform
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.SetTransform
    set_local $1
    block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.1 (result i32)
     get_local $0
@@ -5609,7 +5609,7 @@
   (local $8 i32)
   get_local $0
   call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_transform
-  get_global $assembly/shared/CanvasInstruction/CanvasInstruction.ClearRect
+  get_global $src/shared/CanvasInstruction/CanvasInstruction.ClearRect
   set_local $5
   block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.5 (result i32)
    get_local $0
@@ -6599,7 +6599,7 @@
   i32.const 0
   i32.ne
   if
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.Save
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.Save
    set_local $3
    block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.12 (result i32)
     get_local $0
@@ -7344,7 +7344,7 @@
       i32.load offset=4
       set_local $2
       block
-       get_global $assembly/shared/CanvasInstruction/CanvasInstruction.FillGradient
+       get_global $src/shared/CanvasInstruction/CanvasInstruction.FillGradient
        set_local $1
        get_local $2
        i32.load
@@ -7471,7 +7471,7 @@
      i32.load
      set_local $2
      block
-      get_global $assembly/shared/CanvasInstruction/CanvasInstruction.FillPattern
+      get_global $src/shared/CanvasInstruction/CanvasInstruction.FillPattern
       set_local $1
       get_local $2
       i32.load
@@ -7598,7 +7598,7 @@
     i32.load offset=8
     set_local $2
     block
-     get_global $assembly/shared/CanvasInstruction/CanvasInstruction.FillStyle
+     get_global $src/shared/CanvasInstruction/CanvasInstruction.FillStyle
      set_local $1
      block $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#send_string|inlined.0 (result f64)
       get_local $0
@@ -7779,7 +7779,7 @@
   i32.load offset=36
   set_local $1
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.Filter
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.Filter
    set_local $2
    block $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#send_string|inlined.1 (result f64)
     get_local $0
@@ -7956,7 +7956,7 @@
   f64.load offset=56
   set_local $1
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.GlobalAlpha
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.GlobalAlpha
    set_local $2
    block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.32 (result i32)
     get_local $0
@@ -8100,7 +8100,7 @@
   i32.load offset=68
   set_local $1
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.GlobalCompositeOperation
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.GlobalCompositeOperation
    set_local $2
    get_local $1
    f64.convert_s/i32
@@ -8253,7 +8253,7 @@
   i32.load8_u offset=76
   set_local $1
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.ImageSmoothingEnabled
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.ImageSmoothingEnabled
    set_local $2
    get_local $1
    i32.const 0
@@ -8406,7 +8406,7 @@
   i32.load offset=84
   set_local $1
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.ImageSmoothingQuality
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.ImageSmoothingQuality
    set_local $2
    get_local $1
    f64.convert_s/i32
@@ -8552,7 +8552,7 @@
   f64.load offset=264
   set_local $1
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.ShadowBlur
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.ShadowBlur
    set_local $2
    block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.48 (result i32)
     get_local $0
@@ -8696,7 +8696,7 @@
   i32.load offset=276
   set_local $1
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.ShadowColor
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.ShadowColor
    set_local $2
    block $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#send_string|inlined.2 (result f64)
     get_local $0
@@ -8873,7 +8873,7 @@
   f64.load offset=288
   set_local $1
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.ShadowOffsetX
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.ShadowOffsetX
    set_local $2
    block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.56 (result i32)
     get_local $0
@@ -9016,7 +9016,7 @@
   f64.load offset=304
   set_local $1
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.ShadowOffsetY
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.ShadowOffsetY
    set_local $2
    block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.60 (result i32)
     get_local $0
@@ -9177,7 +9177,7 @@
   call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_shadow_offset_y
   get_local $0
   call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_transform
-  get_global $assembly/shared/CanvasInstruction/CanvasInstruction.FillRect
+  get_global $src/shared/CanvasInstruction/CanvasInstruction.FillRect
   set_local $5
   block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.64 (result i32)
    get_local $0
@@ -9529,7 +9529,7 @@
    get_local $0
    call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:textBaseline
    i32.store offset=332
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.Restore
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.Restore
    set_local $1
    block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.68 (result i32)
     get_local $0
@@ -9665,7 +9665,7 @@
   (local $3 i32)
   (local $4 i32)
   block
-   get_global $assembly/shared/CanvasInstruction/CanvasInstruction.Commit
+   get_global $src/shared/CanvasInstruction/CanvasInstruction.Commit
    set_local $1
    block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.72 (result i32)
     get_local $0

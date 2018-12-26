@@ -20,15 +20,15 @@ export { CanvasRenderingContext2DSerializer } from "./renderer/CanvasRenderingCo
 export { OptimizedCanvasRenderingContext2D } from "./renderer/OptimizedCanvasRenderingContext2D";
 export { Serializer } from "./renderer/Serializer";
 
-export { CanvasInstruction } from "./shared/CanvasInstruction";
-export { CanvasPatternType } from "./shared/CanvasPatternType";
-export { Direction } from "./shared/Direction";
-export { FillRule } from "./shared/FillRule";
-export { GlobalCompositeOperation } from "./shared/GlobalCompositeOperation";
-export { ImageSmoothingQuality } from "./shared/ImageSmoothingQuality";
-export { LineCap } from "./shared/LineCap";
-export { LineJoin } from "./shared/LineJoin";
-export { TextAlign } from "./shared/TextAlign";
-export { TextBaseline } from "./shared/TextBaseline";
+export { CanvasInstruction } from "../src/shared/CanvasInstruction";
+export { CanvasPatternType } from "../src/shared/CanvasPatternType";
+export { Direction } from "../src/shared/Direction";
+export { FillRule } from "../src/shared/FillRule";
+export { GlobalCompositeOperation } from "../src/shared/GlobalCompositeOperation";
+export { ImageSmoothingQuality } from "../src/shared/ImageSmoothingQuality";
+export { LineCap } from "../src/shared/LineCap";
+export { LineJoin } from "../src/shared/LineJoin";
+export { TextAlign } from "../src/shared/TextAlign";
+export { TextBaseline } from "../src/shared/TextBaseline";
 
 export { copyTypedArray, doubleTypedArray } from "./util/TypedArray";

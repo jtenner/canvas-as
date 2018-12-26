@@ -1,4 +1,4 @@
-import { CanvasInstruction } from "../shared";
+import { CanvasInstruction } from "../../src/shared";
 
 export class Path2DElement {
   instruction: CanvasInstruction = CanvasInstruction.Commit;

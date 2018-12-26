@@ -10,7 +10,7 @@ import {
   LineJoin,
   TextAlign,
   TextBaseline,
-} from "../shared";
+} from "../../src/shared";
 import { CanvasGradient } from "./CanvasGradient";
 import { CanvasPattern } from "./CanvasPattern";
 import { CanvasRenderingContext2DSerializer } from "./CanvasRenderingContext2DSerializer";

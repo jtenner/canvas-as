@@ -1,5 +1,15 @@
 import { ASUtil, instantiateStreaming } from "assemblyscript/lib/loader";
-import { CanvasPatternType, CanvasInstruction, Direction, FillRule, LineCap, LineJoin, ImageSmoothingQuality, TextAlign, TextBaseline } from "../../assembly/shared";
+import {
+  CanvasPatternType,
+  CanvasInstruction,
+  Direction,
+  FillRule,
+  LineCap,
+  LineJoin,
+  ImageSmoothingQuality,
+  TextAlign,
+  TextBaseline,
+} from "../shared";
 import { GlobalCompositeOperationLookup, IStringIndex, IImageBitmapIndex, ICanvasPatternIndex, ICanvasGradientIndex, canvasPatternTypes } from "../util";
 
 export interface CanvasASInteropAPI {

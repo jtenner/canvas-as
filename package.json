@@ -18,14 +18,15 @@
     "typescript": "^3.2.2"
   },
   "scripts": {
-    "start": "run-s asbuild canvas-as:watch",
-    "build": "tsc",
+    "start": "run-s asbuild:all canvas-as:watch",
+    "build": "run-p asbuild:all build:glue",
+    "build:glue": "tsc",
     "canvas-as:watch": "run-p parcel:watch asbuild:watch",
     "parcel:watch": "parcel watch demo-src/index.html --public-url . --out-dir demo --no-cache",
-    "asbuild:watch": "onchange \"assembly/**/*.ts\" -- npm run asbuild",
+    "asbuild:watch": "onchange \"assembly/**/*.ts\" -- npm run asbuild:all",
     "asbuild:untouched": "asc assembly/example.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug --use Math=JSMath",
     "asbuild:optimized": "asc assembly/example.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize --use Math=JSMath",
-    "asbuild": "run-p asbuild:untouched asbuild:optimized"
+    "asbuild:all": "run-p asbuild:untouched asbuild:optimized"
   },
   "dependencies": {
     "assemblyscript": "github:assemblyscript/assemblyscript"

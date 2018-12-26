@@ -57,13 +57,13 @@
  (global $assembly/example/gradient (mut i32) (i32.const 0))
  (global $assembly/example/kittenPattern (mut i32) (i32.const 0))
  (global $assembly/example/kittenLoaded (mut i32) (i32.const 0))
- (global $assembly/shared/Direction/Direction.inherit (mut i32) (i32.const 2))
- (global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over (mut i32) (i32.const 0))
- (global $assembly/shared/ImageSmoothingQuality/ImageSmoothingQuality.low (mut i32) (i32.const 0))
- (global $assembly/shared/LineCap/LineCap.butt (mut i32) (i32.const 0))
- (global $assembly/shared/LineJoin/LineJoin.miter (mut i32) (i32.const 2))
- (global $assembly/shared/TextAlign/TextAlign.start (mut i32) (i32.const 3))
- (global $assembly/shared/TextBaseline/TextBaseline.alphabetic (mut i32) (i32.const 3))
+ (global $src/shared/Direction/Direction.inherit (mut i32) (i32.const 2))
+ (global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over (mut i32) (i32.const 0))
+ (global $src/shared/ImageSmoothingQuality/ImageSmoothingQuality.low (mut i32) (i32.const 0))
+ (global $src/shared/LineCap/LineCap.butt (mut i32) (i32.const 0))
+ (global $src/shared/LineJoin/LineJoin.miter (mut i32) (i32.const 2))
+ (global $src/shared/TextAlign/TextAlign.start (mut i32) (i32.const 3))
+ (global $src/shared/TextBaseline/TextBaseline.alphabetic (mut i32) (i32.const 3))
  (export "memory" (memory $0))
  (export "table" (table $0))
  (export "init" (func $assembly/example/init))
@@ -3268,7 +3268,7 @@
    if
     get_local $0
     i32.load offset=16
-    get_global $assembly/shared/Direction/Direction.inherit
+    get_global $src/shared/Direction/Direction.inherit
     call $~lib/array/Array<i32>#push
     drop
     get_local $0
@@ -3309,7 +3309,7 @@
     drop
     get_local $0
     i32.load offset=64
-    get_global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over
+    get_global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over
     call $~lib/array/Array<i32>#push
     drop
     get_local $0
@@ -3319,12 +3319,12 @@
     drop
     get_local $0
     i32.load offset=80
-    get_global $assembly/shared/ImageSmoothingQuality/ImageSmoothingQuality.low
+    get_global $src/shared/ImageSmoothingQuality/ImageSmoothingQuality.low
     call $~lib/array/Array<i32>#push
     drop
     get_local $0
     i32.load offset=88
-    get_global $assembly/shared/LineCap/LineCap.butt
+    get_global $src/shared/LineCap/LineCap.butt
     call $~lib/array/Array<i32>#push
     drop
     get_local $0
@@ -3340,7 +3340,7 @@
     drop
     get_local $0
     i32.load offset=120
-    get_global $assembly/shared/LineJoin/LineJoin.miter
+    get_global $src/shared/LineJoin/LineJoin.miter
     call $~lib/array/Array<i32>#push
     drop
     get_local $0
@@ -3426,12 +3426,12 @@
     drop
     get_local $0
     i32.load offset=320
-    get_global $assembly/shared/TextAlign/TextAlign.start
+    get_global $src/shared/TextAlign/TextAlign.start
     call $~lib/array/Array<i32>#push
     drop
     get_local $0
     i32.load offset=328
-    get_global $assembly/shared/TextBaseline/TextBaseline.alphabetic
+    get_global $src/shared/TextBaseline/TextBaseline.alphabetic
     call $~lib/array/Array<i32>#push
     drop
     get_local $0
@@ -3507,7 +3507,7 @@
    end
   end
   get_local $0
-  get_global $assembly/shared/Direction/Direction.inherit
+  get_global $src/shared/Direction/Direction.inherit
   i32.store offset=20
   i32.const 16
   call $~lib/allocator/tlsf/__memory_allocate
@@ -3536,16 +3536,16 @@
   f64.const 1
   f64.store offset=56
   get_local $0
-  get_global $assembly/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over
+  get_global $src/shared/GlobalCompositeOperation/GlobalCompositeOperation.source_over
   i32.store offset=68
   get_local $0
   i32.const 1
   i32.store8 offset=76
   get_local $0
-  get_global $assembly/shared/ImageSmoothingQuality/ImageSmoothingQuality.low
+  get_global $src/shared/ImageSmoothingQuality/ImageSmoothingQuality.low
   i32.store offset=84
   get_local $0
-  get_global $assembly/shared/LineCap/LineCap.butt
+  get_global $src/shared/LineCap/LineCap.butt
   i32.store offset=92
   get_local $0
   i32.const 0
@@ -3555,7 +3555,7 @@
   f64.const 0
   f64.store offset=112
   get_local $0
-  get_global $assembly/shared/LineJoin/LineJoin.miter
+  get_global $src/shared/LineJoin/LineJoin.miter
   i32.store offset=124
   get_local $0
   f64.const 1
@@ -3611,10 +3611,10 @@
   get_local $1
   i32.store offset=316
   get_local $0
-  get_global $assembly/shared/TextAlign/TextAlign.start
+  get_global $src/shared/TextAlign/TextAlign.start
   i32.store offset=324
   get_local $0
-  get_global $assembly/shared/TextBaseline/TextBaseline.alphabetic
+  get_global $src/shared/TextBaseline/TextBaseline.alphabetic
   i32.store offset=332
   get_local $0
   i32.load offset=340

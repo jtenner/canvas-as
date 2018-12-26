@@ -1,5 +1,5 @@
 import { Image } from "../primitives";
-import { CanvasPatternType } from "../shared";
+import { CanvasPatternType } from "../../src/shared";
 
 
 @external("__as_interop", "add_color_stop")
