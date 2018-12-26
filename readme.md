@@ -173,6 +173,21 @@ Instead, the `OptimizedCanvasRenderingContext2D` emits *no* instructions and wai
 
 This costs more cpu power from within wasm, but doing cpu intensive things without garbage collection is what wasm does best!
 
+# Roadmap
+
+There are a bunch of problems that `canvas-as` currently does not solve.
+
+- Image injection into AssemblyScript (fetching an image and saving it in a texture map)
+- Canvas mouse events
+- Canvas touch events
+- Canvas keyboard event
+- object lifetime management (managed object disposal and re-use with `@deconstructor` when AS supports it)
+- Canvas style management (changing the cursor, element size, etc)
+
+These things are all techincally possible with the exception of object lifetime management which is currently under development by the AssemblyScript team. Once destructors are supported, `canvas-as` will automatically perform memory management for you.
+
+As for all the other sort of canvas events and image injection, pull requests are 1000% welcome! Please feel free to contribute.
+
 ## Using Parcel?
 
 Note that when using `parcel-bundler`, you must use the `fs.readFileSync()` method to import your wasm into a buffer, since importing the wasm file directly bypasses the `assemblyscript` loader.  The following glue code is unfortunately necessary:

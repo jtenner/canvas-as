@@ -18,13 +18,13 @@ export interface CanvasASInteropAPI {
   update(): void;
 }
 
-export class CanvasASInterop {
+export class CanvasASInterop<T> {
   public ctx: CanvasRenderingContext2D;
   public strings: IStringIndex = {};
   public images: IImageBitmapIndex = {};
   public patterns: ICanvasPatternIndex = {};
   public gradients: ICanvasGradientIndex = {};
-  public wasm: (ASUtil & CanvasASInteropAPI) | null = null;
+  public wasm: (ASUtil & CanvasASInteropAPI & T) | null = null;
   public loaded: Promise<void>;
 
   constructor(ctx: CanvasRenderingContext2D, res: Promise<Response>, imports: any) {
@@ -44,7 +44,7 @@ export class CanvasASInterop {
       remove_string: this.remove_string.bind(this),
       remove_pattern: this.remove_pattern.bind(this),
     };
-    this.wasm = await instantiateStreaming<CanvasASInteropAPI>(res, imports);
+    this.wasm = await instantiateStreaming<CanvasASInteropAPI & T>(res, imports);
     this.wasm.init();
   }
 
