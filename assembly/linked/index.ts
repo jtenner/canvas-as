@@ -8,4 +8,5 @@ export {
   remove_image,
   remove_pattern,
   remove_string,
+  report_inject_functions,
 } from "./util";

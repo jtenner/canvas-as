@@ -28,3 +28,9 @@ export declare function remove_string(index: i32): void;
 
 @external("__as_interop", "remove_pattern")
 export declare function remove_pattern(index: i32): void;
+
+@external("__as_interop", "report_inject_function")
+export declare function report_inject_functions(
+  inject: (input: string) => Image,
+  loaded: (img: Image, width: f64, height: f64) => void,
+): void;

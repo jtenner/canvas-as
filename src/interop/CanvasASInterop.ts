@@ -11,12 +11,13 @@ import {
   TextBaseline,
 } from "../shared";
 import { GlobalCompositeOperationLookup, IStringIndex, IImageBitmapIndex, ICanvasPatternIndex, ICanvasGradientIndex, canvasPatternTypes } from "../util";
+import { ImageLoadedCallback, ImageInjectCallback } from "../util/ImageLoadedCallbacks";
+
 
 export interface CanvasASInteropAPI {
   init(): void;
   draw(): number;
   update(): void;
-  injectImage(name: number): number;
 }
 
 export class CanvasASInterop<T> {
@@ -28,22 +29,26 @@ export class CanvasASInterop<T> {
   public wasm: (ASUtil & CanvasASInteropAPI & T) | null = null;
   public loaded: Promise<void>;
 
+  private image_loaded_internal: number = 0;
+  private inject_internal: number = 0;
+
   constructor(ctx: CanvasRenderingContext2D, res: Promise<Response>, imports: any) {
     this.ctx = ctx;
     this.loaded = this.init(res, imports);
   }
 
   public injectImage(name: string, value: Promise<Response>): this {
-    const pointer: number = this.wasm.newString(name);
-    const imagePointer: number = this.wasm.injectImage(pointer);
-    const imageIndex: number = imagePointer / Int32Array.BYTES_PER_ELEMENT;
+    const strPtr: number = this.wasm.newString(name);
     value.then(e => e.blob())
       .then(e => createImageBitmap(e))
+      .then(e => this.loaded.then(f => e))
       .then(bitmap => {
+        const injectFunc = this.wasm!.getFunction(this.inject_internal) as ImageInjectCallback;
+        const imagePointer: number = injectFunc(strPtr);
+        const imageIndex: number = imagePointer / Int32Array.BYTES_PER_ELEMENT;
         this.images[this.wasm!.I32[imageIndex]] = bitmap;
-        this.wasm!.I32[imageIndex + 1] = 1;
-        this.wasm!.I32[imageIndex + 2] = bitmap.width;
-        this.wasm!.I32[imageIndex + 3] = bitmap.height;
+        const loadedFunc = this.wasm.getFunction(this.image_loaded_internal) as ImageLoadedCallback;
+        loadedFunc(imagePointer, bitmap.width, bitmap.height);
       });
     return this;
   }
@@ -59,6 +64,7 @@ export class CanvasASInterop<T> {
       remove_image: this.remove_image.bind(this),
       remove_string: this.remove_string.bind(this),
       remove_pattern: this.remove_pattern.bind(this),
+      report_inject_function: this.report_inject_function.bind(this),
     };
     this.wasm = await instantiateStreaming<CanvasASInteropAPI & T>(res, imports);
     this.wasm.init();
@@ -399,11 +405,15 @@ export class CanvasASInterop<T> {
     const res: Response = await fetch(source);
     const blob: Blob = await res.blob();
     const img: ImageBitmap = await createImageBitmap(blob);
-    const imageIndex: number = imagePointer / Int32Array.BYTES_PER_ELEMENT;
 
+    const imageIndex: number = imagePointer / Int32Array.BYTES_PER_ELEMENT;
     this.images[this.wasm!.I32[imageIndex]] = img;
-    this.wasm!.I32[imageIndex + 1] = 1;
-    this.wasm!.I32[imageIndex + 2] = img.width;
-    this.wasm!.I32[imageIndex + 3] = img.height;
+    const imageLoadedFunc = this.wasm!.getFunction(this.image_loaded_internal) as ImageLoadedCallback;
+    imageLoadedFunc(imagePointer, img.width, img.height);
+  }
+
+  private report_inject_function(injectPointer: number, loadedPointer: number): void {
+    this.inject_internal = injectPointer;
+    this.image_loaded_internal = loadedPointer;
   }
 }

@@ -6,7 +6,7 @@ import { OptimizedCanvasRenderingContext2D, Image } from "./index";
 import { CanvasGradient } from "./renderer/CanvasGradient";
 import { CanvasPattern } from "./renderer/CanvasPattern";
 import { CanvasPatternType } from "../src/shared";
-import { injectImage, TextureMap } from "./primitives/TextureMap";
+import { TextureMap } from "./primitives/TextureMap";
 
 let ctx: OptimizedCanvasRenderingContext2D = new OptimizedCanvasRenderingContext2D();
 let kitten: Image;
@@ -22,7 +22,6 @@ export function init(): void {
   gradient = ctx.createLinearGradient(0.0, 0.0, 100.0, 100.0);
   gradient.addColorStop(0.0, "black");
   gradient.addColorStop(1.0, "white");
-
 }
 
 export function update(): void {
@@ -61,5 +60,4 @@ export function draw(): Float64Array {
   return ctx.commit();
 }
 
-export { injectImage }
 export { memory }
