@@ -19,8 +19,10 @@ const url = URL.createObjectURL(blob);
 
 const interop = new CanvasAS.CanvasASInterop(ctx, fetch(url), {});
 
+
 async function main() {
   await interop.loaded;
+  interop.injectImage("kitten", fetch("https://placekitten.com/400/300"));
 
   function loop() {
     interop.update();

@@ -1,8 +1,7 @@
 import { create_image } from "../linked";
 
-var index: i32 = 0;
-
 export class Image {
+  public static index: i32 = 0;
   public _index: i32 = 0;
   public _loaded: i32 = 0;
   public width: i32 = 0;
@@ -15,7 +14,7 @@ export class Image {
 
   public set src(value: string) {
     if (this._src == value) return;
-    this._index = index++;
+    this._index = Image.index++;
     create_image(this, value);
     this._src = value;
   }

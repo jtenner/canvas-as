@@ -6,9 +6,10 @@ import { OptimizedCanvasRenderingContext2D, Image } from "./index";
 import { CanvasGradient } from "./renderer/CanvasGradient";
 import { CanvasPattern } from "./renderer/CanvasPattern";
 import { CanvasPatternType } from "../src/shared";
+import { injectImage, TextureMap } from "./primitives/TextureMap";
 
 let ctx: OptimizedCanvasRenderingContext2D = new OptimizedCanvasRenderingContext2D();
-let kitten: Image = new Image();
+let kitten: Image;
 let rotation: f64 = 0;
 let rotValue: f64 = Math.PI / 180.0;
 let gradient: CanvasGradient;
@@ -21,15 +22,18 @@ export function init(): void {
   gradient = ctx.createLinearGradient(0.0, 0.0, 100.0, 100.0);
   gradient.addColorStop(0.0, "black");
   gradient.addColorStop(1.0, "white");
-  // You cannot load an image until the module has been completely loaded
-  kitten.src = "https://placekitten.com/300/300";
+
 }
 
 export function update(): void {
-  if (!kittenLoaded && kitten.loaded) {
+  if (kitten == null && TextureMap.has("kitten")) {
+    kitten = TextureMap.get("kitten");
+  }
+  if (kitten != null && kitten.loaded && !kittenLoaded) {
     kittenLoaded = true;
     kittenPattern = ctx.createPattern(kitten, CanvasPatternType.repeat);
   }
+
   // rotate the cat
   rotation += rotValue;
 }
@@ -56,3 +60,6 @@ export function draw(): Float64Array {
   // we must always return a reference to a `Float64Array`. The commit function is repurposed for the AssemblyScript context
   return ctx.commit();
 }
+
+export { injectImage }
+export { memory }

@@ -177,7 +177,6 @@ This costs more cpu power from within wasm, but doing cpu intensive things witho
 
 There are a bunch of problems that `canvas-as` currently does not solve.
 
-- Image injection into AssemblyScript (fetching an image and saving it in a texture map)
 - Canvas mouse events
 - Canvas touch events
 - Canvas keyboard event
@@ -201,6 +200,26 @@ const imports = {};
 
 const interop = new CanvasAS.CanvasASInterop(ctx, fetch(url), imports);
 ```
+
+Loading images using the canvas interop happens like this now:
+
+```ts
+// ./src/index.ts
+const source: string = require("./path/to/image.png");
+interop.injectImage("image-name", fetch(source));
+```
+
+Then inside your assemblyscript application:
+
+```ts
+// ./assembly/index.ts
+if (TextureMap.has("image-name")) {
+  // this image may not be loaded yet
+  image = TextureMap.get("image-name");
+}
+```
+
+Don't forget to check to see if the image has been `loaded` before creating a pattern with it.
 
 ## License
 

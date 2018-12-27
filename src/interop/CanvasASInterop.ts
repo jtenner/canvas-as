@@ -16,6 +16,7 @@ export interface CanvasASInteropAPI {
   init(): void;
   draw(): number;
   update(): void;
+  injectImage(name: number): number;
 }
 
 export class CanvasASInterop<T> {
@@ -30,6 +31,21 @@ export class CanvasASInterop<T> {
   constructor(ctx: CanvasRenderingContext2D, res: Promise<Response>, imports: any) {
     this.ctx = ctx;
     this.loaded = this.init(res, imports);
+  }
+
+  public injectImage(name: string, value: Promise<Response>): this {
+    const pointer: number = this.wasm.newString(name);
+    const imagePointer: number = this.wasm.injectImage(pointer);
+    const imageIndex: number = imagePointer / Int32Array.BYTES_PER_ELEMENT;
+    value.then(e => e.blob())
+      .then(e => createImageBitmap(e))
+      .then(bitmap => {
+        this.images[this.wasm!.I32[imageIndex]] = bitmap;
+        this.wasm!.I32[imageIndex + 1] = 1;
+        this.wasm!.I32[imageIndex + 2] = bitmap.width;
+        this.wasm!.I32[imageIndex + 3] = bitmap.height;
+      });
+    return this;
   }
 
   private async init(res: Promise<Response>, imports: any = {}): Promise<void> {
