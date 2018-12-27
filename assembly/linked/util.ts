@@ -23,9 +23,6 @@ export declare function create_image(imagePointer: Image, source: string): void;
 @external("__as_interop", "remove_image")
 export declare function remove_image(index: i32): void;
 
-@external("__as_interop", "remove_string")
-export declare function remove_string(index: i32): void;
-
 @external("__as_interop", "remove_pattern")
 export declare function remove_pattern(index: i32): void;
 

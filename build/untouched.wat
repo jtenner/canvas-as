@@ -10216,6 +10216,12 @@
   i32.const 0
   i32.store
   get_local $0
+  i32.load offset=8
+  call $~lib/map/Map<String,i32>#clear
+  get_local $0
+  i32.const 0
+  i32.store offset=12
+  get_local $0
   i32.const 0
   i32.store
   get_local $0

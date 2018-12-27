@@ -22,7 +22,7 @@ export interface CanvasASInteropAPI {
 
 export class CanvasASInterop<T> {
   public ctx: CanvasRenderingContext2D;
-  public strings: IStringIndex = {};
+  public strings: Map<number, string> = new Map<number, string>();
   public images: IImageBitmapIndex = {};
   public patterns: ICanvasPatternIndex = {};
   public gradients: ICanvasGradientIndex = {};
@@ -38,7 +38,7 @@ export class CanvasASInterop<T> {
   }
 
   public injectImage(name: string, value: Promise<Response>): this {
-    const strPtr: number = this.wasm.newString(name);
+    const strPtr: number = this.wasm!.newString(name);
     value.then(e => e.blob())
       .then(e => createImageBitmap(e))
       .then(e => this.loaded.then(f => e))
@@ -47,7 +47,7 @@ export class CanvasASInterop<T> {
         const imagePointer: number = injectFunc(strPtr);
         const imageIndex: number = imagePointer / Int32Array.BYTES_PER_ELEMENT;
         this.images[this.wasm!.I32[imageIndex]] = bitmap;
-        const loadedFunc = this.wasm.getFunction(this.image_loaded_internal) as ImageLoadedCallback;
+        const loadedFunc = this.wasm!.getFunction(this.image_loaded_internal) as ImageLoadedCallback;
         loadedFunc(imagePointer, bitmap.width, bitmap.height);
       });
     return this;
@@ -63,7 +63,6 @@ export class CanvasASInterop<T> {
       create_string: this.create_string.bind(this),
       remove_image: this.remove_image.bind(this),
       remove_gradient: this.remove_gradient.bind(this),
-      remove_string: this.remove_string.bind(this),
       remove_pattern: this.remove_pattern.bind(this),
       report_inject_function: this.report_inject_function.bind(this),
     };
@@ -85,7 +84,7 @@ export class CanvasASInterop<T> {
     var stride: number = 0;
     while (index < data.length) {
       if (data[index] === CanvasInstruction.Commit) {
-        this.strings = {};
+        this.strings.clear();
         break;
       }
       stride = data[index + 1];
@@ -194,14 +193,17 @@ export class CanvasASInterop<T> {
             data[index + 4],
             data[index + 5],
           );
+          break;
         }
         case CanvasInstruction.FillStyle: {
-          this.ctx.fillStyle = this.strings[data[index + 2]]!;
+          if (!this.strings.has(data[index + 2])) continue;
+          this.ctx.fillStyle = this.strings.get(data[index + 2])!;
           break;
         }
         case CanvasInstruction.FillText: {
+          if (!this.strings.has(data[index + 2])) continue;
           this.ctx.fillText(
-            this.strings[data[index + 2]]!,
+            this.strings.get(data[index + 2])!,
             data[index + 3],
             data[index + 4],
             data[index + 5] === -1 ? void 0 : data[index + 5],
@@ -209,11 +211,13 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.Filter: {
-          this.ctx.filter = this.strings[data[index + 2]]!;
+          if (!this.strings.has(data[index + 2])) continue;
+          this.ctx.filter = this.strings.get(data[index + 2])!;
           break;
         }
         case CanvasInstruction.Font: {
-          this.ctx.font = this.strings[data[index + 2]]!;
+          if (!this.strings.has(data[index + 2])) continue;
+          this.ctx.font = this.strings.get(data[index + 2])!;
           break;
         }
         case CanvasInstruction.GlobalAlpha: {
@@ -315,7 +319,8 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.ShadowColor: {
-          this.ctx.shadowColor = this.strings[data[index + 2]]!;
+          if (!this.strings.has(data[index + 2])) continue;
+          this.ctx.shadowColor = this.strings.get(data[index + 2])!;
           break;
         }
         case CanvasInstruction.ShadowOffsetX: {
@@ -327,7 +332,8 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.StrokeStyle: {
-          this.ctx.fillStyle = this.strings[data[index + 2]]!;
+          if (!this.strings.has(data[index + 2]))
+          this.ctx.fillStyle = this.strings.get(data[index + 2])!;
           break;
         }
         case CanvasInstruction.StrokeGradient: {
@@ -389,15 +395,11 @@ export class CanvasASInterop<T> {
   }
 
   private create_string(index: number, stringPointer: number): void {
-    this.strings[index] = this.wasm!.getString(stringPointer);
+    this.strings.set(index, this.wasm!.getString(stringPointer));
   }
 
   private remove_image(index: number): void {
     this.images[index] = null;
-  }
-
-  private remove_string(index: number): void {
-    this.strings[index] = null;
   }
 
   private remove_pattern(index: number): void {
