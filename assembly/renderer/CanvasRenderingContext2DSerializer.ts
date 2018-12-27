@@ -489,6 +489,8 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
   protected write_commit(): void {
     this.write_zero(CanvasInstruction.Commit);
     this.index = 0;
+    this._stringMap.clear();
+    this._stringIndex = 0;
   }
 
   @inline

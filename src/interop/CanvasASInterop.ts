@@ -62,6 +62,7 @@ export class CanvasASInterop<T> {
       create_radial_gradient: this.create_radial_gradient.bind(this),
       create_string: this.create_string.bind(this),
       remove_image: this.remove_image.bind(this),
+      remove_gradient: this.remove_gradient.bind(this),
       remove_string: this.remove_string.bind(this),
       remove_pattern: this.remove_pattern.bind(this),
       report_inject_function: this.report_inject_function.bind(this),
@@ -83,7 +84,10 @@ export class CanvasASInterop<T> {
     var index: number = 0;
     var stride: number = 0;
     while (index < data.length) {
-      if (data[index] === CanvasInstruction.Commit) break;
+      if (data[index] === CanvasInstruction.Commit) {
+        this.strings = {};
+        break;
+      }
       stride = data[index + 1];
       switch(data[index]) {
         case CanvasInstruction.Arc: {
@@ -398,6 +402,10 @@ export class CanvasASInterop<T> {
 
   private remove_pattern(index: number): void {
     this.patterns[index] = null;
+  }
+
+  private remove_gradient(index: number): void {
+    this.gradients[index] = null;
   }
 
   private async load_image(imagePointer: number, sourcePointer: number): Promise<void> {

@@ -104,6 +104,8 @@ export function draw(): Float64Array {
   // We must always return a reference to a `Float64Array`. The commit function is repurposed for the AssemblyScript context
   return ctx.commit();
 }
+
+export { memory }
 ```
 
 ## Glue Code Setup

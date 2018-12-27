@@ -7,4 +7,8 @@ export class CanvasGradient {
   public addColorStop(point: f64, color: string): void {
     add_color_stop(this._id, point, color);
   }
+
+  public dispose(): void {
+    remove_gradient(this._id);
+  }
 }
