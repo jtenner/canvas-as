@@ -55,13 +55,11 @@ class CanvasASInterop {
     }
     render(data) {
         var index = 0;
-        var stride = 0;
         while (index < data.length) {
             if (data[index] === 6 /* Commit */) {
                 this.strings.clear();
                 break;
             }
-            stride = data[index + 1];
             switch (data[index]) {
                 case 0 /* Arc */: {
                     this.ctx.arc(data[index + 2], data[index + 3], data[index + 4], data[index + 5], data[index + 6], data[index + 7] === 1);
@@ -272,7 +270,7 @@ class CanvasASInterop {
                 default:
                     throw new Error("Invalid canvas instruction type: " + data[index]);
             }
-            index += stride;
+            index = data[index + 1];
         }
     }
     add_color_stop(index, point, color) {
