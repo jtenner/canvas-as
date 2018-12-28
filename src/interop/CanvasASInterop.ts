@@ -81,13 +81,11 @@ export class CanvasASInterop<T> {
 
   private render(data: Float64Array): void {
     var index: number = 0;
-    var stride: number = 0;
     while (index < data.length) {
       if (data[index] === CanvasInstruction.Commit) {
         this.strings.clear();
         break;
       }
-      stride = data[index + 1];
       switch(data[index]) {
         case CanvasInstruction.Arc: {
           this.ctx.arc(
@@ -370,7 +368,7 @@ export class CanvasASInterop<T> {
         default:
           throw new Error("Invalid canvas instruction type: " + data[index]);
       }
-      index += stride;
+      index = data[index + 1];
     }
   }
 

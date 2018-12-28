@@ -5991,8 +5991,6 @@
    get_local $1
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -6003,19 +6001,18 @@
     i32.store
     get_local $10
    end
-   f64.const 8
-   call $~lib/internal/typedarray/TypedArray<f64>#__set
+   set_local $10
    get_local $0
    i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
     i32.load
-    tee_local $10
+    tee_local $9
     i32.const 1
     i32.add
     i32.store
-    get_local $10
+    get_local $9
    end
    get_local $2
    call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -6025,11 +6022,11 @@
     get_local $0
     get_local $0
     i32.load
-    tee_local $10
+    tee_local $9
     i32.const 1
     i32.add
     i32.store
-    get_local $10
+    get_local $9
    end
    get_local $3
    call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -6039,11 +6036,11 @@
     get_local $0
     get_local $0
     i32.load
-    tee_local $10
+    tee_local $9
     i32.const 1
     i32.add
     i32.store
-    get_local $10
+    get_local $9
    end
    get_local $4
    call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -6053,11 +6050,11 @@
     get_local $0
     get_local $0
     i32.load
-    tee_local $10
+    tee_local $9
     i32.const 1
     i32.add
     i32.store
-    get_local $10
+    get_local $9
    end
    get_local $5
    call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -6067,11 +6064,11 @@
     get_local $0
     get_local $0
     i32.load
-    tee_local $10
+    tee_local $9
     i32.const 1
     i32.add
     i32.store
-    get_local $10
+    get_local $9
    end
    get_local $6
    call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -6081,13 +6078,20 @@
     get_local $0
     get_local $0
     i32.load
-    tee_local $10
+    tee_local $9
     i32.const 1
     i32.add
     i32.store
-    get_local $10
+    get_local $9
    end
    get_local $7
+   call $~lib/internal/typedarray/TypedArray<f64>#__set
+   get_local $0
+   i32.load offset=4
+   get_local $10
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
  )
@@ -6183,8 +6187,6 @@
   get_local $5
   f64.convert_s/i32
   call $~lib/internal/typedarray/TypedArray<f64>#__set
-  get_local $0
-  i32.load offset=4
   block (result i32)
    get_local $0
    get_local $0
@@ -6195,19 +6197,18 @@
    i32.store
    get_local $8
   end
-  f64.const 6
-  call $~lib/internal/typedarray/TypedArray<f64>#__set
+  set_local $8
   get_local $0
   i32.load offset=4
   block (result i32)
    get_local $0
    get_local $0
    i32.load
-   tee_local $8
+   tee_local $7
    i32.const 1
    i32.add
    i32.store
-   get_local $8
+   get_local $7
   end
   get_local $1
   call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -6217,11 +6218,11 @@
    get_local $0
    get_local $0
    i32.load
-   tee_local $8
+   tee_local $7
    i32.const 1
    i32.add
    i32.store
-   get_local $8
+   get_local $7
   end
   get_local $2
   call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -6231,11 +6232,11 @@
    get_local $0
    get_local $0
    i32.load
-   tee_local $8
+   tee_local $7
    i32.const 1
    i32.add
    i32.store
-   get_local $8
+   get_local $7
   end
   get_local $3
   call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -6245,13 +6246,20 @@
    get_local $0
    get_local $0
    i32.load
-   tee_local $8
+   tee_local $7
    i32.const 1
    i32.add
    i32.store
-   get_local $8
+   get_local $7
   end
   get_local $4
+  call $~lib/internal/typedarray/TypedArray<f64>#__set
+  get_local $0
+  i32.load offset=4
+  get_local $8
+  get_local $0
+  i32.load
+  f64.convert_s/i32
   call $~lib/internal/typedarray/TypedArray<f64>#__set
  )
  (func $~lib/array/Array<i32>#__get (; 78 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
@@ -7173,8 +7181,6 @@
    get_local $3
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -7185,7 +7191,13 @@
     i32.store
     get_local $6
    end
-   f64.const 2
+   set_local $6
+   get_local $0
+   i32.load offset=4
+   get_local $6
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
   get_local $0
@@ -7880,8 +7892,6 @@
        get_local $1
        f64.convert_s/i32
        call $~lib/internal/typedarray/TypedArray<f64>#__set
-       get_local $0
-       i32.load offset=4
        block (result i32)
         get_local $0
         get_local $0
@@ -7892,21 +7902,27 @@
         i32.store
         get_local $6
        end
-       f64.const 3
+       set_local $6
+       get_local $0
+       i32.load offset=4
+       block (result i32)
+        get_local $0
+        get_local $0
+        i32.load
+        tee_local $5
+        i32.const 1
+        i32.add
+        i32.store
+        get_local $5
+       end
+       get_local $3
        call $~lib/internal/typedarray/TypedArray<f64>#__set
        get_local $0
        i32.load offset=4
-       block (result i32)
-        get_local $0
-        get_local $0
-        i32.load
-        tee_local $6
-        i32.const 1
-        i32.add
-        i32.store
-        get_local $6
-       end
-       get_local $3
+       get_local $6
+       get_local $0
+       i32.load
+       f64.convert_s/i32
        call $~lib/internal/typedarray/TypedArray<f64>#__set
       end
      end
@@ -7919,7 +7935,7 @@
      set_local $2
      block
       get_global $src/shared/CanvasInstruction/CanvasInstruction.FillPattern
-      set_local $1
+      set_local $6
       get_local $2
       i32.load
       f64.convert_s/i32
@@ -7927,8 +7943,8 @@
       block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.20 (result i32)
        get_local $0
        i32.load offset=4
-       set_local $6
-       get_local $6
+       set_local $1
+       get_local $1
        i32.load offset=8
        i32.const 3
        i32.shr_u
@@ -7943,8 +7959,8 @@
        block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.21 (result i32)
         get_local $0
         i32.load offset=4
-        set_local $6
-        get_local $6
+        set_local $1
+        get_local $1
         i32.load offset=8
         i32.const 3
         i32.shr_u
@@ -7952,7 +7968,7 @@
        i32.const 8000
        i32.add
        call $~lib/internal/typedarray/TypedArray<f64>#constructor
-       set_local $6
+       set_local $1
        block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.22 (result i32)
         get_local $0
         i32.load offset=4
@@ -7972,7 +7988,7 @@
          i32.lt_s
          if
           block
-           get_local $6
+           get_local $1
            get_local $4
            get_local $0
            i32.load offset=4
@@ -7989,7 +8005,7 @@
         end
        end
        get_local $0
-       get_local $6
+       get_local $1
        i32.store offset=4
       end
       get_local $0
@@ -8004,11 +8020,9 @@
        i32.store
        get_local $4
       end
-      get_local $1
+      get_local $6
       f64.convert_s/i32
       call $~lib/internal/typedarray/TypedArray<f64>#__set
-      get_local $0
-      i32.load offset=4
       block (result i32)
        get_local $0
        get_local $0
@@ -8019,21 +8033,27 @@
        i32.store
        get_local $4
       end
-      f64.const 3
+      set_local $4
+      get_local $0
+      i32.load offset=4
+      block (result i32)
+       get_local $0
+       get_local $0
+       i32.load
+       tee_local $5
+       i32.const 1
+       i32.add
+       i32.store
+       get_local $5
+      end
+      get_local $3
       call $~lib/internal/typedarray/TypedArray<f64>#__set
       get_local $0
       i32.load offset=4
-      block (result i32)
-       get_local $0
-       get_local $0
-       i32.load
-       tee_local $4
-       i32.const 1
-       i32.add
-       i32.store
-       get_local $4
-      end
-      get_local $3
+      get_local $4
+      get_local $0
+      i32.load
+      f64.convert_s/i32
       call $~lib/internal/typedarray/TypedArray<f64>#__set
      end
     end
@@ -8046,7 +8066,7 @@
     set_local $2
     block
      get_global $src/shared/CanvasInstruction/CanvasInstruction.FillStyle
-     set_local $1
+     set_local $4
      block $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#send_string|inlined.0 (result f64)
       get_local $0
       i32.load offset=8
@@ -8084,8 +8104,8 @@
      block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.24 (result i32)
       get_local $0
       i32.load offset=4
-      set_local $4
-      get_local $4
+      set_local $6
+      get_local $6
       i32.load offset=8
       i32.const 3
       i32.shr_u
@@ -8100,8 +8120,8 @@
       block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.25 (result i32)
        get_local $0
        i32.load offset=4
-       set_local $4
-       get_local $4
+       set_local $6
+       get_local $6
        i32.load offset=8
        i32.const 3
        i32.shr_u
@@ -8109,7 +8129,7 @@
       i32.const 8000
       i32.add
       call $~lib/internal/typedarray/TypedArray<f64>#constructor
-      set_local $4
+      set_local $6
       block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.26 (result i32)
        get_local $0
        i32.load offset=4
@@ -8121,32 +8141,32 @@
       end
       set_local $5
       i32.const 0
-      set_local $6
+      set_local $1
       block $break|3
        loop $continue|3
-        get_local $6
+        get_local $1
         get_local $5
         i32.lt_s
         if
          block
-          get_local $4
           get_local $6
+          get_local $1
           get_local $0
           i32.load offset=4
-          get_local $6
+          get_local $1
           call $~lib/internal/typedarray/TypedArray<f64>#__get
           call $~lib/internal/typedarray/TypedArray<f64>#__set
-          get_local $6
+          get_local $1
           i32.const 1
           i32.add
-          set_local $6
+          set_local $1
          end
          br $continue|3
         end
        end
       end
       get_local $0
-      get_local $4
+      get_local $6
       i32.store offset=4
      end
      get_local $0
@@ -8155,42 +8175,46 @@
       get_local $0
       get_local $0
       i32.load
-      tee_local $6
+      tee_local $1
       i32.const 1
       i32.add
       i32.store
-      get_local $6
+      get_local $1
      end
-     get_local $1
+     get_local $4
      f64.convert_s/i32
      call $~lib/internal/typedarray/TypedArray<f64>#__set
+     block (result i32)
+      get_local $0
+      get_local $0
+      i32.load
+      tee_local $1
+      i32.const 1
+      i32.add
+      i32.store
+      get_local $1
+     end
+     set_local $1
      get_local $0
      i32.load offset=4
      block (result i32)
       get_local $0
       get_local $0
       i32.load
-      tee_local $6
+      tee_local $5
       i32.const 1
       i32.add
       i32.store
-      get_local $6
+      get_local $5
      end
-     f64.const 3
+     get_local $3
      call $~lib/internal/typedarray/TypedArray<f64>#__set
      get_local $0
      i32.load offset=4
-     block (result i32)
-      get_local $0
-      get_local $0
-      i32.load
-      tee_local $6
-      i32.const 1
-      i32.add
-      i32.store
-      get_local $6
-     end
-     get_local $3
+     get_local $1
+     get_local $0
+     i32.load
+     f64.convert_s/i32
      call $~lib/internal/typedarray/TypedArray<f64>#__set
     end
    end
@@ -8345,8 +8369,6 @@
    get_local $2
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -8357,21 +8379,27 @@
     i32.store
     get_local $6
    end
-   f64.const 3
+   set_local $6
+   get_local $0
+   i32.load offset=4
+   block (result i32)
+    get_local $0
+    get_local $0
+    i32.load
+    tee_local $5
+    i32.const 1
+    i32.add
+    i32.store
+    get_local $5
+   end
+   get_local $3
    call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
-   block (result i32)
-    get_local $0
-    get_local $0
-    i32.load
-    tee_local $6
-    i32.const 1
-    i32.add
-    i32.store
-    get_local $6
-   end
-   get_local $3
+   get_local $6
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
  )
@@ -8488,8 +8516,6 @@
    get_local $2
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -8500,21 +8526,27 @@
     i32.store
     get_local $5
    end
-   f64.const 3
+   set_local $5
+   get_local $0
+   i32.load offset=4
+   block (result i32)
+    get_local $0
+    get_local $0
+    i32.load
+    tee_local $4
+    i32.const 1
+    i32.add
+    i32.store
+    get_local $4
+   end
+   get_local $1
    call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
-   block (result i32)
-    get_local $0
-    get_local $0
-    i32.load
-    tee_local $5
-    i32.const 1
-    i32.add
-    i32.store
-    get_local $5
-   end
-   get_local $1
+   get_local $5
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
  )
@@ -8635,8 +8667,6 @@
    get_local $2
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -8647,21 +8677,27 @@
     i32.store
     get_local $6
    end
-   f64.const 3
+   set_local $6
+   get_local $0
+   i32.load offset=4
+   block (result i32)
+    get_local $0
+    get_local $0
+    i32.load
+    tee_local $5
+    i32.const 1
+    i32.add
+    i32.store
+    get_local $5
+   end
+   get_local $3
    call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
-   block (result i32)
-    get_local $0
-    get_local $0
-    i32.load
-    tee_local $6
-    i32.const 1
-    i32.add
-    i32.store
-    get_local $6
-   end
-   get_local $3
+   get_local $6
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
  )
@@ -8794,8 +8830,6 @@
    get_local $2
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -8806,21 +8840,27 @@
     i32.store
     get_local $6
    end
-   f64.const 3
+   set_local $6
+   get_local $0
+   i32.load offset=4
+   block (result i32)
+    get_local $0
+    get_local $0
+    i32.load
+    tee_local $5
+    i32.const 1
+    i32.add
+    i32.store
+    get_local $5
+   end
+   get_local $3
    call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
-   block (result i32)
-    get_local $0
-    get_local $0
-    i32.load
-    tee_local $6
-    i32.const 1
-    i32.add
-    i32.store
-    get_local $6
-   end
-   get_local $3
+   get_local $6
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
  )
@@ -8941,8 +8981,6 @@
    get_local $2
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -8953,21 +8991,27 @@
     i32.store
     get_local $6
    end
-   f64.const 3
+   set_local $6
+   get_local $0
+   i32.load offset=4
+   block (result i32)
+    get_local $0
+    get_local $0
+    i32.load
+    tee_local $5
+    i32.const 1
+    i32.add
+    i32.store
+    get_local $5
+   end
+   get_local $3
    call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
-   block (result i32)
-    get_local $0
-    get_local $0
-    i32.load
-    tee_local $6
-    i32.const 1
-    i32.add
-    i32.store
-    get_local $6
-   end
-   get_local $3
+   get_local $6
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
  )
@@ -9084,8 +9128,6 @@
    get_local $2
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -9096,21 +9138,27 @@
     i32.store
     get_local $5
    end
-   f64.const 3
+   set_local $5
+   get_local $0
+   i32.load offset=4
+   block (result i32)
+    get_local $0
+    get_local $0
+    i32.load
+    tee_local $4
+    i32.const 1
+    i32.add
+    i32.store
+    get_local $4
+   end
+   get_local $1
    call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
-   block (result i32)
-    get_local $0
-    get_local $0
-    i32.load
-    tee_local $5
-    i32.const 1
-    i32.add
-    i32.store
-    get_local $5
-   end
-   get_local $1
+   get_local $5
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
  )
@@ -9262,8 +9310,6 @@
    get_local $2
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -9274,21 +9320,27 @@
     i32.store
     get_local $6
    end
-   f64.const 3
+   set_local $6
+   get_local $0
+   i32.load offset=4
+   block (result i32)
+    get_local $0
+    get_local $0
+    i32.load
+    tee_local $5
+    i32.const 1
+    i32.add
+    i32.store
+    get_local $5
+   end
+   get_local $3
    call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
-   block (result i32)
-    get_local $0
-    get_local $0
-    i32.load
-    tee_local $6
-    i32.const 1
-    i32.add
-    i32.store
-    get_local $6
-   end
-   get_local $3
+   get_local $6
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
  )
@@ -9405,8 +9457,6 @@
    get_local $2
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -9417,21 +9467,27 @@
     i32.store
     get_local $5
    end
-   f64.const 3
+   set_local $5
+   get_local $0
+   i32.load offset=4
+   block (result i32)
+    get_local $0
+    get_local $0
+    i32.load
+    tee_local $4
+    i32.const 1
+    i32.add
+    i32.store
+    get_local $4
+   end
+   get_local $1
    call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
-   block (result i32)
-    get_local $0
-    get_local $0
-    i32.load
-    tee_local $5
-    i32.const 1
-    i32.add
-    i32.store
-    get_local $5
-   end
-   get_local $1
+   get_local $5
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
  )
@@ -9548,8 +9604,6 @@
    get_local $2
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -9560,21 +9614,27 @@
     i32.store
     get_local $5
    end
-   f64.const 3
+   set_local $5
+   get_local $0
+   i32.load offset=4
+   block (result i32)
+    get_local $0
+    get_local $0
+    i32.load
+    tee_local $4
+    i32.const 1
+    i32.add
+    i32.store
+    get_local $4
+   end
+   get_local $1
    call $~lib/internal/typedarray/TypedArray<f64>#__set
    get_local $0
    i32.load offset=4
-   block (result i32)
-    get_local $0
-    get_local $0
-    i32.load
-    tee_local $5
-    i32.const 1
-    i32.add
-    i32.store
-    get_local $5
-   end
-   get_local $1
+   get_local $5
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
  )
@@ -9709,8 +9769,6 @@
   get_local $5
   f64.convert_s/i32
   call $~lib/internal/typedarray/TypedArray<f64>#__set
-  get_local $0
-  i32.load offset=4
   block (result i32)
    get_local $0
    get_local $0
@@ -9721,19 +9779,18 @@
    i32.store
    get_local $8
   end
-  f64.const 6
-  call $~lib/internal/typedarray/TypedArray<f64>#__set
+  set_local $8
   get_local $0
   i32.load offset=4
   block (result i32)
    get_local $0
    get_local $0
    i32.load
-   tee_local $8
+   tee_local $7
    i32.const 1
    i32.add
    i32.store
-   get_local $8
+   get_local $7
   end
   get_local $1
   call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -9743,11 +9800,11 @@
    get_local $0
    get_local $0
    i32.load
-   tee_local $8
+   tee_local $7
    i32.const 1
    i32.add
    i32.store
-   get_local $8
+   get_local $7
   end
   get_local $2
   call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -9757,11 +9814,11 @@
    get_local $0
    get_local $0
    i32.load
-   tee_local $8
+   tee_local $7
    i32.const 1
    i32.add
    i32.store
-   get_local $8
+   get_local $7
   end
   get_local $3
   call $~lib/internal/typedarray/TypedArray<f64>#__set
@@ -9771,13 +9828,20 @@
    get_local $0
    get_local $0
    i32.load
-   tee_local $8
+   tee_local $7
    i32.const 1
    i32.add
    i32.store
-   get_local $8
+   get_local $7
   end
   get_local $4
+  call $~lib/internal/typedarray/TypedArray<f64>#__set
+  get_local $0
+  i32.load offset=4
+  get_local $8
+  get_local $0
+  i32.load
+  f64.convert_s/i32
   call $~lib/internal/typedarray/TypedArray<f64>#__set
  )
  (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#restore (; 129 ;) (type $iv) (param $0 i32)
@@ -10061,8 +10125,6 @@
    get_local $1
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -10073,7 +10135,13 @@
     i32.store
     get_local $4
    end
-   f64.const 2
+   set_local $4
+   get_local $0
+   i32.load offset=4
+   get_local $4
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   else   
    get_local $0
@@ -10197,8 +10265,6 @@
    get_local $1
    f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
-   get_local $0
-   i32.load offset=4
    block (result i32)
     get_local $0
     get_local $0
@@ -10209,7 +10275,13 @@
     i32.store
     get_local $4
    end
-   f64.const 2
+   set_local $4
+   get_local $0
+   i32.load offset=4
+   get_local $4
+   get_local $0
+   i32.load
+   f64.convert_s/i32
    call $~lib/internal/typedarray/TypedArray<f64>#__set
   end
   get_local $0
