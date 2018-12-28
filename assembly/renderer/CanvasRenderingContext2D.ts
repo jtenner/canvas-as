@@ -276,7 +276,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   }
 
   public fillText(text: string, x: f64, y: f64, maxWidth: f64 = -1.0): void {
-    return super.write_fill_text(text, x, y, maxWidth);
+    super.write_fill_text(text, x, y, maxWidth);
   }
 
   get filter(): string {
