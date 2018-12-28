@@ -330,7 +330,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this._direction[this._stackIndex] = value;
   }
 
-  public drawImage(img: Image, x: f64, y: f64, width: f64, height: f64, sx: f64, sy: f64, swidth: f64, sheight: f64): void {
+  public drawImage(img: Image, sx: f64, sy: f64, swidth: f64, sheight: f64, x: f64, y: f64, width: f64, height: f64): void {
     if (!img._loaded) return;
     if (this.globalAlpha == 0.0) return;
     this.update_filter();
@@ -343,7 +343,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this.update_shadow_offset_x();
     this.update_shadow_offset_y();
     this.update_transform();
-    super.write_draw_image(img, x, y, width, height, sx, sy, swidth, sheight);
+    super.write_draw_image(img, sx, sy, swidth, sheight, x, y, width, height);
   }
 
   public drawImagePosition(img: Image, x: f64, y: f64): void {
@@ -359,7 +359,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this.update_shadow_offset_x();
     this.update_shadow_offset_y();
     this.update_transform();
-    super.write_draw_image(img, x, y, img.width, img.height, 0.0, 0.0, img.width, img.height);
+    super.write_draw_image(img, 0.0, 0.0, img.width, img.height, x, y, img.width, img.height);
   }
 
   public drawImageSize(img: Image, x: f64, y: f64, width: f64, height: f64): void {
@@ -375,7 +375,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this.update_shadow_offset_x();
     this.update_shadow_offset_y();
     this.update_transform();
-    super.write_draw_image(img, x, y, width, height, 0.0, 0.0, img.width, img.height);
+    super.write_draw_image(img, 0.0, 0.0, img.width, img.heigh, x, y, width, height);
   }
 
   public ellipse(x: f64, y: f64, radiusX: f64, radiusY: f64, rotation: f64, startAngle: f64, endAngle: f64, anticlockwise: bool = false): void {

@@ -104,18 +104,18 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
   }
 
   @inline
-  protected write_draw_image(img: Image, x: f64, y: f64, width: f64, height: f64, sx: f64, sy: f64, swidth: f64, sheight: f64): void {
+  protected write_draw_image(img: Image, sx: f64, sy: f64, swidth: f64, sheight: f64, x: f64, y: f64, width: f64, height: f64): void {
     this.write_nine(
       CanvasInstruction.DrawImage,
       <f64>img._index,
-      x,
-      y,
-      width,
-      height,
       sx,
       sy,
       swidth,
       sheight,
+      x,
+      y,
+      width,
+      height,
     );
   }
 
