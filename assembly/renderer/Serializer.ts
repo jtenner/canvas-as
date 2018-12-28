@@ -17,10 +17,10 @@ export class Serializer<T> {
   @inline
   protected write_one(instruction: T, value: f64): void {
     if (this.data.length <= (this.index + 3)) this.grow();
-    this.data[this.index++] = <f64>instruction;
+    unchecked(this.data[this.index++] = <f64>instruction);
     var strideToIndex: i32 = this.index++;
-    this.data[this.index++] = value;
-    this.data[strideToIndex] = <f64>this.index; // strideTo
+    unchecked(this.data[this.index++] = value);
+    unchecked(this.data[strideToIndex] = <f64>this.index); // strideTo
   }
 
 
