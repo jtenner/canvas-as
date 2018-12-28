@@ -1,1 +1,1 @@
-{"version":3,"file":"TextAlign.d.ts","sourceRoot":"","sources":["../src/shared/TextAlign.ts"],"names":[],"mappings":"AAAA,oBAAY,SAAS;IACnB,IAAI,IAAI;IACR,KAAK,IAAI;IACT,MAAM,IAAI;IACV,KAAK,IAAI;IACT,GAAG,IAAI;CACR"}
+{"version":3,"file":"TextAlign.d.ts","sourceRoot":"","sources":["../../src/shared/TextAlign.ts"],"names":[],"mappings":"AAAA,oBAAY,SAAS;IACnB,IAAI,IAAI;IACR,KAAK,IAAI;IACT,MAAM,IAAI;IACV,KAAK,IAAI;IACT,GAAG,IAAI;CACR"}

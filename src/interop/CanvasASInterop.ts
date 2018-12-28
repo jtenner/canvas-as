@@ -10,7 +10,7 @@ import {
   TextAlign,
   TextBaseline,
 } from "../shared";
-import { GlobalCompositeOperationLookup, IStringIndex, IImageBitmapIndex, ICanvasPatternIndex, ICanvasGradientIndex, canvasPatternTypes } from "../util";
+import { GlobalCompositeOperationLookup, IImageBitmapIndex, ICanvasPatternIndex, ICanvasGradientIndex, canvasPatternTypes } from "../util";
 import { ImageLoadedCallback, ImageInjectCallback } from "../util/ImageLoadedCallbacks";
 
 
