@@ -1,11 +1,8 @@
 {
   "name": "canvas-as",
   "version": "1.0.0",
-  "main": "dist/canvas-as.js",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/canvas-as.mjs",
-  "umd:main": "dist/canvas-as.umd.js",
-  "source": "src/index.ts",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.2.2",
