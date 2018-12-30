@@ -13,7 +13,6 @@
  (type $iFFFFi (func (param i32 f64 f64 f64 f64) (result i32)))
  (type $iFFFFv (func (param i32 f64 f64 f64 f64)))
  (type $iFiv (func (param i32 f64 i32)))
- (type $i (func (result i32)))
  (type $iiFv (func (param i32 i32 f64)))
  (type $iF (func (param i32) (result f64)))
  (type $iFFv (func (param i32 f64 f64)))
@@ -21,27 +20,32 @@
  (type $FF (func (param f64) (result f64)))
  (import "Math" "PI" (global $~lib/bindings/Math/PI f64))
  (import "env" "abort" (func $~lib/env/abort (param i32 i32 i32 i32)))
- (import "__as_interop" "report_inject_function" (func $assembly/linked/util/report_inject_functions (param i32 i32)))
+ (import "__as_interop" "report_inject_image" (func $assembly/linked/util/report_inject_image (param i32)))
+ (import "__as_interop" "report_image_loaded" (func $assembly/linked/util/report_image_loaded (param i32)))
+ (import "__as_interop" "report_inject_canvas" (func $assembly/linked/util/report_inject_canvas (param i32)))
  (import "__as_interop" "create_linear_gradient" (func $assembly/linked/util/create_linear_gradient (param i32 f64 f64 f64 f64)))
  (import "__as_interop" "add_color_stop" (func $assembly/linked/util/add_color_stop (param i32 f64 i32)))
  (import "__as_interop" "create_pattern" (func $assembly/linked/util/create_pattern (param i32 f64 i32)))
  (import "Math" "cos" (func $~lib/bindings/Math/cos (param f64) (result f64)))
  (import "Math" "sin" (func $~lib/bindings/Math/sin (param f64) (result f64)))
  (import "__as_interop" "create_string" (func $assembly/linked/util/create_string (param i32 i32)))
+ (import "__as_interop" "render" (func $assembly/linked/util/render (param i32 i32)))
  (memory $0 1)
  (data (i32.const 8) "\16\00\00\00~\00l\00i\00b\00/\00a\00l\00l\00o\00c\00a\00t\00o\00r\00/\00t\00l\00s\00f\00.\00t\00s\00")
  (data (i32.const 56) "\13\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s\00")
  (data (i32.const 104) "\1c\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s\00")
  (data (i32.const 168) "\00\00\00\00")
- (data (i32.const 176) "\1b\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s\00")
- (data (i32.const 240) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s\00")
- (data (i32.const 272) "\04\00\00\00#\000\000\000\00")
- (data (i32.const 288) "\04\00\00\00n\00o\00n\00e\00")
- (data (i32.const 304) "\05\00\00\00b\00l\00a\00c\00k\00")
- (data (i32.const 320) "\05\00\00\00w\00h\00i\00t\00e\00")
- (data (i32.const 336) "\06\00\00\00k\00i\00t\00t\00e\00n\00")
- (table $0 3 anyfunc)
- (elem (i32.const 0) $null $assembly/primitives/TextureMap/injectImage $assembly/primitives/TextureMap/imageLoaded)
+ (data (i32.const 176) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s\00")
+ (data (i32.const 208) "\04\00\00\00m\00a\00i\00n\00")
+ (data (i32.const 224) "\1b\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s\00")
+ (data (i32.const 288) "\04\00\00\00#\000\000\000\00")
+ (data (i32.const 304) "\04\00\00\00n\00o\00n\00e\00")
+ (data (i32.const 320) " \00\00\00a\00s\00s\00e\00m\00b\00l\00y\00/\00p\00r\00i\00m\00i\00t\00i\00v\00e\00s\00/\00C\00a\00n\00v\00a\00s\00M\00a\00p\00.\00t\00s\00")
+ (data (i32.const 392) "\05\00\00\00b\00l\00a\00c\00k\00")
+ (data (i32.const 408) "\05\00\00\00w\00h\00i\00t\00e\00")
+ (data (i32.const 424) "\06\00\00\00k\00i\00t\00t\00e\00n\00")
+ (table $0 4 anyfunc)
+ (elem (i32.const 0) $null $assembly/primitives/TextureMap/inject_image $assembly/primitives/TextureMap/image_loaded $assembly/primitives/CanvasMap/inject_canvas)
  (global $~lib/internal/allocator/AL_BITS i32 (i32.const 3))
  (global $~lib/internal/allocator/AL_SIZE i32 (i32.const 8))
  (global $~lib/internal/allocator/AL_MASK i32 (i32.const 7))
@@ -77,6 +81,7 @@
  (global $~lib/map/FILL_FACTOR f64 (f64.const 2.6666666666666665))
  (global $assembly/renderer/CanvasPattern/id (mut i32) (i32.const 0))
  (global $assembly/renderer/CanvasGradient/id (mut i32) (i32.const 0))
+ (global $assembly/primitives/CanvasMap/CanvasMap (mut i32) (i32.const 0))
  (global $assembly/example/ctx (mut i32) (i32.const 0))
  (global $assembly/example/kitten (mut i32) (i32.const 0))
  (global $assembly/example/rotation (mut f64) (f64.const 0))
@@ -193,7 +198,7 @@
  (global $src/shared/CanvasPatternType/CanvasPatternType.repeat_x i32 (i32.const 1))
  (global $src/shared/CanvasPatternType/CanvasPatternType.repeat_y i32 (i32.const 2))
  (global $src/shared/CanvasPatternType/CanvasPatternType.no_repeat i32 (i32.const 3))
- (global $HEAP_BASE i32 (i32.const 352))
+ (global $HEAP_BASE i32 (i32.const 440))
  (export "memory" (memory $0))
  (export "table" (table $0))
  (export "init" (func $assembly/example/init))
@@ -206,12 +211,12 @@
  (export "memory.free" (func $~lib/memory/memory.free))
  (export "memory.reset" (func $~lib/memory/memory.reset))
  (start $start)
- (func $~lib/allocator/tlsf/Root#set:tailRef (; 8 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/allocator/tlsf/Root#set:tailRef (; 11 ;) (type $iiv) (param $0 i32) (param $1 i32)
   i32.const 0
   get_local $1
   i32.store offset=2912
  )
- (func $~lib/allocator/tlsf/Root#setSLMap (; 9 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/allocator/tlsf/Root#setSLMap (; 12 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   get_local $1
   get_global $~lib/allocator/tlsf/FL_BITS
   i32.lt_u
@@ -232,7 +237,7 @@
   get_local $2
   i32.store offset=4
  )
- (func $~lib/allocator/tlsf/Root#setHead (; 10 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
+ (func $~lib/allocator/tlsf/Root#setHead (; 13 ;) (type $iiiiv) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   get_local $1
   get_global $~lib/allocator/tlsf/FL_BITS
   i32.lt_u
@@ -269,11 +274,11 @@
   get_local $3
   i32.store offset=96
  )
- (func $~lib/allocator/tlsf/Root#get:tailRef (; 11 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#get:tailRef (; 14 ;) (type $ii) (param $0 i32) (result i32)
   i32.const 0
   i32.load offset=2912
  )
- (func $~lib/allocator/tlsf/Block#get:right (; 12 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/Block#get:right (; 15 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   get_local $0
   i32.load
@@ -313,7 +318,7 @@
    get_local $1
   end
  )
- (func $~lib/allocator/tlsf/fls<usize> (; 13 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/fls<usize> (; 16 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.const 0
   i32.ne
@@ -331,7 +336,7 @@
   i32.clz
   i32.sub
  )
- (func $~lib/allocator/tlsf/Root#getHead (; 14 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#getHead (; 17 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   get_local $1
   get_global $~lib/allocator/tlsf/FL_BITS
   i32.lt_u
@@ -367,7 +372,7 @@
   i32.add
   i32.load offset=96
  )
- (func $~lib/allocator/tlsf/Root#getSLMap (; 15 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#getSLMap (; 18 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   get_local $1
   get_global $~lib/allocator/tlsf/FL_BITS
   i32.lt_u
@@ -387,7 +392,7 @@
   i32.add
   i32.load offset=4
  )
- (func $~lib/allocator/tlsf/Root#remove (; 16 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/allocator/tlsf/Root#remove (; 19 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -532,7 +537,7 @@
    end
   end
  )
- (func $~lib/allocator/tlsf/Block#get:left (; 17 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/Block#get:left (; 20 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   get_local $0
   i32.load
@@ -564,7 +569,7 @@
    get_local $1
   end
  )
- (func $~lib/allocator/tlsf/Root#setJump (; 18 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/allocator/tlsf/Root#setJump (; 21 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   get_local $1
   i32.load
   get_global $~lib/allocator/tlsf/FREE
@@ -610,7 +615,7 @@
   get_local $1
   i32.store
  )
- (func $~lib/allocator/tlsf/Root#insert (; 19 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/allocator/tlsf/Root#insert (; 22 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -876,7 +881,7 @@
   i32.or
   call $~lib/allocator/tlsf/Root#setSLMap
  )
- (func $~lib/allocator/tlsf/Root#addMemory (; 20 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#addMemory (; 23 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -1029,7 +1034,7 @@
   call $~lib/allocator/tlsf/Root#insert
   i32.const 1
  )
- (func $~lib/allocator/tlsf/ffs<usize> (; 21 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/ffs<usize> (; 24 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.const 0
   i32.ne
@@ -1045,7 +1050,7 @@
   get_local $0
   i32.ctz
  )
- (func $~lib/allocator/tlsf/ffs<u32> (; 22 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/ffs<u32> (; 25 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.const 0
   i32.ne
@@ -1061,7 +1066,7 @@
   get_local $0
   i32.ctz
  )
- (func $~lib/allocator/tlsf/Root#search (; 23 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#search (; 26 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -1202,7 +1207,7 @@
   end
   get_local $6
  )
- (func $~lib/allocator/tlsf/Root#use (; 24 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#use (; 27 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -1330,7 +1335,7 @@
   get_global $~lib/allocator/tlsf/Block.INFO
   i32.add
  )
- (func $~lib/allocator/tlsf/__memory_allocate (; 25 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/__memory_allocate (; 28 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1566,12 +1571,12 @@
   get_local $0
   call $~lib/allocator/tlsf/Root#use
  )
- (func $~lib/memory/memory.allocate (; 26 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/memory/memory.allocate (; 29 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   call $~lib/allocator/tlsf/__memory_allocate
   return
  )
- (func $~lib/internal/arraybuffer/computeSize (; 27 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/computeSize (; 30 ;) (type $ii) (param $0 i32) (result i32)
   i32.const 1
   i32.const 32
   get_local $0
@@ -1583,7 +1588,7 @@
   i32.sub
   i32.shl
  )
- (func $~lib/internal/arraybuffer/allocateUnsafe (; 28 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/allocateUnsafe (; 31 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   get_local $0
@@ -1612,7 +1617,7 @@
   i32.store
   get_local $1
  )
- (func $~lib/internal/memory/memset (; 29 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memset (; 32 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i64)
@@ -1866,7 +1871,7 @@
    end
   end
  )
- (func $~lib/arraybuffer/ArrayBuffer#constructor (; 30 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBuffer#constructor (; 33 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -1902,7 +1907,7 @@
   end
   get_local $3
  )
- (func $~lib/map/Map<String,Image>#clear (; 31 ;) (type $iv) (param $0 i32)
+ (func $~lib/map/Map<String,Image>#clear (; 34 ;) (type $iv) (param $0 i32)
   get_local $0
   i32.const 0
   i32.const 16
@@ -1930,7 +1935,7 @@
   i32.const 0
   i32.store offset=20
  )
- (func $~lib/map/Map<String,Image>#constructor (; 32 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/map/Map<String,Image>#constructor (; 35 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   get_local $0
   if (result i32)
@@ -1966,7 +1971,7 @@
   call $~lib/map/Map<String,Image>#clear
   get_local $0
  )
- (func $~lib/internal/hash/hashStr (; 33 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/hash/hashStr (; 36 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -2008,7 +2013,7 @@
   end
   get_local $1
  )
- (func $~lib/internal/string/compareUnsafe (; 34 ;) (type $iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
+ (func $~lib/internal/string/compareUnsafe (; 37 ;) (type $iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -2061,7 +2066,7 @@
   end
   get_local $5
  )
- (func $~lib/string/String.__eq (; 35 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__eq (; 38 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -2105,7 +2110,7 @@
   call $~lib/internal/string/compareUnsafe
   i32.eqz
  )
- (func $~lib/map/Map<String,Image>#find (; 36 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/map/Map<String,Image>#find (; 39 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   get_local $0
@@ -2156,7 +2161,7 @@
   end
   i32.const 0
  )
- (func $~lib/map/Map<String,Image>#rehash (; 37 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/map/Map<String,Image>#rehash (; 40 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2296,7 +2301,7 @@
   i32.load offset=20
   i32.store offset=16
  )
- (func $~lib/map/Map<String,Image>#set (; 38 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/map/Map<String,Image>#set (; 41 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -2400,7 +2405,7 @@
    i32.store offset=8
   end
  )
- (func $assembly/primitives/TextureMap/injectImage (; 39 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/primitives/TextureMap/inject_image (; 42 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   block (result i32)
@@ -2441,7 +2446,7 @@
   call $~lib/map/Map<String,Image>#set
   get_local $2
  )
- (func $assembly/primitives/TextureMap/imageLoaded (; 40 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $assembly/primitives/TextureMap/image_loaded (; 43 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   get_local $0
   i32.const 1
   i32.store offset=4
@@ -2452,146 +2457,17 @@
   get_local $2
   i32.store offset=12
  )
- (func $~lib/internal/typedarray/TypedArray<f64>#constructor (; 41 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#constructor (; 44 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
   get_local $1
-  i32.const 134217727
+  i32.const 268435454
   i32.gt_u
   if
    i32.const 0
    i32.const 176
-   i32.const 23
-   i32.const 34
-   call $~lib/env/abort
-   unreachable
-  end
-  get_local $1
-  i32.const 3
-  i32.shl
-  set_local $2
-  get_local $2
-  call $~lib/internal/arraybuffer/allocateUnsafe
-  set_local $3
-  get_local $3
-  get_global $~lib/internal/arraybuffer/HEADER_SIZE
-  i32.add
-  set_local $4
-  i32.const 0
-  set_local $5
-  get_local $4
-  get_local $5
-  get_local $2
-  call $~lib/internal/memory/memset
-  get_local $0
-  if (result i32)
-   get_local $0
-  else   
-   block (result i32)
-    i32.const 12
-    call $~lib/memory/memory.allocate
-    set_local $5
-    get_local $5
-    i32.const 0
-    i32.store
-    get_local $5
-    i32.const 0
-    i32.store offset=4
-    get_local $5
-    i32.const 0
-    i32.store offset=8
-    get_local $5
-   end
-   tee_local $0
-  end
-  tee_local $0
-  get_local $3
-  i32.store
-  get_local $0
-  i32.const 0
-  i32.store offset=4
-  get_local $0
-  get_local $2
-  i32.store offset=8
-  get_local $0
- )
- (func $~lib/map/Map<String,i32>#clear (; 42 ;) (type $iv) (param $0 i32)
-  get_local $0
-  i32.const 0
-  i32.const 16
-  i32.const 0
-  call $~lib/arraybuffer/ArrayBuffer#constructor
-  i32.store
-  get_local $0
-  get_global $~lib/map/INITIAL_CAPACITY
-  i32.const 1
-  i32.sub
-  i32.store offset=4
-  get_local $0
-  i32.const 0
-  i32.const 48
-  i32.const 1
-  call $~lib/arraybuffer/ArrayBuffer#constructor
-  i32.store offset=8
-  get_local $0
-  get_global $~lib/map/INITIAL_CAPACITY
-  i32.store offset=12
-  get_local $0
-  i32.const 0
-  i32.store offset=16
-  get_local $0
-  i32.const 0
-  i32.store offset=20
- )
- (func $~lib/map/Map<String,i32>#constructor (; 43 ;) (type $ii) (param $0 i32) (result i32)
-  (local $1 i32)
-  get_local $0
-  if (result i32)
-   get_local $0
-  else   
-   block (result i32)
-    i32.const 24
-    call $~lib/memory/memory.allocate
-    set_local $1
-    get_local $1
-    i32.const 0
-    i32.store
-    get_local $1
-    i32.const 0
-    i32.store offset=4
-    get_local $1
-    i32.const 0
-    i32.store offset=8
-    get_local $1
-    i32.const 0
-    i32.store offset=12
-    get_local $1
-    i32.const 0
-    i32.store offset=16
-    get_local $1
-    i32.const 0
-    i32.store offset=20
-    get_local $1
-   end
-   tee_local $0
-  end
-  tee_local $0
-  call $~lib/map/Map<String,i32>#clear
-  get_local $0
- )
- (func $~lib/array/Array<i32>#constructor (; 44 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  get_local $1
-  i32.const 268435454
-  i32.gt_u
-  if
-   i32.const 0
-   i32.const 240
    i32.const 45
    i32.const 39
    call $~lib/env/abort
@@ -2640,361 +2516,7 @@
   call $~lib/internal/memory/memset
   get_local $0
  )
- (func $~lib/array/Array<FillStrokeWhichValue>#constructor (; 45 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  get_local $1
-  i32.const 268435454
-  i32.gt_u
-  if
-   i32.const 0
-   i32.const 240
-   i32.const 45
-   i32.const 39
-   call $~lib/env/abort
-   unreachable
-  end
-  get_local $1
-  i32.const 2
-  i32.shl
-  set_local $2
-  get_local $2
-  call $~lib/internal/arraybuffer/allocateUnsafe
-  set_local $3
-  get_local $0
-  if (result i32)
-   get_local $0
-  else   
-   block (result i32)
-    i32.const 8
-    call $~lib/memory/memory.allocate
-    set_local $4
-    get_local $4
-    i32.const 0
-    i32.store
-    get_local $4
-    i32.const 0
-    i32.store offset=4
-    get_local $4
-   end
-   tee_local $0
-  end
-  tee_local $0
-  get_local $3
-  i32.store
-  get_local $0
-  get_local $1
-  i32.store offset=4
-  get_local $3
-  get_global $~lib/internal/arraybuffer/HEADER_SIZE
-  i32.add
-  set_local $4
-  i32.const 0
-  set_local $5
-  get_local $4
-  get_local $5
-  get_local $2
-  call $~lib/internal/memory/memset
-  get_local $0
- )
- (func $~lib/array/Array<String>#constructor (; 46 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  get_local $1
-  i32.const 268435454
-  i32.gt_u
-  if
-   i32.const 0
-   i32.const 240
-   i32.const 45
-   i32.const 39
-   call $~lib/env/abort
-   unreachable
-  end
-  get_local $1
-  i32.const 2
-  i32.shl
-  set_local $2
-  get_local $2
-  call $~lib/internal/arraybuffer/allocateUnsafe
-  set_local $3
-  get_local $0
-  if (result i32)
-   get_local $0
-  else   
-   block (result i32)
-    i32.const 8
-    call $~lib/memory/memory.allocate
-    set_local $4
-    get_local $4
-    i32.const 0
-    i32.store
-    get_local $4
-    i32.const 0
-    i32.store offset=4
-    get_local $4
-   end
-   tee_local $0
-  end
-  tee_local $0
-  get_local $3
-  i32.store
-  get_local $0
-  get_local $1
-  i32.store offset=4
-  get_local $3
-  get_global $~lib/internal/arraybuffer/HEADER_SIZE
-  i32.add
-  set_local $4
-  i32.const 0
-  set_local $5
-  get_local $4
-  get_local $5
-  get_local $2
-  call $~lib/internal/memory/memset
-  get_local $0
- )
- (func $~lib/array/Array<f64>#constructor (; 47 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  get_local $1
-  i32.const 134217727
-  i32.gt_u
-  if
-   i32.const 0
-   i32.const 240
-   i32.const 45
-   i32.const 39
-   call $~lib/env/abort
-   unreachable
-  end
-  get_local $1
-  i32.const 3
-  i32.shl
-  set_local $2
-  get_local $2
-  call $~lib/internal/arraybuffer/allocateUnsafe
-  set_local $3
-  get_local $0
-  if (result i32)
-   get_local $0
-  else   
-   block (result i32)
-    i32.const 8
-    call $~lib/memory/memory.allocate
-    set_local $4
-    get_local $4
-    i32.const 0
-    i32.store
-    get_local $4
-    i32.const 0
-    i32.store offset=4
-    get_local $4
-   end
-   tee_local $0
-  end
-  tee_local $0
-  get_local $3
-  i32.store
-  get_local $0
-  get_local $1
-  i32.store offset=4
-  get_local $3
-  get_global $~lib/internal/arraybuffer/HEADER_SIZE
-  i32.add
-  set_local $4
-  i32.const 0
-  set_local $5
-  get_local $4
-  get_local $5
-  get_local $2
-  call $~lib/internal/memory/memset
-  get_local $0
- )
- (func $~lib/array/Array<bool>#constructor (; 48 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  get_local $1
-  i32.const 1073741816
-  i32.gt_u
-  if
-   i32.const 0
-   i32.const 240
-   i32.const 45
-   i32.const 39
-   call $~lib/env/abort
-   unreachable
-  end
-  get_local $1
-  i32.const 0
-  i32.shl
-  set_local $2
-  get_local $2
-  call $~lib/internal/arraybuffer/allocateUnsafe
-  set_local $3
-  get_local $0
-  if (result i32)
-   get_local $0
-  else   
-   block (result i32)
-    i32.const 8
-    call $~lib/memory/memory.allocate
-    set_local $4
-    get_local $4
-    i32.const 0
-    i32.store
-    get_local $4
-    i32.const 0
-    i32.store offset=4
-    get_local $4
-   end
-   tee_local $0
-  end
-  tee_local $0
-  get_local $3
-  i32.store
-  get_local $0
-  get_local $1
-  i32.store offset=4
-  get_local $3
-  get_global $~lib/internal/arraybuffer/HEADER_SIZE
-  i32.add
-  set_local $4
-  i32.const 0
-  set_local $5
-  get_local $4
-  get_local $5
-  get_local $2
-  call $~lib/internal/memory/memset
-  get_local $0
- )
- (func $~lib/array/Array<Float64Array>#constructor (; 49 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  get_local $1
-  i32.const 268435454
-  i32.gt_u
-  if
-   i32.const 0
-   i32.const 240
-   i32.const 45
-   i32.const 39
-   call $~lib/env/abort
-   unreachable
-  end
-  get_local $1
-  i32.const 2
-  i32.shl
-  set_local $2
-  get_local $2
-  call $~lib/internal/arraybuffer/allocateUnsafe
-  set_local $3
-  get_local $0
-  if (result i32)
-   get_local $0
-  else   
-   block (result i32)
-    i32.const 8
-    call $~lib/memory/memory.allocate
-    set_local $4
-    get_local $4
-    i32.const 0
-    i32.store
-    get_local $4
-    i32.const 0
-    i32.store offset=4
-    get_local $4
-   end
-   tee_local $0
-  end
-  tee_local $0
-  get_local $3
-  i32.store
-  get_local $0
-  get_local $1
-  i32.store offset=4
-  get_local $3
-  get_global $~lib/internal/arraybuffer/HEADER_SIZE
-  i32.add
-  set_local $4
-  i32.const 0
-  set_local $5
-  get_local $4
-  get_local $5
-  get_local $2
-  call $~lib/internal/memory/memset
-  get_local $0
- )
- (func $~lib/array/Array<Path2DElement>#constructor (; 50 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  get_local $1
-  i32.const 268435454
-  i32.gt_u
-  if
-   i32.const 0
-   i32.const 240
-   i32.const 45
-   i32.const 39
-   call $~lib/env/abort
-   unreachable
-  end
-  get_local $1
-  i32.const 2
-  i32.shl
-  set_local $2
-  get_local $2
-  call $~lib/internal/arraybuffer/allocateUnsafe
-  set_local $3
-  get_local $0
-  if (result i32)
-   get_local $0
-  else   
-   block (result i32)
-    i32.const 8
-    call $~lib/memory/memory.allocate
-    set_local $4
-    get_local $4
-    i32.const 0
-    i32.store
-    get_local $4
-    i32.const 0
-    i32.store offset=4
-    get_local $4
-   end
-   tee_local $0
-  end
-  tee_local $0
-  get_local $3
-  i32.store
-  get_local $0
-  get_local $1
-  i32.store offset=4
-  get_local $3
-  get_global $~lib/internal/arraybuffer/HEADER_SIZE
-  i32.add
-  set_local $4
-  i32.const 0
-  set_local $5
-  get_local $4
-  get_local $5
-  get_local $2
-  call $~lib/internal/memory/memset
-  get_local $0
- )
- (func $~lib/internal/memory/memcpy (; 51 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memcpy (; 45 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4195,7 +3717,7 @@
    i32.store8
   end
  )
- (func $~lib/internal/memory/memmove (; 52 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memmove (; 46 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   get_local $0
   get_local $1
@@ -4422,7 +3944,7 @@
    end
   end
  )
- (func $~lib/allocator/tlsf/__memory_free (; 53 ;) (type $iv) (param $0 i32)
+ (func $~lib/allocator/tlsf/__memory_free (; 47 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4465,7 +3987,7 @@
    end
   end
  )
- (func $~lib/internal/arraybuffer/reallocateUnsafe (; 54 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/arraybuffer/reallocateUnsafe (; 48 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4567,7 +4089,7 @@
   end
   get_local $0
  )
- (func $~lib/array/Array<i32>#push (; 55 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#push (; 49 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4597,7 +4119,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 184
     i32.const 42
     call $~lib/env/abort
@@ -4629,7 +4151,575 @@
   i32.store offset=8
   get_local $5
  )
- (func $~lib/array/Array<FillStrokeWhichValue>#push (; 56 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/primitives/CanvasMap/inject_canvas (; 50 ;) (type $iv) (param $0 i32)
+  get_global $assembly/primitives/CanvasMap/CanvasMap
+  i32.load
+  get_local $0
+  call $~lib/array/Array<String>#push
+  drop
+ )
+ (func $~lib/array/Array<String>#indexOf (; 51 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  get_local $0
+  i32.load offset=4
+  set_local $3
+  get_local $3
+  i32.const 0
+  i32.eq
+  tee_local $4
+  if (result i32)
+   get_local $4
+  else   
+   get_local $2
+   get_local $3
+   i32.ge_s
+  end
+  if
+   i32.const -1
+   return
+  end
+  get_local $2
+  i32.const 0
+  i32.lt_s
+  if
+   get_local $3
+   get_local $2
+   i32.add
+   tee_local $4
+   i32.const 0
+   tee_local $5
+   get_local $4
+   get_local $5
+   i32.gt_s
+   select
+   set_local $2
+  end
+  get_local $0
+  i32.load
+  set_local $6
+  block $break|0
+   loop $continue|0
+    get_local $2
+    get_local $3
+    i32.lt_s
+    if
+     block
+      block $~lib/internal/arraybuffer/LOAD<String,String>|inlined.3 (result i32)
+       i32.const 0
+       set_local $4
+       get_local $6
+       get_local $2
+       i32.const 2
+       i32.shl
+       i32.add
+       get_local $4
+       i32.add
+       i32.load offset=8
+      end
+      get_local $1
+      call $~lib/string/String.__eq
+      if
+       get_local $2
+       return
+      end
+      get_local $2
+      i32.const 1
+      i32.add
+      set_local $2
+     end
+     br $continue|0
+    end
+   end
+  end
+  i32.const -1
+ )
+ (func $~lib/internal/typedarray/TypedArray<f64>#constructor (; 52 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 134217727
+  i32.gt_u
+  if
+   i32.const 0
+   i32.const 224
+   i32.const 23
+   i32.const 34
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 3
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $3
+  get_global $~lib/internal/arraybuffer/HEADER_SIZE
+  i32.add
+  set_local $4
+  i32.const 0
+  set_local $5
+  get_local $4
+  get_local $5
+  get_local $2
+  call $~lib/internal/memory/memset
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 12
+    call $~lib/memory/memory.allocate
+    set_local $5
+    get_local $5
+    i32.const 0
+    i32.store
+    get_local $5
+    i32.const 0
+    i32.store offset=4
+    get_local $5
+    i32.const 0
+    i32.store offset=8
+    get_local $5
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  i32.const 0
+  i32.store offset=4
+  get_local $0
+  get_local $2
+  i32.store offset=8
+  get_local $0
+ )
+ (func $~lib/map/Map<String,i32>#clear (; 53 ;) (type $iv) (param $0 i32)
+  get_local $0
+  i32.const 0
+  i32.const 16
+  i32.const 0
+  call $~lib/arraybuffer/ArrayBuffer#constructor
+  i32.store
+  get_local $0
+  get_global $~lib/map/INITIAL_CAPACITY
+  i32.const 1
+  i32.sub
+  i32.store offset=4
+  get_local $0
+  i32.const 0
+  i32.const 48
+  i32.const 1
+  call $~lib/arraybuffer/ArrayBuffer#constructor
+  i32.store offset=8
+  get_local $0
+  get_global $~lib/map/INITIAL_CAPACITY
+  i32.store offset=12
+  get_local $0
+  i32.const 0
+  i32.store offset=16
+  get_local $0
+  i32.const 0
+  i32.store offset=20
+ )
+ (func $~lib/map/Map<String,i32>#constructor (; 54 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 24
+    call $~lib/memory/memory.allocate
+    set_local $1
+    get_local $1
+    i32.const 0
+    i32.store
+    get_local $1
+    i32.const 0
+    i32.store offset=4
+    get_local $1
+    i32.const 0
+    i32.store offset=8
+    get_local $1
+    i32.const 0
+    i32.store offset=12
+    get_local $1
+    i32.const 0
+    i32.store offset=16
+    get_local $1
+    i32.const 0
+    i32.store offset=20
+    get_local $1
+   end
+   tee_local $0
+  end
+  tee_local $0
+  call $~lib/map/Map<String,i32>#clear
+  get_local $0
+ )
+ (func $~lib/array/Array<i32>#constructor (; 55 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 268435454
+  i32.gt_u
+  if
+   i32.const 0
+   i32.const 176
+   i32.const 45
+   i32.const 39
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 2
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  get_local $3
+  get_global $~lib/internal/arraybuffer/HEADER_SIZE
+  i32.add
+  set_local $4
+  i32.const 0
+  set_local $5
+  get_local $4
+  get_local $5
+  get_local $2
+  call $~lib/internal/memory/memset
+  get_local $0
+ )
+ (func $~lib/array/Array<FillStrokeWhichValue>#constructor (; 56 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 268435454
+  i32.gt_u
+  if
+   i32.const 0
+   i32.const 176
+   i32.const 45
+   i32.const 39
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 2
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  get_local $3
+  get_global $~lib/internal/arraybuffer/HEADER_SIZE
+  i32.add
+  set_local $4
+  i32.const 0
+  set_local $5
+  get_local $4
+  get_local $5
+  get_local $2
+  call $~lib/internal/memory/memset
+  get_local $0
+ )
+ (func $~lib/array/Array<f64>#constructor (; 57 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 134217727
+  i32.gt_u
+  if
+   i32.const 0
+   i32.const 176
+   i32.const 45
+   i32.const 39
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 3
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  get_local $3
+  get_global $~lib/internal/arraybuffer/HEADER_SIZE
+  i32.add
+  set_local $4
+  i32.const 0
+  set_local $5
+  get_local $4
+  get_local $5
+  get_local $2
+  call $~lib/internal/memory/memset
+  get_local $0
+ )
+ (func $~lib/array/Array<bool>#constructor (; 58 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 1073741816
+  i32.gt_u
+  if
+   i32.const 0
+   i32.const 176
+   i32.const 45
+   i32.const 39
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 0
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  get_local $3
+  get_global $~lib/internal/arraybuffer/HEADER_SIZE
+  i32.add
+  set_local $4
+  i32.const 0
+  set_local $5
+  get_local $4
+  get_local $5
+  get_local $2
+  call $~lib/internal/memory/memset
+  get_local $0
+ )
+ (func $~lib/array/Array<Float64Array>#constructor (; 59 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 268435454
+  i32.gt_u
+  if
+   i32.const 0
+   i32.const 176
+   i32.const 45
+   i32.const 39
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 2
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  get_local $3
+  get_global $~lib/internal/arraybuffer/HEADER_SIZE
+  i32.add
+  set_local $4
+  i32.const 0
+  set_local $5
+  get_local $4
+  get_local $5
+  get_local $2
+  call $~lib/internal/memory/memset
+  get_local $0
+ )
+ (func $~lib/array/Array<Path2DElement>#constructor (; 60 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  get_local $1
+  i32.const 268435454
+  i32.gt_u
+  if
+   i32.const 0
+   i32.const 176
+   i32.const 45
+   i32.const 39
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
+  i32.const 2
+  i32.shl
+  set_local $2
+  get_local $2
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  set_local $3
+  get_local $0
+  if (result i32)
+   get_local $0
+  else   
+   block (result i32)
+    i32.const 8
+    call $~lib/memory/memory.allocate
+    set_local $4
+    get_local $4
+    i32.const 0
+    i32.store
+    get_local $4
+    i32.const 0
+    i32.store offset=4
+    get_local $4
+   end
+   tee_local $0
+  end
+  tee_local $0
+  get_local $3
+  i32.store
+  get_local $0
+  get_local $1
+  i32.store offset=4
+  get_local $3
+  get_global $~lib/internal/arraybuffer/HEADER_SIZE
+  i32.add
+  set_local $4
+  i32.const 0
+  set_local $5
+  get_local $4
+  get_local $5
+  get_local $2
+  call $~lib/internal/memory/memset
+  get_local $0
+ )
+ (func $~lib/array/Array<i32>#push (; 61 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4659,7 +4749,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 184
     i32.const 42
     call $~lib/env/abort
@@ -4691,7 +4781,7 @@
   i32.store offset=8
   get_local $5
  )
- (func $~lib/array/Array<String>#push (; 57 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<FillStrokeWhichValue>#push (; 62 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4721,7 +4811,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 184
     i32.const 42
     call $~lib/env/abort
@@ -4753,7 +4843,7 @@
   i32.store offset=8
   get_local $5
  )
- (func $~lib/array/Array<f64>#push (; 58 ;) (type $iFi) (param $0 i32) (param $1 f64) (result i32)
+ (func $~lib/array/Array<f64>#push (; 63 ;) (type $iFi) (param $0 i32) (param $1 f64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4783,7 +4873,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 184
     i32.const 42
     call $~lib/env/abort
@@ -4815,7 +4905,7 @@
   f64.store offset=8
   get_local $5
  )
- (func $~lib/array/Array<bool>#push (; 59 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<bool>#push (; 64 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4845,7 +4935,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 184
     i32.const 42
     call $~lib/env/abort
@@ -4877,7 +4967,7 @@
   i32.store8 offset=8
   get_local $5
  )
- (func $~lib/array/Array<Float64Array>#push (; 60 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Float64Array>#push (; 65 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4907,7 +4997,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 184
     i32.const 42
     call $~lib/env/abort
@@ -4939,7 +5029,7 @@
   i32.store offset=8
   get_local $5
  )
- (func $~lib/array/Array<Path2DElement>#push (; 61 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Path2DElement>#push (; 66 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4969,7 +5059,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 184
     i32.const 42
     call $~lib/env/abort
@@ -5001,7 +5091,7 @@
   i32.store offset=8
   get_local $5
  )
- (func $~lib/array/Array<Path2DElement>#__get (; 62 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Path2DElement>#__get (; 67 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -5028,7 +5118,7 @@
    unreachable
   end
  )
- (func $~lib/array/Array<f64>#__get (; 63 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
+ (func $~lib/array/Array<f64>#__get (; 68 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -5055,16 +5145,16 @@
    unreachable
   end
  )
- (func $assembly/renderer/Serializer/Serializer<i32>#init (; 64 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/Serializer/Serializer<i32>#init (; 69 ;) (type $iv) (param $0 i32)
   get_local $0
   i32.const 0
   i32.store
  )
- (func $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#init (; 65 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#init (; 70 ;) (type $iv) (param $0 i32)
   get_local $0
   call $assembly/renderer/Serializer/Serializer<i32>#init
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#init (; 66 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#init (; 71 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5079,12 +5169,12 @@
     if
      block
       get_local $0
-      i32.load offset=16
+      i32.load offset=20
       get_global $src/shared/Direction/Direction.inherit
       call $~lib/array/Array<i32>#push
       drop
       get_local $0
-      i32.load offset=24
+      i32.load offset=28
       block (result i32)
        i32.const 16
        call $~lib/memory/memory.allocate
@@ -5096,7 +5186,7 @@
        i32.const 0
        i32.store offset=4
        get_local $2
-       i32.const 272
+       i32.const 288
        i32.store offset=8
        get_local $2
        get_global $assembly/primitives/FillStrokeWhichValue/FillStrokeWhich.Style
@@ -5106,17 +5196,17 @@
       call $~lib/array/Array<FillStrokeWhichValue>#push
       drop
       get_local $0
-      i32.load offset=32
-      i32.const 288
+      i32.load offset=36
+      i32.const 304
       call $~lib/array/Array<String>#push
       drop
       get_local $0
-      i32.load offset=40
-      i32.const 288
+      i32.load offset=44
+      i32.const 304
       call $~lib/array/Array<String>#push
       drop
       get_local $0
-      i32.load offset=48
+      i32.load offset=52
       f64.const 1
       call $~lib/array/Array<f64>#push
       drop
@@ -5204,7 +5294,7 @@
       drop
       get_local $0
       i32.load offset=272
-      i32.const 272
+      i32.const 288
       call $~lib/array/Array<String>#push
       drop
       get_local $0
@@ -5230,7 +5320,7 @@
        i32.const 0
        i32.store offset=4
        get_local $2
-       i32.const 272
+       i32.const 288
        i32.store offset=8
        get_local $2
        get_global $assembly/primitives/FillStrokeWhichValue/FillStrokeWhich.Style
@@ -5326,7 +5416,7 @@
   end
   get_local $0
   get_global $src/shared/Direction/Direction.inherit
-  i32.store offset=20
+  i32.store offset=24
   get_local $0
   block (result i32)
    i32.const 16
@@ -5339,20 +5429,20 @@
    i32.const 0
    i32.store offset=4
    get_local $2
-   i32.const 272
+   i32.const 288
    i32.store offset=8
    get_local $2
    get_global $assembly/primitives/FillStrokeWhichValue/FillStrokeWhich.Style
    i32.store offset=12
    get_local $2
   end
-  i32.store offset=28
+  i32.store offset=32
   get_local $0
-  i32.const 288
-  i32.store offset=36
+  i32.const 304
+  i32.store offset=40
   get_local $0
-  i32.const 288
-  i32.store offset=44
+  i32.const 304
+  i32.store offset=48
   get_local $0
   f64.const 1
   f64.store offset=56
@@ -5407,7 +5497,7 @@
   f64.const 0
   f64.store offset=264
   get_local $0
-  i32.const 272
+  i32.const 288
   i32.store offset=276
   get_local $0
   f64.const 0
@@ -5427,7 +5517,7 @@
    i32.const 0
    i32.store offset=4
    get_local $2
-   i32.const 272
+   i32.const 288
    i32.store offset=8
    get_local $2
    get_global $assembly/primitives/FillStrokeWhichValue/FillStrokeWhich.Style
@@ -5516,7 +5606,301 @@
   get_local $0
   call $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#init
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#createLinearGradient (; 67 ;) (type $iFFFFi) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64) (result i32)
+ (func $assembly/primitives/CanvasMap/CanvasRenderingContext2DInitializer#getOptimized (; 72 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  block $~lib/array/Array<String>#includes|inlined.1 (result i32)
+   get_local $0
+   i32.load
+   set_local $3
+   i32.const 0
+   set_local $2
+   get_local $3
+   get_local $1
+   get_local $2
+   call $~lib/array/Array<String>#indexOf
+   i32.const 0
+   i32.ge_s
+  end
+  i32.const 0
+  i32.ne
+  if
+   block (result i32)
+    i32.const 352
+    call $~lib/memory/memory.allocate
+    set_local $2
+    get_local $2
+    i32.const 0
+    i32.store
+    get_local $2
+    i32.const 0
+    i32.const 8000
+    call $~lib/internal/typedarray/TypedArray<f64>#constructor
+    i32.store offset=4
+    get_local $2
+    i32.const 168
+    i32.store offset=8
+    get_local $2
+    i32.const 0
+    call $~lib/map/Map<String,i32>#constructor
+    i32.store offset=12
+    get_local $2
+    i32.const -1
+    i32.store offset=16
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<i32>#constructor
+    i32.store offset=20
+    get_local $2
+    i32.const 0
+    i32.store offset=24
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<FillStrokeWhichValue>#constructor
+    i32.store offset=28
+    get_local $2
+    i32.const 0
+    i32.store offset=32
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<String>#constructor
+    i32.store offset=36
+    get_local $2
+    i32.const 0
+    i32.store offset=40
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<String>#constructor
+    i32.store offset=44
+    get_local $2
+    i32.const 0
+    i32.store offset=48
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=52
+    get_local $2
+    f64.const 0
+    f64.store offset=56
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<i32>#constructor
+    i32.store offset=64
+    get_local $2
+    i32.const 0
+    i32.store offset=68
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<bool>#constructor
+    i32.store offset=72
+    get_local $2
+    i32.const 0
+    i32.store8 offset=76
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<i32>#constructor
+    i32.store offset=80
+    get_local $2
+    i32.const 0
+    i32.store offset=84
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<i32>#constructor
+    i32.store offset=88
+    get_local $2
+    i32.const 0
+    i32.store offset=92
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<Float64Array>#constructor
+    i32.store offset=96
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/internal/typedarray/TypedArray<f64>#constructor
+    i32.store offset=100
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=104
+    get_local $2
+    f64.const 0
+    f64.store offset=112
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<i32>#constructor
+    i32.store offset=120
+    get_local $2
+    i32.const 0
+    i32.store offset=124
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=128
+    get_local $2
+    f64.const 0
+    f64.store offset=136
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=144
+    get_local $2
+    f64.const 0
+    f64.store offset=152
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=160
+    get_local $2
+    f64.const 0
+    f64.store offset=168
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=176
+    get_local $2
+    f64.const 0
+    f64.store offset=184
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=192
+    get_local $2
+    f64.const 0
+    f64.store offset=200
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=208
+    get_local $2
+    f64.const 0
+    f64.store offset=216
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=224
+    get_local $2
+    f64.const 0
+    f64.store offset=232
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=240
+    get_local $2
+    f64.const 0
+    f64.store offset=248
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=256
+    get_local $2
+    f64.const 0
+    f64.store offset=264
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<String>#constructor
+    i32.store offset=272
+    get_local $2
+    i32.const 0
+    i32.store offset=276
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=280
+    get_local $2
+    f64.const 0
+    f64.store offset=288
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<f64>#constructor
+    i32.store offset=296
+    get_local $2
+    f64.const 0
+    f64.store offset=304
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<FillStrokeWhichValue>#constructor
+    i32.store offset=312
+    get_local $2
+    i32.const 0
+    i32.store offset=316
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<i32>#constructor
+    i32.store offset=320
+    get_local $2
+    i32.const 0
+    i32.store offset=324
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<i32>#constructor
+    i32.store offset=328
+    get_local $2
+    i32.const 0
+    i32.store offset=332
+    get_local $2
+    i32.const 0
+    i32.store offset=336
+    get_local $2
+    i32.const 0
+    i32.const 1000
+    call $~lib/array/Array<Path2DElement>#constructor
+    i32.store offset=340
+    get_local $2
+    i32.const 0
+    i32.store offset=344
+    get_local $2
+    i32.const 0
+    i32.const 0
+    call $~lib/array/Array<bool>#constructor
+    i32.store offset=348
+    get_local $2
+   end
+   set_local $4
+   get_local $4
+   call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#init
+   get_local $4
+   get_local $1
+   i32.store offset=8
+   get_local $4
+   return
+  end
+  i32.const 0
+  i32.const 320
+  i32.const 24
+  i32.const 4
+  call $~lib/env/abort
+  unreachable
+ )
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#createLinearGradient (; 73 ;) (type $iFFFFi) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -5546,16 +5930,18 @@
   call $assembly/linked/util/create_linear_gradient
   get_local $7
  )
- (func $assembly/renderer/CanvasGradient/CanvasGradient#addColorStop (; 68 ;) (type $iFiv) (param $0 i32) (param $1 f64) (param $2 i32)
+ (func $assembly/renderer/CanvasGradient/CanvasGradient#addColorStop (; 74 ;) (type $iFiv) (param $0 i32) (param $1 f64) (param $2 i32)
   get_local $0
   i32.load
   get_local $1
   get_local $2
   call $assembly/linked/util/add_color_stop
  )
- (func $assembly/example/init (; 69 ;) (type $v)
-  get_global $assembly/example/ctx
-  call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#init
+ (func $assembly/example/init (; 75 ;) (type $v)
+  get_global $assembly/primitives/CanvasMap/CanvasMap
+  i32.const 208
+  call $assembly/primitives/CanvasMap/CanvasRenderingContext2DInitializer#getOptimized
+  set_global $assembly/example/ctx
   get_global $assembly/example/ctx
   f64.const 0
   f64.const 0
@@ -5565,14 +5951,14 @@
   set_global $assembly/example/gradient
   get_global $assembly/example/gradient
   f64.const 0
-  i32.const 304
+  i32.const 392
   call $assembly/renderer/CanvasGradient/CanvasGradient#addColorStop
   get_global $assembly/example/gradient
   f64.const 1
-  i32.const 320
+  i32.const 408
   call $assembly/renderer/CanvasGradient/CanvasGradient#addColorStop
  )
- (func $~lib/map/Map<String,Image>#has (; 70 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/map/Map<String,Image>#has (; 76 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   get_local $0
   get_local $1
   block $~lib/internal/hash/HASH<String>|inlined.2 (result i32)
@@ -5584,7 +5970,7 @@
   i32.const 0
   i32.ne
  )
- (func $~lib/map/Map<String,Image>#get (; 71 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/map/Map<String,Image>#get (; 77 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   get_local $0
   get_local $1
@@ -5603,7 +5989,7 @@
    unreachable
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#createPattern (; 72 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#createPattern (; 78 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5633,7 +6019,7 @@
   call $assembly/linked/util/create_pattern
   get_local $5
  )
- (func $assembly/example/update (; 73 ;) (type $v)
+ (func $assembly/example/update (; 79 ;) (type $v)
   (local $0 i32)
   get_global $assembly/example/kitten
   i32.const 0
@@ -5641,14 +6027,14 @@
   tee_local $0
   if (result i32)
    get_global $assembly/primitives/TextureMap/TextureMap
-   i32.const 336
+   i32.const 424
    call $~lib/map/Map<String,Image>#has
   else   
    get_local $0
   end
   if
    get_global $assembly/primitives/TextureMap/TextureMap
-   i32.const 336
+   i32.const 424
    call $~lib/map/Map<String,Image>#get
    set_global $assembly/example/kitten
   end
@@ -5691,7 +6077,7 @@
   f64.add
   set_global $assembly/example/rotation
  )
- (func $~lib/internal/typedarray/TypedArray<f64>#__get (; 74 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
+ (func $~lib/internal/typedarray/TypedArray<f64>#__get (; 80 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
   (local $2 i32)
   (local $3 i32)
   get_local $1
@@ -5702,7 +6088,7 @@
   i32.ge_u
   if
    i32.const 0
-   i32.const 176
+   i32.const 224
    i32.const 39
    i32.const 63
    call $~lib/env/abort
@@ -5725,7 +6111,7 @@
    f64.load offset=8
   end
  )
- (func $~lib/internal/typedarray/TypedArray<f64>#__set (; 75 ;) (type $iiFv) (param $0 i32) (param $1 i32) (param $2 f64)
+ (func $~lib/internal/typedarray/TypedArray<f64>#__set (; 81 ;) (type $iiFv) (param $0 i32) (param $1 i32) (param $2 f64)
   (local $3 i32)
   (local $4 i32)
   get_local $1
@@ -5736,7 +6122,7 @@
   i32.ge_u
   if
    i32.const 0
-   i32.const 176
+   i32.const 224
    i32.const 50
    i32.const 63
    call $~lib/env/abort
@@ -5758,7 +6144,7 @@
   get_local $2
   f64.store offset=8
  )
- (func $~lib/internal/typedarray/TypedArray<f64>#__unchecked_set (; 76 ;) (type $iiFv) (param $0 i32) (param $1 i32) (param $2 f64)
+ (func $~lib/internal/typedarray/TypedArray<f64>#__unchecked_set (; 82 ;) (type $iiFv) (param $0 i32) (param $1 i32) (param $2 f64)
   (local $3 i32)
   (local $4 i32)
   get_local $0
@@ -5777,7 +6163,7 @@
   get_local $2
   f64.store offset=8
  )
- (func $~lib/internal/typedarray/TypedArray<f64>#__unchecked_get (; 77 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
+ (func $~lib/internal/typedarray/TypedArray<f64>#__unchecked_get (; 83 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -5795,7 +6181,7 @@
   i32.add
   f64.load offset=8
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_transform (; 78 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_transform (; 84 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 f64)
   (local $3 f64)
@@ -6182,7 +6568,7 @@
    drop
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#clearRect (; 79 ;) (type $iFFFFv) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#clearRect (; 85 ;) (type $iFFFFv) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -6387,7 +6773,7 @@
   end
   drop
  )
- (func $~lib/array/Array<i32>#__get (; 80 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i32>#__get (; 86 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -6414,14 +6800,14 @@
    unreachable
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:direction (; 81 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:direction (; 87 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
-  i32.load offset=16
+  i32.load offset=20
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<i32>#__get
  )
- (func $~lib/array/Array<i32>#__set (; 82 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<i32>#__set (; 88 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6442,7 +6828,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 109
     i32.const 41
     call $~lib/env/abort
@@ -6477,7 +6863,7 @@
   get_local $2
   i32.store offset=8
  )
- (func $~lib/array/Array<FillStrokeWhichValue>#__get (; 83 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<FillStrokeWhichValue>#__get (; 89 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -6504,7 +6890,7 @@
    unreachable
   end
  )
- (func $~lib/array/Array<String>#__get (; 84 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<String>#__get (; 90 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -6531,14 +6917,14 @@
    unreachable
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:filter (; 85 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:filter (; 91 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
-  i32.load offset=32
+  i32.load offset=36
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<String>#__get
  )
- (func $~lib/array/Array<String>#__set (; 86 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<String>#__set (; 92 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6559,7 +6945,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 109
     i32.const 41
     call $~lib/env/abort
@@ -6594,21 +6980,21 @@
   get_local $2
   i32.store offset=8
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:font (; 87 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:font (; 93 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
-  i32.load offset=40
+  i32.load offset=44
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<String>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:globalAlpha (; 88 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:globalAlpha (; 94 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
-  i32.load offset=48
+  i32.load offset=52
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $~lib/array/Array<f64>#__set (; 89 ;) (type $iiFv) (param $0 i32) (param $1 i32) (param $2 f64)
+ (func $~lib/array/Array<f64>#__set (; 95 ;) (type $iiFv) (param $0 i32) (param $1 i32) (param $2 f64)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6629,7 +7015,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 109
     i32.const 41
     call $~lib/env/abort
@@ -6664,14 +7050,14 @@
   get_local $2
   f64.store offset=8
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:globalCompositeOperation (; 90 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:globalCompositeOperation (; 96 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=64
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<i32>#__get
  )
- (func $~lib/array/Array<bool>#__get (; 91 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<bool>#__get (; 97 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -6698,14 +7084,14 @@
    unreachable
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:imageSmoothingEnabled (; 92 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:imageSmoothingEnabled (; 98 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=72
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<bool>#__get
  )
- (func $~lib/array/Array<bool>#__set (; 93 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<bool>#__set (; 99 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6726,7 +7112,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 109
     i32.const 41
     call $~lib/env/abort
@@ -6761,21 +7147,21 @@
   get_local $2
   i32.store8 offset=8
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:imageSmoothingQuality (; 94 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:imageSmoothingQuality (; 100 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=80
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<i32>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineCap (; 95 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineCap (; 101 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=88
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<i32>#__get
  )
- (func $~lib/array/Array<Float64Array>#__get (; 96 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Float64Array>#__get (; 102 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -6802,7 +7188,7 @@
    unreachable
   end
  )
- (func $assembly/util/TypedArray/copyTypedArray (; 97 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/util/TypedArray/copyTypedArray (; 103 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   i32.const 0
@@ -6845,7 +7231,7 @@
   end
   get_local $1
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#getLineDash (; 98 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#getLineDash (; 104 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=96
   get_local $0
@@ -6853,7 +7239,7 @@
   call $~lib/array/Array<Float64Array>#__get
   call $assembly/util/TypedArray/copyTypedArray
  )
- (func $~lib/array/Array<Float64Array>#__set (; 99 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<Float64Array>#__set (; 105 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6874,7 +7260,7 @@
    i32.ge_u
    if
     i32.const 0
-    i32.const 240
+    i32.const 176
     i32.const 109
     i32.const 41
     call $~lib/env/abort
@@ -6909,77 +7295,77 @@
   get_local $2
   i32.store offset=8
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineDashOffset (; 100 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineDashOffset (; 106 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=104
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineJoin (; 101 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineJoin (; 107 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=120
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<i32>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineWidth (; 102 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineWidth (; 108 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=128
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:miterLimit (; 103 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:miterLimit (; 109 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=144
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowBlur (; 104 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowBlur (; 110 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=256
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowColor (; 105 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowColor (; 111 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=272
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<String>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowOffsetX (; 106 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowOffsetX (; 112 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=280
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowOffsetY (; 107 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowOffsetY (; 113 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=296
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:textAlign (; 108 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:textAlign (; 114 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=320
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<i32>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:textBaseline (; 109 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:textBaseline (; 115 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=328
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<i32>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#save (; 110 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#save (; 116 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6994,19 +7380,19 @@
   i32.add
   set_local $2
   get_local $0
-  i32.load offset=16
+  i32.load offset=20
   get_local $2
   get_local $0
   call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:direction
   call $~lib/array/Array<i32>#__set
   get_local $0
-  i32.load offset=24
+  i32.load offset=28
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<FillStrokeWhichValue>#__get
   set_local $3
   get_local $0
-  i32.load offset=24
+  i32.load offset=28
   get_local $2
   call $~lib/array/Array<FillStrokeWhichValue>#__get
   set_local $4
@@ -7027,19 +7413,19 @@
   i32.load offset=12
   i32.store offset=12
   get_local $0
-  i32.load offset=32
+  i32.load offset=36
   get_local $2
   get_local $0
   call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:filter
   call $~lib/array/Array<String>#__set
   get_local $0
-  i32.load offset=40
+  i32.load offset=44
   get_local $2
   get_local $0
   call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:font
   call $~lib/array/Array<String>#__set
   get_local $0
-  i32.load offset=48
+  i32.load offset=52
   get_local $2
   get_local $0
   call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:globalAlpha
@@ -7329,7 +7715,7 @@
   get_local $2
   i32.store offset=336
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#translate (; 111 ;) (type $iFFv) (param $0 i32) (param $1 f64) (param $2 f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#translate (; 117 ;) (type $iFFv) (param $0 i32) (param $1 f64) (param $2 f64)
   get_local $0
   i32.load offset=224
   get_local $0
@@ -7383,7 +7769,7 @@
   f64.add
   call $~lib/array/Array<f64>#__set
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#rotate (; 112 ;) (type $iFv) (param $0 i32) (param $1 f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#rotate (; 118 ;) (type $iFv) (param $0 i32) (param $1 f64)
   (local $2 f64)
   (local $3 f64)
   (local $4 f64)
@@ -7471,7 +7857,7 @@
   f64.add
   call $~lib/array/Array<f64>#__set
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#set:fillPattern (; 113 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#set:fillPattern (; 119 ;) (type $iiv) (param $0 i32) (param $1 i32)
   get_local $1
   i32.const 0
   i32.eq
@@ -7479,21 +7865,21 @@
    return
   end
   get_local $0
-  i32.load offset=24
+  i32.load offset=28
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<FillStrokeWhichValue>#__get
   get_local $1
   i32.store
   get_local $0
-  i32.load offset=24
+  i32.load offset=28
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<FillStrokeWhichValue>#__get
   get_global $assembly/primitives/FillStrokeWhichValue/FillStrokeWhich.Pattern
   i32.store offset=12
  )
- (func $assembly/primitives/FillStrokeWhichValue/FillStrokeWhichValue#equals (; 114 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/primitives/FillStrokeWhichValue/FillStrokeWhichValue#equals (; 120 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   get_local $0
   i32.load offset=12
@@ -7531,7 +7917,7 @@
    get_local $2
   end
  )
- (func $~lib/map/Map<String,i32>#find (; 115 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/map/Map<String,i32>#find (; 121 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   get_local $0
@@ -7582,7 +7968,7 @@
   end
   i32.const 0
  )
- (func $~lib/map/Map<String,i32>#has (; 116 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/map/Map<String,i32>#has (; 122 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   get_local $0
   get_local $1
   block $~lib/internal/hash/HASH<String>|inlined.4 (result i32)
@@ -7594,7 +7980,7 @@
   i32.const 0
   i32.ne
  )
- (func $~lib/map/Map<String,i32>#get (; 117 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/map/Map<String,i32>#get (; 123 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   get_local $0
   get_local $1
@@ -7613,7 +7999,7 @@
    unreachable
   end
  )
- (func $~lib/map/Map<String,i32>#rehash (; 118 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $~lib/map/Map<String,i32>#rehash (; 124 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -7753,7 +8139,7 @@
   i32.load offset=20
   i32.store offset=16
  )
- (func $~lib/map/Map<String,i32>#set (; 119 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/map/Map<String,i32>#set (; 125 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -7857,7 +8243,7 @@
    i32.store offset=8
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_fill_style (; 120 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_fill_style (; 126 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 f64)
@@ -7865,9 +8251,9 @@
   (local $5 i32)
   (local $6 i32)
   get_local $0
-  i32.load offset=28
+  i32.load offset=32
   get_local $0
-  i32.load offset=24
+  i32.load offset=28
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<FillStrokeWhichValue>#__get
@@ -7876,13 +8262,13 @@
    return
   end
   get_local $0
-  i32.load offset=24
+  i32.load offset=28
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<FillStrokeWhichValue>#__get
   set_local $1
   get_local $0
-  i32.load offset=28
+  i32.load offset=32
   set_local $2
   get_local $2
   get_local $1
@@ -7905,7 +8291,7 @@
     block $case1|0
      block $case0|0
       get_local $0
-      i32.load offset=28
+      i32.load offset=32
       i32.load offset=12
       set_local $2
       get_local $2
@@ -7924,7 +8310,7 @@
      end
      block
       get_local $0
-      i32.load offset=28
+      i32.load offset=32
       i32.load offset=4
       set_local $2
       block
@@ -8075,7 +8461,7 @@
     end
     block
      get_local $0
-     i32.load offset=28
+     i32.load offset=32
      i32.load
      set_local $2
      block
@@ -8226,7 +8612,7 @@
    end
    block
     get_local $0
-    i32.load offset=28
+    i32.load offset=32
     i32.load offset=8
     set_local $2
     block
@@ -8234,12 +8620,12 @@
      set_local $4
      block $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#send_string|inlined.0 (result f64)
       get_local $0
-      i32.load offset=8
+      i32.load offset=12
       get_local $2
       call $~lib/map/Map<String,i32>#has
       if
        get_local $0
-       i32.load offset=8
+       i32.load offset=12
        get_local $2
        call $~lib/map/Map<String,i32>#get
        f64.convert_s/i32
@@ -8247,22 +8633,22 @@
       end
       get_local $0
       get_local $0
-      i32.load offset=12
+      i32.load offset=16
       i32.const 1
       i32.add
-      i32.store offset=12
+      i32.store offset=16
       get_local $0
-      i32.load offset=8
+      i32.load offset=12
       get_local $2
       get_local $0
-      i32.load offset=12
+      i32.load offset=16
       call $~lib/map/Map<String,i32>#set
       get_local $0
-      i32.load offset=12
+      i32.load offset=16
       get_local $2
       call $assembly/linked/util/create_string
       get_local $0
-      i32.load offset=12
+      i32.load offset=16
       f64.convert_s/i32
      end
      set_local $3
@@ -8406,7 +8792,7 @@
    return
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_filter (; 121 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_filter (; 127 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 f64)
@@ -8414,9 +8800,9 @@
   (local $5 i32)
   (local $6 i32)
   get_local $0
-  i32.load offset=36
+  i32.load offset=40
   get_local $0
-  i32.load offset=32
+  i32.load offset=36
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<String>#__get
@@ -8426,25 +8812,25 @@
   end
   get_local $0
   get_local $0
-  i32.load offset=32
+  i32.load offset=36
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<String>#__get
-  i32.store offset=36
+  i32.store offset=40
   get_local $0
-  i32.load offset=36
+  i32.load offset=40
   set_local $1
   block
    get_global $src/shared/CanvasInstruction/CanvasInstruction.Filter
    set_local $2
    block $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#send_string|inlined.1 (result f64)
     get_local $0
-    i32.load offset=8
+    i32.load offset=12
     get_local $1
     call $~lib/map/Map<String,i32>#has
     if
      get_local $0
-     i32.load offset=8
+     i32.load offset=12
      get_local $1
      call $~lib/map/Map<String,i32>#get
      f64.convert_s/i32
@@ -8452,22 +8838,22 @@
     end
     get_local $0
     get_local $0
-    i32.load offset=12
+    i32.load offset=16
     i32.const 1
     i32.add
-    i32.store offset=12
+    i32.store offset=16
     get_local $0
-    i32.load offset=8
+    i32.load offset=12
     get_local $1
     get_local $0
-    i32.load offset=12
+    i32.load offset=16
     call $~lib/map/Map<String,i32>#set
     get_local $0
-    i32.load offset=12
+    i32.load offset=16
     get_local $1
     call $assembly/linked/util/create_string
     get_local $0
-    i32.load offset=12
+    i32.load offset=16
     f64.convert_s/i32
    end
    set_local $3
@@ -8608,7 +8994,7 @@
    drop
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_global_alpha (; 122 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_global_alpha (; 128 ;) (type $iv) (param $0 i32)
   (local $1 f64)
   (local $2 i32)
   (local $3 i32)
@@ -8617,7 +9003,7 @@
   get_local $0
   f64.load offset=56
   get_local $0
-  i32.load offset=48
+  i32.load offset=52
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
@@ -8627,7 +9013,7 @@
   end
   get_local $0
   get_local $0
-  i32.load offset=48
+  i32.load offset=52
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
@@ -8775,7 +9161,7 @@
    drop
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_global_composite_operation (; 123 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_global_composite_operation (; 129 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 f64)
@@ -8946,7 +9332,7 @@
    drop
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_image_smoothing_enabled (; 124 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_image_smoothing_enabled (; 130 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 f64)
@@ -9129,7 +9515,7 @@
    drop
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_image_smoothing_quality (; 125 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_image_smoothing_quality (; 131 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 f64)
@@ -9300,7 +9686,7 @@
    drop
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_shadow_blur (; 126 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_shadow_blur (; 132 ;) (type $iv) (param $0 i32)
   (local $1 f64)
   (local $2 i32)
   (local $3 i32)
@@ -9467,7 +9853,7 @@
    drop
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_shadow_color (; 127 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_shadow_color (; 133 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 f64)
@@ -9500,12 +9886,12 @@
    set_local $2
    block $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#send_string|inlined.2 (result f64)
     get_local $0
-    i32.load offset=8
+    i32.load offset=12
     get_local $1
     call $~lib/map/Map<String,i32>#has
     if
      get_local $0
-     i32.load offset=8
+     i32.load offset=12
      get_local $1
      call $~lib/map/Map<String,i32>#get
      f64.convert_s/i32
@@ -9513,22 +9899,22 @@
     end
     get_local $0
     get_local $0
-    i32.load offset=12
+    i32.load offset=16
     i32.const 1
     i32.add
-    i32.store offset=12
+    i32.store offset=16
     get_local $0
-    i32.load offset=8
+    i32.load offset=12
     get_local $1
     get_local $0
-    i32.load offset=12
+    i32.load offset=16
     call $~lib/map/Map<String,i32>#set
     get_local $0
-    i32.load offset=12
+    i32.load offset=16
     get_local $1
     call $assembly/linked/util/create_string
     get_local $0
-    i32.load offset=12
+    i32.load offset=16
     f64.convert_s/i32
    end
    set_local $3
@@ -9669,7 +10055,7 @@
    drop
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_shadow_offset_x (; 128 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_shadow_offset_x (; 134 ;) (type $iv) (param $0 i32)
   (local $1 f64)
   (local $2 i32)
   (local $3 i32)
@@ -9836,7 +10222,7 @@
    drop
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_shadow_offset_y (; 129 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#update_shadow_offset_y (; 135 ;) (type $iv) (param $0 i32)
   (local $1 f64)
   (local $2 i32)
   (local $3 i32)
@@ -10003,7 +10389,7 @@
    drop
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#fillRect (; 130 ;) (type $iFFFFv) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#fillRect (; 136 ;) (type $iFFFFv) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -10247,7 +10633,7 @@
   end
   drop
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#restore (; 131 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#restore (; 137 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -10276,15 +10662,15 @@
    get_local $0
    get_local $0
    call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:direction
-   i32.store offset=20
+   i32.store offset=24
    get_local $0
-   i32.load offset=24
+   i32.load offset=28
    get_local $0
    i32.load offset=336
    call $~lib/array/Array<FillStrokeWhichValue>#__get
    set_local $1
    get_local $0
-   i32.load offset=28
+   i32.load offset=32
    set_local $2
    get_local $2
    get_local $1
@@ -10305,11 +10691,11 @@
    get_local $0
    get_local $0
    call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:filter
-   i32.store offset=36
+   i32.store offset=40
    get_local $0
    get_local $0
    call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:font
-   i32.store offset=44
+   i32.store offset=48
    get_local $0
    get_local $0
    call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:globalAlpha
@@ -10411,13 +10797,13 @@
    call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowOffsetY
    f64.store offset=304
    get_local $0
-   i32.load offset=24
+   i32.load offset=28
    get_local $0
    i32.load offset=336
    call $~lib/array/Array<FillStrokeWhichValue>#__get
    set_local $2
    get_local $0
-   i32.load offset=28
+   i32.load offset=32
    set_local $1
    get_local $1
    get_local $2
@@ -10555,7 +10941,7 @@
    i32.store offset=336
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#set:fillGradient (; 132 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#set:fillGradient (; 138 ;) (type $iiv) (param $0 i32) (param $1 i32)
   get_local $1
   i32.const 0
   i32.eq
@@ -10563,21 +10949,21 @@
    return
   end
   get_local $0
-  i32.load offset=24
+  i32.load offset=28
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<FillStrokeWhichValue>#__get
   get_local $1
   i32.store offset=4
   get_local $0
-  i32.load offset=24
+  i32.load offset=28
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<FillStrokeWhichValue>#__get
   get_global $assembly/primitives/FillStrokeWhichValue/FillStrokeWhich.Gradient
   i32.store offset=12
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#commit (; 133 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#commit (; 139 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -10691,18 +11077,21 @@
   i32.const 0
   i32.store
   get_local $0
-  i32.load offset=8
+  i32.load offset=12
   call $~lib/map/Map<String,i32>#clear
   get_local $0
   i32.const 0
-  i32.store offset=12
+  i32.store offset=16
   get_local $0
   i32.const 0
   i32.store
   get_local $0
+  i32.load offset=8
+  get_local $0
   i32.load offset=4
+  call $assembly/linked/util/render
  )
- (func $assembly/example/draw (; 134 ;) (type $i) (result i32)
+ (func $assembly/example/draw (; 140 ;) (type $v)
   get_global $assembly/example/ctx
   f64.const 0
   f64.const 0
@@ -10754,21 +11143,21 @@
   get_global $assembly/example/ctx
   call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#restore
   get_global $assembly/example/ctx
-  call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#commit
+  call $assembly/renderer/CanvasRenderingContext2DSerializer/CanvasRenderingContext2DSerializer#commit
  )
- (func $~lib/memory/memory.fill (; 135 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/memory.fill (; 141 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   get_local $0
   get_local $1
   get_local $2
   call $~lib/internal/memory/memset
  )
- (func $~lib/memory/memory.copy (; 136 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/memory.copy (; 142 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   get_local $0
   get_local $1
   get_local $2
   call $~lib/internal/memory/memmove
  )
- (func $~lib/internal/memory/memcmp (; 137 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/internal/memory/memcmp (; 143 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   get_local $0
   get_local $1
@@ -10822,25 +11211,25 @@
    i32.const 0
   end
  )
- (func $~lib/memory/memory.compare (; 138 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/memory/memory.compare (; 144 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   get_local $0
   get_local $1
   get_local $2
   call $~lib/internal/memory/memcmp
  )
- (func $~lib/memory/memory.free (; 139 ;) (type $iv) (param $0 i32)
+ (func $~lib/memory/memory.free (; 145 ;) (type $iv) (param $0 i32)
   get_local $0
   call $~lib/allocator/tlsf/__memory_free
   return
  )
- (func $~lib/allocator/tlsf/__memory_reset (; 140 ;) (type $v)
+ (func $~lib/allocator/tlsf/__memory_reset (; 146 ;) (type $v)
   unreachable
  )
- (func $~lib/memory/memory.reset (; 141 ;) (type $v)
+ (func $~lib/memory/memory.reset (; 147 ;) (type $v)
   call $~lib/allocator/tlsf/__memory_reset
   return
  )
- (func $start (; 142 ;) (type $v)
+ (func $start (; 148 ;) (type $v)
   (local $0 i32)
   i32.const 1
   get_global $~lib/allocator/tlsf/SL_BITS
@@ -10860,269 +11249,28 @@
   call $~lib/map/Map<String,Image>#constructor
   set_global $assembly/primitives/TextureMap/TextureMap
   i32.const 1
+  call $assembly/linked/util/report_inject_image
   i32.const 2
-  call $assembly/linked/util/report_inject_functions
+  call $assembly/linked/util/report_image_loaded
   block (result i32)
-   i32.const 352
+   i32.const 4
    call $~lib/memory/memory.allocate
    set_local $0
    get_local $0
    i32.const 0
+   i32.const 0
+   call $~lib/array/Array<String>#constructor
    i32.store
    get_local $0
-   i32.const 0
-   i32.const 8000
-   call $~lib/internal/typedarray/TypedArray<f64>#constructor
-   i32.store offset=4
-   get_local $0
-   i32.const 0
-   call $~lib/map/Map<String,i32>#constructor
-   i32.store offset=8
-   get_local $0
-   i32.const -1
-   i32.store offset=12
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<i32>#constructor
-   i32.store offset=16
-   get_local $0
-   i32.const 0
-   i32.store offset=20
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<FillStrokeWhichValue>#constructor
-   i32.store offset=24
-   get_local $0
-   i32.const 0
-   i32.store offset=28
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<String>#constructor
-   i32.store offset=32
-   get_local $0
-   i32.const 0
-   i32.store offset=36
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<String>#constructor
-   i32.store offset=40
-   get_local $0
-   i32.const 0
-   i32.store offset=44
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=48
-   get_local $0
-   f64.const 0
-   f64.store offset=56
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<i32>#constructor
-   i32.store offset=64
-   get_local $0
-   i32.const 0
-   i32.store offset=68
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<bool>#constructor
-   i32.store offset=72
-   get_local $0
-   i32.const 0
-   i32.store8 offset=76
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<i32>#constructor
-   i32.store offset=80
-   get_local $0
-   i32.const 0
-   i32.store offset=84
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<i32>#constructor
-   i32.store offset=88
-   get_local $0
-   i32.const 0
-   i32.store offset=92
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<Float64Array>#constructor
-   i32.store offset=96
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/internal/typedarray/TypedArray<f64>#constructor
-   i32.store offset=100
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=104
-   get_local $0
-   f64.const 0
-   f64.store offset=112
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<i32>#constructor
-   i32.store offset=120
-   get_local $0
-   i32.const 0
-   i32.store offset=124
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=128
-   get_local $0
-   f64.const 0
-   f64.store offset=136
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=144
-   get_local $0
-   f64.const 0
-   f64.store offset=152
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=160
-   get_local $0
-   f64.const 0
-   f64.store offset=168
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=176
-   get_local $0
-   f64.const 0
-   f64.store offset=184
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=192
-   get_local $0
-   f64.const 0
-   f64.store offset=200
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=208
-   get_local $0
-   f64.const 0
-   f64.store offset=216
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=224
-   get_local $0
-   f64.const 0
-   f64.store offset=232
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=240
-   get_local $0
-   f64.const 0
-   f64.store offset=248
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=256
-   get_local $0
-   f64.const 0
-   f64.store offset=264
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<String>#constructor
-   i32.store offset=272
-   get_local $0
-   i32.const 0
-   i32.store offset=276
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=280
-   get_local $0
-   f64.const 0
-   f64.store offset=288
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<f64>#constructor
-   i32.store offset=296
-   get_local $0
-   f64.const 0
-   f64.store offset=304
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<FillStrokeWhichValue>#constructor
-   i32.store offset=312
-   get_local $0
-   i32.const 0
-   i32.store offset=316
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<i32>#constructor
-   i32.store offset=320
-   get_local $0
-   i32.const 0
-   i32.store offset=324
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<i32>#constructor
-   i32.store offset=328
-   get_local $0
-   i32.const 0
-   i32.store offset=332
-   get_local $0
-   i32.const 0
-   i32.store offset=336
-   get_local $0
-   i32.const 0
-   i32.const 1000
-   call $~lib/array/Array<Path2DElement>#constructor
-   i32.store offset=340
-   get_local $0
-   i32.const 0
-   i32.store offset=344
-   get_local $0
-   i32.const 0
-   i32.const 0
-   call $~lib/array/Array<bool>#constructor
-   i32.store offset=348
-   get_local $0
   end
-  set_global $assembly/example/ctx
+  set_global $assembly/primitives/CanvasMap/CanvasMap
+  i32.const 3
+  call $assembly/linked/util/report_inject_canvas
   get_global $~lib/bindings/Math/PI
   f64.const 180
   f64.div
   set_global $assembly/example/rotValue
  )
- (func $null (; 143 ;) (type $v)
+ (func $null (; 149 ;) (type $v)
  )
 )

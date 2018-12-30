@@ -218,12 +218,6 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     }
   }
 
-  public commit(): Float64Array {
-    super.write_commit();
-    super.index = 0;
-    return super.data;
-  }
-
   public arc(x: f64, y: f64, radius: f64, startAngle: f64, endAngle: f64, anticlockwise: bool = false): void {
     this.write_path_six(
       CanvasInstruction.Arc,
@@ -375,7 +369,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this.update_shadow_offset_x();
     this.update_shadow_offset_y();
     this.update_transform();
-    super.write_draw_image(img, 0.0, 0.0, img.width, img.heigh, x, y, width, height);
+    super.write_draw_image(img, 0.0, 0.0, img.width, img.height, x, y, width, height);
   }
 
   public ellipse(x: f64, y: f64, radiusX: f64, radiusY: f64, rotation: f64, startAngle: f64, endAngle: f64, anticlockwise: bool = false): void {

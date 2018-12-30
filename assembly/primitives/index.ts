@@ -1,10 +1,6 @@
-import { TextureMap, injectImage, imageLoaded } from "./TextureMap";
-import { report_inject_functions } from "../linked";
-
-report_inject_functions(injectImage, imageLoaded);
-
+export { TextureMap, inject_image, image_loaded } from "./TextureMap";
 export { Image } from "./Image";
 export { Matrix } from "./Matrix";
 export { Path2DElement } from "./Path2DElement";
 export { FillStrokeWhichValue, FillStrokeWhich } from "./FillStrokeWhichValue";
-export { TextureMap, injectImage, imageLoaded }
+export { CanvasMap, CanvasRenderingContext2DInitializer } from "./CanvasMap";

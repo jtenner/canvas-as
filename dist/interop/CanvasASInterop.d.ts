@@ -1,25 +1,19 @@
 import { ASUtil } from "assemblyscript/lib/loader";
 import { IImageBitmapIndex, ICanvasPatternIndex, ICanvasGradientIndex } from "../util";
-export interface CanvasASInteropAPI {
-    init(): void;
-    draw(): number;
-    update(): void;
-}
 export declare class CanvasASInterop<T> {
-    ctx: CanvasRenderingContext2D;
+    contexts: Map<string, CanvasRenderingContext2D>;
     strings: Map<number, string>;
     images: IImageBitmapIndex;
     patterns: ICanvasPatternIndex;
     gradients: ICanvasGradientIndex;
-    wasm: (ASUtil & CanvasASInteropAPI & T) | null;
-    loaded: Promise<void>;
-    private image_loaded_internal;
-    private inject_internal;
-    constructor(ctx: CanvasRenderingContext2D, res: Promise<Response>, imports: any);
+    wasm: (ASUtil & T) | null;
+    private image_loaded;
+    private inject_image;
+    private inject_canvas;
+    constructor();
+    injectCanvas(name: string, value: CanvasRenderingContext2D): this;
     injectImage(name: string, value: Promise<Response>): this;
-    private init;
-    update(): void;
-    draw(): void;
+    init(): any;
     private render;
     private add_color_stop;
     private create_image;
@@ -31,6 +25,8 @@ export declare class CanvasASInterop<T> {
     private remove_pattern;
     private remove_gradient;
     private load_image;
-    private report_inject_function;
+    private report_inject_image;
+    private report_inject_canvas;
+    private report_image_loaded;
 }
 //# sourceMappingURL=CanvasASInterop.d.ts.map

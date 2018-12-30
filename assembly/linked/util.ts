@@ -29,8 +29,14 @@ export declare function remove_pattern(index: i32): void;
 @external("__as_interop", "remove_gradient")
 export declare function remove_gradient(index: i32): void;
 
-@external("__as_interop", "report_inject_function")
-export declare function report_inject_functions(
-  inject: (input: string) => Image,
-  loaded: (img: Image, width: f64, height: f64) => void,
-): void;
+@external("__as_interop", "report_inject_image")
+export declare function report_inject_image(inject: (input: string) => Image): void;
+
+@external("__as_interop", "report_image_loaded")
+export declare function report_image_loaded(loaded: (img: Image, width: f64, height: f64) => void): void;
+
+@external("__as_interop", "report_inject_canvas")
+export declare function report_inject_canvas(inject: (name: string) => void): void;
+
+@external("__as_interop", "render")
+export declare function render(canvas: string, committed: Float64Array): void;

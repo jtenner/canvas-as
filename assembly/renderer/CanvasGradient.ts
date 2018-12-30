@@ -1,4 +1,4 @@
-import { add_color_stop } from "../linked";
+import { add_color_stop, remove_gradient } from "../linked";
 var id: i32 = 0;
 
 export class CanvasGradient {

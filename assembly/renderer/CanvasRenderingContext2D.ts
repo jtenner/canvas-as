@@ -172,12 +172,6 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
     return result;
   }
 
-  public commit(): Float64Array {
-    super.write_commit();
-    super.index = 0;
-    return super.data;
-  }
-
   get currentTransform(): Matrix {
     return Matrix.create(
       this._transformA[this._stackIndex],

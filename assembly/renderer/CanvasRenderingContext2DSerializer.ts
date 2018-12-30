@@ -14,13 +14,21 @@ import { Image } from "../primitives";
 import { create_string } from "../linked";
 import { CanvasPattern } from "./CanvasPattern";
 import { CanvasGradient } from "./CanvasGradient";
+import { render } from "../linked";
 
 export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruction> {
+  public _id: string = "";
   private _stringMap: Map<string, i32> = new Map<string, i32>();
   private _stringIndex: i32 = -1;
 
   public init(): void {
     super.init();
+  }
+
+  public commit(): void {
+    this.write_commit();
+    super.index = 0;
+    render(this._id, this.data);
   }
 
   @inline

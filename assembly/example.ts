@@ -2,22 +2,28 @@
 import "allocator/tlsf";
 
 // import CanvasRenderingContext2D and Image
-import { OptimizedCanvasRenderingContext2D, Image } from "./index";
-import { CanvasGradient } from "./renderer/CanvasGradient";
-import { CanvasPattern } from "./renderer/CanvasPattern";
-import { CanvasPatternType } from "../src/shared";
-import { TextureMap } from "./primitives/TextureMap";
+import {
+  OptimizedCanvasRenderingContext2D,
+  Image,
+  CanvasGradient,
+  CanvasPattern,
+  CanvasPatternType,
+  TextureMap,
+  CanvasMap,
+} from "./index";
 
-let ctx: OptimizedCanvasRenderingContext2D = new OptimizedCanvasRenderingContext2D();
+
+let ctx: OptimizedCanvasRenderingContext2D;
 let kitten: Image;
 let rotation: f64 = 0;
 let rotValue: f64 = Math.PI / 180.0;
 let gradient: CanvasGradient;
 let kittenPattern: CanvasPattern;
 let kittenLoaded: bool = false;
+
 export function init(): void {
+  ctx = CanvasMap.getOptimized("main");
   // contexts must be initialized until the `constructor()` bugs are fixed in assemblyscript on the main branch
-  ctx.init();
 
   gradient = ctx.createLinearGradient(0.0, 0.0, 100.0, 100.0);
   gradient.addColorStop(0.0, "black");
@@ -37,7 +43,7 @@ export function update(): void {
   rotation += rotValue;
 }
 
-export function draw(): Float64Array {
+export function draw(): void {
   // perform some simple drawing calls
   ctx.clearRect(0.0, 0.0, 800.0, 600.0);
   if (kittenLoaded) {
@@ -56,8 +62,8 @@ export function draw(): Float64Array {
   ctx.fillRect(0.0, 0.0, 100.0, 100.0);
   ctx.restore();
 
-  // we must always return a reference to a `Float64Array`. The commit function is repurposed for the AssemblyScript context
-  return ctx.commit();
+  // The commit function causes 
+  ctx.commit();
 }
 
 export { memory }

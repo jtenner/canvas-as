@@ -1,4 +1,4 @@
-import { ASUtil, instantiateStreaming } from "assemblyscript/lib/loader";
+import { ASUtil, TypedArrayConstructor } from "assemblyscript/lib/loader";
 import {
   CanvasPatternType,
   CanvasInstruction,
@@ -13,74 +13,70 @@ import {
 import { GlobalCompositeOperationLookup, IImageBitmapIndex, ICanvasPatternIndex, ICanvasGradientIndex, canvasPatternTypes } from "../util";
 import { ImageLoadedCallback, ImageInjectCallback } from "../util/ImageLoadedCallbacks";
 
-
-export interface CanvasASInteropAPI {
-  init(): void;
-  draw(): number;
-  update(): void;
-}
+const ctx = document.createElement("canvas").getContext("2d");
 
 export class CanvasASInterop<T> {
-  public ctx: CanvasRenderingContext2D;
+  public contexts: Map<string, CanvasRenderingContext2D> = new Map<string, CanvasRenderingContext2D>();
   public strings: Map<number, string> = new Map<number, string>();
   public images: IImageBitmapIndex = {};
   public patterns: ICanvasPatternIndex = {};
   public gradients: ICanvasGradientIndex = {};
-  public wasm: (ASUtil & CanvasASInteropAPI & T) | null = null;
-  public loaded: Promise<void>;
+  public wasm: (ASUtil & T) | null = null;
 
-  private image_loaded_internal: number = 0;
-  private inject_internal: number = 0;
+  private image_loaded: number = 0;
+  private inject_image: number = 0;
+  private inject_canvas: number = 0;
 
-  constructor(ctx: CanvasRenderingContext2D, res: Promise<Response>, imports: any) {
-    this.ctx = ctx;
-    this.loaded = this.init(res, imports);
+  constructor() {}
+
+  public injectCanvas(name: string, value: CanvasRenderingContext2D): this {
+    if (this.inject_canvas === 0) throw new Error("CanvasASInterop hasn't loaded yet.");
+    var func = this.wasm!.getFunction(this.inject_canvas);
+    this.contexts.set(name, value);
+    func(this.wasm!.newString(name));
+    return this;
   }
 
   public injectImage(name: string, value: Promise<Response>): this {
-    const strPtr: number = this.wasm!.newString(name);
+    if (this.inject_image === 0) throw new Error("CanvasASInterop hasn't loaded yet.");
+    if (this.inject_image === 0) throw new Error("CanvasASInterop hasn't loaded yet.");
     value.then(e => e.blob())
       .then(e => createImageBitmap(e))
-      .then(e => this.loaded.then(f => e))
       .then(bitmap => {
-        const injectFunc = this.wasm!.getFunction(this.inject_internal) as ImageInjectCallback;
+        const strPtr: number = this.wasm!.newString(name);
+        const injectFunc = this.wasm!.getFunction(this.inject_image) as ImageInjectCallback;
         const imagePointer: number = injectFunc(strPtr);
         const imageIndex: number = imagePointer / Int32Array.BYTES_PER_ELEMENT;
         this.images[this.wasm!.I32[imageIndex]] = bitmap;
-        const loadedFunc = this.wasm!.getFunction(this.image_loaded_internal) as ImageLoadedCallback;
+        const loadedFunc = this.wasm!.getFunction(this.image_loaded) as ImageLoadedCallback;
         loadedFunc(imagePointer, bitmap.width, bitmap.height);
       });
     return this;
   }
 
-  private async init(res: Promise<Response>, imports: any = {}): Promise<void> {
-    imports.__as_interop = {
+  public init(): any {
+    return {
       add_color_stop: this.add_color_stop.bind(this),
-      create_image: this.create_image.bind(this),
       create_linear_gradient: this.create_linear_gradient.bind(this),
       create_pattern: this.create_pattern.bind(this),
       create_radial_gradient: this.create_radial_gradient.bind(this),
       create_string: this.create_string.bind(this),
+      create_image: this.create_image.bind(this),
       remove_image: this.remove_image.bind(this),
-      remove_gradient: this.remove_gradient.bind(this),
       remove_pattern: this.remove_pattern.bind(this),
-      report_inject_function: this.report_inject_function.bind(this),
+      remove_gradient: this.remove_gradient.bind(this),
+      report_inject_image: this.report_inject_image.bind(this),
+      report_image_loaded: this.report_image_loaded.bind(this),
+      report_inject_canvas: this.report_inject_canvas.bind(this),
+      render: this.render.bind(this),
     };
-    this.wasm = await instantiateStreaming<CanvasASInteropAPI & T>(res, imports);
-    this.wasm.init();
   }
 
-  public update(): void {
-    this.wasm!.update();
-  }
-
-  public draw(): void {
-    const data: Float64Array = this.wasm!.getArray(Float64Array as any, this.wasm!.draw());
-    this.render(data);
-  }
-
-  private render(data: Float64Array): void {
+  private render(name: number, dataPointer: number): void {
     var index: number = 0;
+    var ctx: CanvasRenderingContext2D | undefined = this.contexts.get(this.wasm!.getString(name));
+    if (!ctx) throw new Error("Invalid context: " + name);
+    var data: Float64Array = this.wasm!.getArray(Float64Array as any as TypedArrayConstructor, dataPointer);
     while (index < data.length) {
       if (data[index] === CanvasInstruction.Commit) {
         this.strings.clear();
@@ -88,7 +84,7 @@ export class CanvasASInterop<T> {
       }
       switch(data[index]) {
         case CanvasInstruction.Arc: {
-          this.ctx.arc(
+          ctx.arc(
             data[index + 2],
             data[index + 3],
             data[index + 4],
@@ -99,7 +95,7 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.ArcTo: {
-          this.ctx.arcTo(
+          ctx.arcTo(
             data[index + 2],
             data[index + 3],
             data[index + 4],
@@ -109,11 +105,11 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.BeginPath: {
-          this.ctx.beginPath();
+          ctx.beginPath();
           break;
         }
         case CanvasInstruction.BezierCurveTo: {
-          this.ctx.bezierCurveTo(
+          ctx.bezierCurveTo(
             data[index + 2],
             data[index + 3],
             data[index + 4],
@@ -124,7 +120,7 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.ClearRect: {
-          this.ctx.clearRect(
+          ctx.clearRect(
             data[index + 2],
             data[index + 3],
             data[index + 4],
@@ -133,20 +129,20 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.Clip: {
-          this.ctx.clip();
+          ctx.clip();
           break;
         }
         case CanvasInstruction.ClosePath: {
-          this.ctx.closePath();
+          ctx.closePath();
           break;
         }
         case CanvasInstruction.Direction: {
-          this.ctx.direction = Direction[data[index + 2]] as CanvasDirection;
+          ctx.direction = Direction[data[index + 2]] as CanvasDirection;
           break;
         }
         case CanvasInstruction.DrawImage: {
           if (!this.images[data[index + 2]]) break;
-          this.ctx.drawImage(
+          ctx.drawImage(
             this.images[data[index + 2]]!,
             data[index + 3],
             data[index + 4],
@@ -160,7 +156,7 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.Ellipse: {
-          this.ctx.ellipse(
+          ctx.ellipse(
             data[index + 2],
             data[index + 3],
             data[index + 4],
@@ -173,19 +169,19 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.Fill: {
-          this.ctx.fill(FillRule[data[index + 2]] as CanvasFillRule);
+          ctx.fill(FillRule[data[index + 2]] as CanvasFillRule);
           break;
         }
         case CanvasInstruction.FillGradient: {
-          this.ctx.fillStyle = this.gradients[data[index + 2]]!;
+          ctx.fillStyle = this.gradients[data[index + 2]]!;
           break;
         }
         case CanvasInstruction.FillPattern: {
-          this.ctx.fillStyle = this.patterns[data[index + 2]]!;
+          ctx.fillStyle = this.patterns[data[index + 2]]!;
           break;
         }
         case CanvasInstruction.FillRect: {
-          this.ctx.fillRect(
+          ctx.fillRect(
             data[index + 2],
             data[index + 3],
             data[index + 4],
@@ -195,12 +191,12 @@ export class CanvasASInterop<T> {
         }
         case CanvasInstruction.FillStyle: {
           if (!this.strings.has(data[index + 2])) continue;
-          this.ctx.fillStyle = this.strings.get(data[index + 2])!;
+          ctx.fillStyle = this.strings.get(data[index + 2])!;
           break;
         }
         case CanvasInstruction.FillText: {
           if (!this.strings.has(data[index + 2])) continue;
-          this.ctx.fillText(
+          ctx.fillText(
             this.strings.get(data[index + 2])!,
             data[index + 3],
             data[index + 4],
@@ -210,65 +206,65 @@ export class CanvasASInterop<T> {
         }
         case CanvasInstruction.Filter: {
           if (!this.strings.has(data[index + 2])) continue;
-          this.ctx.filter = this.strings.get(data[index + 2])!;
+          ctx.filter = this.strings.get(data[index + 2])!;
           break;
         }
         case CanvasInstruction.Font: {
           if (!this.strings.has(data[index + 2])) continue;
-          this.ctx.font = this.strings.get(data[index + 2])!;
+          ctx.font = this.strings.get(data[index + 2])!;
           break;
         }
         case CanvasInstruction.GlobalAlpha: {
-          this.ctx.globalAlpha = data[index + 2];
+          ctx.globalAlpha = data[index + 2];
           break;
         }
         case CanvasInstruction.GlobalCompositeOperation: {
-          this.ctx.globalCompositeOperation = GlobalCompositeOperationLookup[data[index + 2]];
+          ctx.globalCompositeOperation = GlobalCompositeOperationLookup[data[index + 2]];
           break;
         }
         case CanvasInstruction.ImageSmoothingEnabled: {
-          this.ctx.imageSmoothingEnabled = data[index + 2] === 1.0;
+          ctx.imageSmoothingEnabled = data[index + 2] === 1.0;
           break;
         }
         case CanvasInstruction.ImageSmoothingQuality: {
-          this.ctx.imageSmoothingQuality = ImageSmoothingQuality[data[index + 2]] as "high" | "low" | "medium";
+          ctx.imageSmoothingQuality = ImageSmoothingQuality[data[index + 2]] as "high" | "low" | "medium";
           break;
         }
         case CanvasInstruction.LineCap: {
-          this.ctx.lineCap = LineCap[data[index + 2]] as CanvasLineCap;
+          ctx.lineCap = LineCap[data[index + 2]] as CanvasLineCap;
           break;
         }
         case CanvasInstruction.LineDash: {
           // setLineDash accepts a typed array instead of just a number[]
-          this.ctx.setLineDash(this.wasm!.getArray(Float64Array as any, data[index + 2]) as any);
+          ctx.setLineDash(this.wasm!.getArray(Float64Array as any, data[index + 2]) as any);
           break;
         }
         case CanvasInstruction.LineDashOffset: {
-          this.ctx.lineDashOffset = data[index + 2];
+          ctx.lineDashOffset = data[index + 2];
           break;
         }
         case CanvasInstruction.LineJoin: {
-          this.ctx.lineJoin = LineJoin[data[index + 2]] as CanvasLineJoin;
+          ctx.lineJoin = LineJoin[data[index + 2]] as CanvasLineJoin;
           break;
         }
         case CanvasInstruction.LineTo: {
-          this.ctx.lineTo(data[index + 2], data[index + 3]);
+          ctx.lineTo(data[index + 2], data[index + 3]);
           break;
         }
         case CanvasInstruction.LineWidth: {
-          this.ctx.lineWidth = data[index + 2];
+          ctx.lineWidth = data[index + 2];
           break;
         }
         case CanvasInstruction.MiterLimit: {
-          this.ctx.miterLimit = data[index + 2];
+          ctx.miterLimit = data[index + 2];
           break;
         }
         case CanvasInstruction.MoveTo: {
-          this.ctx.moveTo(data[index + 2], data[index + 3]);
+          ctx.moveTo(data[index + 2], data[index + 3]);
           break;
         }
         case CanvasInstruction.QuadraticCurveTo: {
-          this.ctx.quadraticCurveTo(
+          ctx.quadraticCurveTo(
             data[index + 2],
             data[index + 3],
             data[index + 4],
@@ -277,7 +273,7 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.Rect: {
-          this.ctx.rect(
+          ctx.rect(
             data[index + 2],
             data[index + 3],
             data[index + 4],
@@ -286,23 +282,23 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.Restore: {
-          this.ctx.restore();
+          ctx.restore();
           break;
         }
         case CanvasInstruction.Rotate: {
-          this.ctx.rotate(data[index + 2]);
+          ctx.rotate(data[index + 2]);
           break;
         }
         case CanvasInstruction.Save: {
-          this.ctx.save();
+          ctx.save();
           break;
         }
         case CanvasInstruction.Scale: {
-          this.ctx.scale(data[index + 2], data[index + 3]);
+          ctx.scale(data[index + 2], data[index + 3]);
           break;
         }
         case CanvasInstruction.SetTransform: {
-          this.ctx.setTransform(
+          ctx.setTransform(
             data[index + 2],
             data[index + 3],
             data[index + 4],
@@ -313,45 +309,45 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.ShadowBlur: {
-          this.ctx.shadowBlur = data[index + 2];
+          ctx.shadowBlur = data[index + 2];
           break;
         }
         case CanvasInstruction.ShadowColor: {
           if (!this.strings.has(data[index + 2])) continue;
-          this.ctx.shadowColor = this.strings.get(data[index + 2])!;
+          ctx.shadowColor = this.strings.get(data[index + 2])!;
           break;
         }
         case CanvasInstruction.ShadowOffsetX: {
-          this.ctx.shadowOffsetX = data[index + 2];
+          ctx.shadowOffsetX = data[index + 2];
           break;
         }
         case CanvasInstruction.ShadowOffsetY: {
-          this.ctx.shadowOffsetY = data[index + 2];
+          ctx.shadowOffsetY = data[index + 2];
           break;
         }
         case CanvasInstruction.StrokeStyle: {
           if (!this.strings.has(data[index + 2]))
-          this.ctx.fillStyle = this.strings.get(data[index + 2])!;
+          ctx.fillStyle = this.strings.get(data[index + 2])!;
           break;
         }
         case CanvasInstruction.StrokeGradient: {
-          this.ctx.strokeStyle = this.gradients[data[index + 2]]!;
+          ctx.strokeStyle = this.gradients[data[index + 2]]!;
           break;
         }
         case CanvasInstruction.StrokePattern: {
-          this.ctx.strokeStyle = this.patterns[data[index + 2]]!;
+          ctx.strokeStyle = this.patterns[data[index + 2]]!;
           break;
         }
         case CanvasInstruction.TextAlign: {
-          this.ctx.textAlign = TextAlign[data[index + 2]] as CanvasTextAlign;
+          ctx.textAlign = TextAlign[data[index + 2]] as CanvasTextAlign;
           break;
         }
         case CanvasInstruction.TextBaseline: {
-          this.ctx.textBaseline = TextBaseline[data[index + 2]] as CanvasTextBaseline;
+          ctx.textBaseline = TextBaseline[data[index + 2]] as CanvasTextBaseline;
           break;
         }
         case CanvasInstruction.Transform: {
-          this.ctx.transform(
+          ctx.transform(
             data[index + 2],
             data[index + 3],
             data[index + 4],
@@ -362,7 +358,7 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.Translate: {
-          this.ctx.translate(data[index + 2], data[index + 3]);
+          ctx.translate(data[index + 2], data[index + 3]);
           break;
         }
         default:
@@ -381,15 +377,15 @@ export class CanvasASInterop<T> {
   }
 
   private create_linear_gradient(index: number, x0: number, y0: number, x1: number, y1: number): void {
-    this.gradients[index] = this.ctx.createLinearGradient(x0, y0, x1, y1);
+    this.gradients[index] = ctx!.createLinearGradient(x0, y0, x1, y1);
   }
 
   private create_pattern(index: number, imageIndex: number, patternType: CanvasPatternType): void {
-    this.patterns[index] = this.ctx.createPattern(this.images[imageIndex]!, canvasPatternTypes[patternType]);
+    this.patterns[index] = ctx!.createPattern(this.images[imageIndex]!, canvasPatternTypes[patternType]);
   }
 
   private create_radial_gradient(index: number, x0: number, y0: number, r0: number, x1: number, y1: number, r1: number): void {
-    this.gradients[index] = this.ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
+    this.gradients[index] = ctx!.createRadialGradient(x0, y0, r0, x1, y1, r1);
   }
 
   private create_string(index: number, stringPointer: number): void {
@@ -416,12 +412,19 @@ export class CanvasASInterop<T> {
 
     const imageIndex: number = imagePointer / Int32Array.BYTES_PER_ELEMENT;
     this.images[this.wasm!.I32[imageIndex]] = img;
-    const imageLoadedFunc = this.wasm!.getFunction(this.image_loaded_internal) as ImageLoadedCallback;
+    const imageLoadedFunc = this.wasm!.getFunction(this.image_loaded) as ImageLoadedCallback;
     imageLoadedFunc(imagePointer, img.width, img.height);
   }
 
-  private report_inject_function(injectPointer: number, loadedPointer: number): void {
-    this.inject_internal = injectPointer;
-    this.image_loaded_internal = loadedPointer;
+  private report_inject_image(inject_image: number): void {
+    this.inject_image = inject_image;
+  }
+
+  private report_inject_canvas(inject_canvas: number): void {
+    this.inject_canvas = inject_canvas;
+  }
+
+  private report_image_loaded(image_loaded: number): void {
+    this.image_loaded = image_loaded;
   }
 }

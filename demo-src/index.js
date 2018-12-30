@@ -2,7 +2,7 @@ const regeneratorRuntime = require("regenerator-runtime");
 window.regeneratorRuntime = regeneratorRuntime;
 const { Buffer } = require("buffer");
 window.Buffer = Buffer;
-const CanvasAS = require("../src");
+const { instantiateStreaming } = require("../src");
 const canvas = document.querySelector("canvas") || document.createElement("canvas");
 
 canvas.width = 800;
@@ -17,16 +17,14 @@ const buff = fs.readFileSync("./build/untouched.wasm");
 const blob = new Blob([buff], { type: "application/wasm" });
 const url = URL.createObjectURL(blob);
 
-const interop = new CanvasAS.CanvasASInterop(ctx, fetch(url), {});
-
-
 async function main() {
-  await interop.loaded;
-  interop.injectImage("kitten", fetch("https://placekitten.com/400/300"));
-
+  const interop = await instantiateStreaming(fetch(url), {});
+  interop.injectCanvas("main", ctx)
+    .injectImage("kitten", fetch("https://placekitten.com/400/300"));
+  interop.wasm.init();
   function loop() {
-    interop.update();
-    interop.draw();
+    interop.wasm.update();
+    interop.wasm.draw();
   }
 
   if (!window.loop) {
