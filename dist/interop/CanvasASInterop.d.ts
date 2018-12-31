@@ -11,7 +11,7 @@ export declare class CanvasASInterop<T> {
     private use_image;
     private use_canvas;
     constructor();
-    useCanvas(name: string, value: CanvasRenderingContext2D): this;
+    useContext(name: string, value: CanvasRenderingContext2D): this;
     useImage(name: string, value: Promise<Response>): this;
     init(): any;
     private render;
@@ -21,6 +21,8 @@ export declare class CanvasASInterop<T> {
     private create_pattern;
     private create_radial_gradient;
     private create_string;
+    private put_image_data;
+    private put_image_data_dirty;
     private remove_image;
     private remove_pattern;
     private remove_gradient;

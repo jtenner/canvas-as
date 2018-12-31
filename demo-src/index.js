@@ -19,11 +19,9 @@ const url = URL.createObjectURL(blob);
 
 async function main() {
   const interop = await instantiateStreaming(fetch(url), {});
-  interop.injectCanvas("main", ctx)
-    .injectImage("kitten", fetch("https://placekitten.com/400/300"));
+  interop.useContext("main", ctx);
   interop.wasm.init();
   function loop() {
-    interop.wasm.update();
     interop.wasm.draw();
   }
 

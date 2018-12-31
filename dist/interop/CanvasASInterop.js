@@ -15,7 +15,7 @@ class CanvasASInterop {
         this.use_image = 0;
         this.use_canvas = 0;
     }
-    useCanvas(name, value) {
+    useContext(name, value) {
         if (this.use_canvas === 0)
             throw new Error("CanvasASInterop hasn't loaded yet.");
         var func = this.wasm.getFunction(this.use_canvas);
@@ -54,6 +54,8 @@ class CanvasASInterop {
             remove_gradient: this.remove_gradient.bind(this),
             report_use_image: this.report_use_image.bind(this),
             report_image_loaded: this.report_image_loaded.bind(this),
+            put_image_data: this.put_image_data.bind(this),
+            put_image_data_dirty: this.put_image_data_dirty.bind(this),
             report_use_canvas: this.report_use_canvas.bind(this),
             render: this.render.bind(this),
         };
@@ -299,6 +301,37 @@ class CanvasASInterop {
     }
     create_string(index, stringPointer) {
         this.strings.set(index, this.wasm.getString(stringPointer));
+    }
+    put_image_data(name, imageDataPointer, dx, dy) {
+        var contextName = this.wasm.getString(name);
+        if (!this.contexts.has(contextName))
+            throw new Error("Cannot find context: " + contextName);
+        var context = this.contexts.get(contextName);
+        var imagePointerIndex = imageDataPointer / Int32Array.BYTES_PER_ELEMENT;
+        var dataPointer = this.wasm.I32[imagePointerIndex];
+        var width = this.wasm.I32[imagePointerIndex + 1];
+        var height = this.wasm.I32[imagePointerIndex + 2];
+        var imageData = new ImageData(width, height);
+        var data = this.wasm.getArray(Uint8ClampedArray, dataPointer);
+        for (var i = 0; i < data.length; i++) {
+            imageData.data[i] = data[i];
+        }
+        context.putImageData(imageData, dx, dy);
+    }
+    put_image_data_dirty(name, imageDataPointer, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight) {
+        var contextName = this.wasm.getString(name);
+        if (!this.contexts.has(contextName))
+            throw new Error("Cannot find context: " + contextName);
+        var context = this.contexts.get(contextName);
+        var dataPointer = this.wasm.I32[imageDataPointer];
+        var width = this.wasm.I32[imageDataPointer + 4];
+        var height = this.wasm.I32[imageDataPointer + 8];
+        var imageData = new ImageData(width, height);
+        var data = this.wasm.getArray(Uint8ClampedArray, dataPointer);
+        for (var i = 0; i < data.length; i++) {
+            imageData.data[i] = data[i];
+        }
+        context.putImageData(imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight);
     }
     remove_image(index) {
         this.images[index] = null;

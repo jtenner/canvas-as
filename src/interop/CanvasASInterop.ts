@@ -36,7 +36,7 @@ export class CanvasASInterop<T> {
 
   constructor() {}
 
-  public useCanvas(name: string, value: CanvasRenderingContext2D): this {
+  public useContext(name: string, value: CanvasRenderingContext2D): this {
     if (this.use_canvas === 0) throw new Error("CanvasASInterop hasn't loaded yet.");
     var func = this.wasm!.getFunction(this.use_canvas);
     this.contexts.set(name, value);
@@ -74,6 +74,8 @@ export class CanvasASInterop<T> {
       remove_gradient: this.remove_gradient.bind(this),
       report_use_image: this.report_use_image.bind(this),
       report_image_loaded: this.report_image_loaded.bind(this),
+      put_image_data: this.put_image_data.bind(this),
+      put_image_data_dirty: this.put_image_data_dirty.bind(this),
       report_use_canvas: this.report_use_canvas.bind(this),
       render: this.render.bind(this),
     };
@@ -397,6 +399,37 @@ export class CanvasASInterop<T> {
 
   private create_string(index: number, stringPointer: number): void {
     this.strings.set(index, this.wasm!.getString(stringPointer));
+  }
+
+  private put_image_data(name: number, imageDataPointer: number, dx: number, dy: number): void {
+    var contextName: string = this.wasm!.getString(name)
+    if (!this.contexts.has(contextName)) throw new Error("Cannot find context: " + contextName);
+    var context: CanvasRenderingContext2D = this.contexts.get(contextName)!;
+    var imagePointerIndex = imageDataPointer / Int32Array.BYTES_PER_ELEMENT;
+    var dataPointer: number = this.wasm!.I32[imagePointerIndex];
+    var width: number = this.wasm!.I32[imagePointerIndex + 1];
+    var height: number = this.wasm!.I32[imagePointerIndex + 2];
+    var imageData: ImageData = new ImageData(width, height);
+    var data: Uint8ClampedArray = this.wasm!.getArray(Uint8ClampedArray as any, dataPointer) as any as Uint8ClampedArray;
+    for (var i = 0; i < data.length; i++) {
+      imageData.data[i] = data[i];
+    }
+    context.putImageData(imageData, dx, dy);
+  }
+
+  private put_image_data_dirty(name: number, imageDataPointer: number, dx: number, dy: number, dirtyX: number, dirtyY: number, dirtyWidth: number, dirtyHeight: number): void {
+    var contextName: string = this.wasm!.getString(name)
+    if (!this.contexts.has(contextName)) throw new Error("Cannot find context: " + contextName);
+    var context: CanvasRenderingContext2D = this.contexts.get(contextName)!;
+    var dataPointer: number = this.wasm!.I32[imageDataPointer];
+    var width: number = this.wasm!.I32[imageDataPointer + 4];
+    var height: number = this.wasm!.I32[imageDataPointer + 8];
+    var imageData: ImageData = new ImageData(width, height);
+    var data: Uint8ClampedArray = this.wasm!.getArray(Uint8ClampedArray as any, dataPointer) as any as Uint8ClampedArray;
+    for (var i = 0; i < data.length; i++) {
+      imageData.data[i] = data[i];
+    }
+    context.putImageData(imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight);
   }
 
   private remove_image(index: number): void {

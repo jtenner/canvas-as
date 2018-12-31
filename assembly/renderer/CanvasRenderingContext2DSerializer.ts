@@ -10,8 +10,8 @@ import {
   TextBaseline,
 } from "../../src/shared";
 import { Serializer } from "./Serializer";
-import { Image } from "../primitives";
-import { create_string } from "../linked";
+import { Image, ImageData } from "../primitives";
+import { create_string, put_image_data, put_image_data_dirty } from "../linked";
 import { CanvasPattern } from "./CanvasPattern";
 import { CanvasGradient } from "./CanvasGradient";
 import { render } from "../linked";
@@ -29,6 +29,16 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
     this.write_commit();
     super.index = 0;
     render(this._id, this.data);
+  }
+
+  public putImageData(imageData: ImageData, dx: i32, dy: i32): void {
+    this.commit();
+    put_image_data(this._id, imageData, dx, dy);
+  }
+
+  public putImageDataDirty(imageData: ImageData,  dx: i32, dy: i32, dirtyX: i32, dirtyY: i32, dirtyWidth: i32, dirtyHeight: i32): void {
+    this.commit();
+    put_image_data_dirty(this._id, imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight);
   }
 
   @inline

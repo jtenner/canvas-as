@@ -13,6 +13,7 @@ export { Matrix } from "./primitives/Matrix";
 export { Path2DElement } from "./primitives/Path2DElement";
 export { use_image, TextureMap } from "./primitives/TextureMap";
 export { CanvasMap, CanvasRenderingContext2DInitializer } from "./primitives/CanvasMap";
+export { ImageData } from "./primitives/ImageData";
 
 export { CanvasGradient } from "./renderer/CanvasGradient";
 export { CanvasPattern } from "./renderer/CanvasPattern";

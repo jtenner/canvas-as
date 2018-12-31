@@ -1,4 +1,4 @@
-import { Image } from "../primitives";
+import { Image, ImageData } from "../primitives";
 import { CanvasPatternType } from "../../src/shared";
 
 
@@ -40,3 +40,9 @@ export declare function report_use_canvas(use: (name: string) => void): void;
 
 @external("__as_interop", "render")
 export declare function render(canvas: string, committed: Float64Array): void;
+
+@external("__as_interop", "put_image_data")
+export declare function put_image_data(id: string, data: ImageData, dx: i32, dy: i32): void;
+
+@external("__as_interop", "put_image_data_dirty")
+export declare function put_image_data_dirty(id: string, imagedata: ImageData, dx: i32, dy: i32, dirtyX: i32, dirtyY: i32, dirtyWidth: i32, dirtyHeight: i32): void;

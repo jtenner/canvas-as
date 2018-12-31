@@ -12,4 +12,6 @@ export {
   report_image_loaded,
   report_use_canvas,
   report_use_image,
+  put_image_data,
+  put_image_data_dirty,
 } from "./util";
