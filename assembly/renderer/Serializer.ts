@@ -8,144 +8,108 @@ export class Serializer<T> {
 
   @inline
   protected write_zero(instruction: T): void {
-    if (this.data.length <= (this.index + 2)) this.grow();
-    this.data[this.index++] = <f64>instruction;
-    var strideToIndex: i32 = this.index++;
-    this.data[strideToIndex] = <f64>this.index; // strideTo
+    var next: i32 = this.index + 2;
+    if (this.data.length <= next) this.grow();
+    this.write(<f64>instruction);
+    this.write(next);
   }
 
   @inline
   protected write_one(instruction: T, value: f64): void {
-    if (this.data.length <= (this.index + 3)) this.grow();
-    unchecked(this.data[this.index] = <f64>instruction);
-    ++this.index;
-    var strideToIndex: i32 = this.index++;
-    unchecked(this.data[this.index] = value);
-    ++this.index;
-    unchecked(this.data[strideToIndex] = <f64>this.index); // strideTo
+    var next: i32 = this.index + 3;
+    if (this.data.length <= next) this.grow();
+    this.write(<f64>instruction);
+    this.write(next);
+    this.write(value);
   }
 
 
   @inline
   protected write_two(instruction: T, a: f64, b: f64): void {
-    if (this.data.length <= (this.index + 4)) this.grow();
-    unchecked(this.data[this.index] = <f64>instruction);
-    ++this.index;
-    var strideToIndex: i32 = this.index++;
-    unchecked(this.data[this.index] = a);
-    ++this.index;
-    unchecked(this.data[this.index] = b);
-    ++this.index;
-    unchecked(this.data[strideToIndex] = <f64>this.index); // strideTo
+    var next: i32 = this.index + 4;
+    if (this.data.length <= next) this.grow();
+    this.write(<f64>instruction);
+    this.write(next);
+    this.write(a);
+    this.write(b);
   }
 
   @inline
   protected write_four(instruction: T, a: f64, b: f64, c: f64, d: f64): void {
-    if (this.data.length <= (this.index + 6)) this.grow();
-    unchecked(this.data[this.index] = <f64>instruction);
-    ++this.index;
-    var strideToIndex: i32 = this.index++;
-    unchecked(this.data[this.index] = a);
-    ++this.index;
-    unchecked(this.data[this.index] = b);
-    ++this.index;
-    unchecked(this.data[this.index] = c);
-    ++this.index;
-    unchecked(this.data[this.index] = d);
-    ++this.index;
-    unchecked(this.data[strideToIndex] = <f64>this.index); // strideTo
+    var next: i32 = this.index + 6;
+    if (this.data.length <= next) this.grow();
+    this.write(<f64>instruction);
+    this.write(next);
+    this.write(a);
+    this.write(b);
+    this.write(c);
+    this.write(d);
   }
 
   @inline
   protected write_five(instruction: T, a: f64, b: f64, c: f64, d: f64, e: f64): void {
-    if (this.data.length <= (this.index + 7)) this.grow();
-    unchecked(this.data[this.index] = <f64>instruction);
-    ++this.index;
-    var strideToIndex: i32 = this.index++;
-    unchecked(this.data[this.index] = a);
-    ++this.index;
-    unchecked(this.data[this.index] = b);
-    ++this.index;
-    unchecked(this.data[this.index] = c);
-    ++this.index;
-    unchecked(this.data[this.index] = d);
-    ++this.index;
-    unchecked(this.data[this.index] = e);
-    ++this.index;
-    unchecked(this.data[strideToIndex] = <f64>this.index); // strideTo
+    var next: i32 = this.index + 7;
+    if (this.data.length <= next) this.grow();
+    this.write(<f64>instruction);
+    this.write(next);
+    this.write(a);
+    this.write(b);
+    this.write(c);
+    this.write(d);
+    this.write(e);
   }
 
   @inline
   protected write_six(instruction: T, a: f64, b: f64, c: f64, d: f64, e: f64, f: f64): void {
-    if (this.data.length <= (this.index + 8)) this.grow();
-    unchecked(this.data[this.index] = <f64>instruction);
-    ++this.index;
-    var strideToIndex: i32 = this.index++;
-    unchecked(this.data[this.index] = a);
-    ++this.index;
-    unchecked(this.data[this.index] = b);
-    ++this.index;
-    unchecked(this.data[this.index] = c);
-    ++this.index;
-    unchecked(this.data[this.index] = d);
-    ++this.index;
-    unchecked(this.data[this.index] = e);
-    ++this.index;
-    unchecked(this.data[this.index] = f);
-    ++this.index;
-    unchecked(this.data[strideToIndex] = <f64>this.index); // strideTo
+    var next: i32 = this.index + 8;
+    if (this.data.length <= next) this.grow();
+    this.write(<f64>instruction);
+    this.write(next);
+    this.write(a);
+    this.write(b);
+    this.write(c);
+    this.write(d);
+    this.write(e);
+    this.write(f);
   }
 
   @inline
   protected write_eight(instruction: T, a: f64, b: f64, c: f64, d: f64, e: f64, f: f64, g: f64, h: f64): void {
-    if (this.data.length <= (this.index + 11)) this.grow();
-    unchecked(this.data[this.index] = <f64>instruction);
-    ++this.index;
-    var strideToIndex: i32 = this.index++;
-    unchecked(this.data[this.index] = a);
-    ++this.index;
-    unchecked(this.data[this.index] = b);
-    ++this.index;
-    unchecked(this.data[this.index] = c);
-    ++this.index;
-    unchecked(this.data[this.index] = d);
-    ++this.index;
-    unchecked(this.data[this.index] = e);
-    ++this.index;
-    unchecked(this.data[this.index] = f);
-    ++this.index;
-    unchecked(this.data[this.index] = g);
-    ++this.index;
-    unchecked(this.data[this.index] = h);
-    ++this.index;
-    unchecked(this.data[strideToIndex] = <f64>this.index); // strideTo
+    var next: i32 = this.index + 10;
+    if (this.data.length <= next) this.grow();
+    this.write(<f64>instruction);
+    this.write(next);
+    this.write(a);
+    this.write(b);
+    this.write(c);
+    this.write(d);
+    this.write(e);
+    this.write(f);
+    this.write(g);
+    this.write(h);
   }
 
   @inline
   protected write_nine(instruction: T, a: f64, b: f64, c: f64, d: f64, e: f64, f: f64, g: f64, h: f64, i: f64): void {
-    if (this.data.length <= (this.index + 11)) this.grow();
-    unchecked(this.data[this.index] = <f64>instruction);
+    var next: i32 = this.index + 11;
+    if (this.data.length <= next) this.grow();
+    this.write(<f64>instruction);
+    this.write(next);
+    this.write(a);
+    this.write(b);
+    this.write(c);
+    this.write(d);
+    this.write(e);
+    this.write(f);
+    this.write(g);
+    this.write(h);
+    this.write(i);
+  }
+
+  @inline
+  private write(value: f64): void {
+    unchecked(this.data[this.index] = value);
     ++this.index;
-    var strideToIndex: i32 = this.index++;
-    unchecked(this.data[this.index] = a);
-    ++this.index;
-    unchecked(this.data[this.index] = b);
-    ++this.index;
-    unchecked(this.data[this.index] = c);
-    ++this.index;
-    unchecked(this.data[this.index] = d);
-    ++this.index;
-    unchecked(this.data[this.index] = e);
-    ++this.index;
-    unchecked(this.data[this.index] = f);
-    ++this.index;
-    unchecked(this.data[this.index] = g);
-    ++this.index;
-    unchecked(this.data[this.index] = h);
-    ++this.index;
-    unchecked(this.data[this.index] = i);
-    ++this.index;
-    unchecked(this.data[strideToIndex] = <f64>this.index); // strideTo
   }
 
   @inline
@@ -154,9 +118,11 @@ export class Serializer<T> {
     var length: i32 = this.data.length;
     var i: i32 = 0;
     while (i < length) {
-      data[i] = this.data[i];
+      unchecked(data[i] = this.data[i]);
       ++i;
     }
+    memory.free(changetype<usize>(this.data.buffer));
+    memory.free(changetype<usize>(this.data));
     this.data = data;
   }
 }
