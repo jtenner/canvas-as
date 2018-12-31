@@ -323,9 +323,10 @@ class CanvasASInterop {
         if (!this.contexts.has(contextName))
             throw new Error("Cannot find context: " + contextName);
         var context = this.contexts.get(contextName);
-        var dataPointer = this.wasm.I32[imageDataPointer];
-        var width = this.wasm.I32[imageDataPointer + 4];
-        var height = this.wasm.I32[imageDataPointer + 8];
+        var imagePointerIndex = imageDataPointer / Int32Array.BYTES_PER_ELEMENT;
+        var dataPointer = this.wasm.I32[imagePointerIndex];
+        var width = this.wasm.I32[imagePointerIndex + 1];
+        var height = this.wasm.I32[imagePointerIndex + 2];
         var imageData = new ImageData(width, height);
         var data = this.wasm.getArray(Uint8ClampedArray, dataPointer);
         for (var i = 0; i < data.length; i++) {
