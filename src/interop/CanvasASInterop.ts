@@ -421,9 +421,10 @@ export class CanvasASInterop<T> {
     var contextName: string = this.wasm!.getString(name)
     if (!this.contexts.has(contextName)) throw new Error("Cannot find context: " + contextName);
     var context: CanvasRenderingContext2D = this.contexts.get(contextName)!;
-    var dataPointer: number = this.wasm!.I32[imageDataPointer];
-    var width: number = this.wasm!.I32[imageDataPointer + 4];
-    var height: number = this.wasm!.I32[imageDataPointer + 8];
+    var imagePointerIndex = imageDataPointer / Int32Array.BYTES_PER_ELEMENT;
+    var dataPointer: number = this.wasm!.I32[imagePointerIndex];
+    var width: number = this.wasm!.I32[imagePointerIndex + 1];
+    var height: number = this.wasm!.I32[imagePointerIndex + 2];
     var imageData: ImageData = new ImageData(width, height);
     var data: Uint8ClampedArray = this.wasm!.getArray(Uint8ClampedArray as any, dataPointer) as any as Uint8ClampedArray;
     for (var i = 0; i < data.length; i++) {
