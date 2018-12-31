@@ -10,8 +10,15 @@ import {
   TextAlign,
   TextBaseline,
 } from "../shared";
-import { GlobalCompositeOperationLookup, IImageBitmapIndex, ICanvasPatternIndex, ICanvasGradientIndex, canvasPatternTypes } from "../util";
-import { ImageLoadedCallback, ImageInjectCallback } from "../util/ImageLoadedCallbacks";
+import {
+  GlobalCompositeOperationLookup,
+  IImageBitmapIndex,
+  ICanvasPatternIndex,
+  ICanvasGradientIndex,
+  canvasPatternTypes,
+  ImageLoadedCallback,
+  ImageUseCallback,
+} from "../util";
 
 const ctx = document.createElement("canvas").getContext("2d");
 
@@ -24,28 +31,28 @@ export class CanvasASInterop<T> {
   public wasm: (ASUtil & T) | null = null;
 
   private image_loaded: number = 0;
-  private inject_image: number = 0;
-  private inject_canvas: number = 0;
+  private use_image: number = 0;
+  private use_canvas: number = 0;
 
   constructor() {}
 
-  public injectCanvas(name: string, value: CanvasRenderingContext2D): this {
-    if (this.inject_canvas === 0) throw new Error("CanvasASInterop hasn't loaded yet.");
-    var func = this.wasm!.getFunction(this.inject_canvas);
+  public useCanvas(name: string, value: CanvasRenderingContext2D): this {
+    if (this.use_canvas === 0) throw new Error("CanvasASInterop hasn't loaded yet.");
+    var func = this.wasm!.getFunction(this.use_canvas);
     this.contexts.set(name, value);
     func(this.wasm!.newString(name));
     return this;
   }
 
-  public injectImage(name: string, value: Promise<Response>): this {
-    if (this.inject_image === 0) throw new Error("CanvasASInterop hasn't loaded yet.");
-    if (this.inject_image === 0) throw new Error("CanvasASInterop hasn't loaded yet.");
+  public useImage(name: string, value: Promise<Response>): this {
+    if (this.use_image === 0) throw new Error("CanvasASInterop hasn't loaded yet.");
+    if (this.image_loaded === 0) throw new Error("CanvasASInterop hasn't loaded yet.");
     value.then(e => e.blob())
       .then(e => createImageBitmap(e))
       .then(bitmap => {
         const strPtr: number = this.wasm!.newString(name);
-        const injectFunc = this.wasm!.getFunction(this.inject_image) as ImageInjectCallback;
-        const imagePointer: number = injectFunc(strPtr);
+        const useFunc = this.wasm!.getFunction(this.use_image) as ImageUseCallback;
+        const imagePointer: number = useFunc(strPtr);
         const imageIndex: number = imagePointer / Int32Array.BYTES_PER_ELEMENT;
         this.images[this.wasm!.I32[imageIndex]] = bitmap;
         const loadedFunc = this.wasm!.getFunction(this.image_loaded) as ImageLoadedCallback;
@@ -65,9 +72,9 @@ export class CanvasASInterop<T> {
       remove_image: this.remove_image.bind(this),
       remove_pattern: this.remove_pattern.bind(this),
       remove_gradient: this.remove_gradient.bind(this),
-      report_inject_image: this.report_inject_image.bind(this),
+      report_use_image: this.report_use_image.bind(this),
       report_image_loaded: this.report_image_loaded.bind(this),
-      report_inject_canvas: this.report_inject_canvas.bind(this),
+      report_use_canvas: this.report_use_canvas.bind(this),
       render: this.render.bind(this),
     };
   }
@@ -416,12 +423,12 @@ export class CanvasASInterop<T> {
     imageLoadedFunc(imagePointer, img.width, img.height);
   }
 
-  private report_inject_image(inject_image: number): void {
-    this.inject_image = inject_image;
+  private report_use_image(use_image: number): void {
+    this.use_image = use_image;
   }
 
-  private report_inject_canvas(inject_canvas: number): void {
-    this.inject_canvas = inject_canvas;
+  private report_use_canvas(use_canvas: number): void {
+    this.use_canvas = use_canvas;
   }
 
   private report_image_loaded(image_loaded: number): void {

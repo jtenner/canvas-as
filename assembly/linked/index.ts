@@ -10,6 +10,6 @@ export {
   remove_pattern,
   render,
   report_image_loaded,
-  report_inject_canvas,
-  report_inject_image,
+  report_use_canvas,
+  report_use_image,
 } from "./util";

@@ -1,9 +1,9 @@
 import { Image } from "./Image";
-import { report_inject_image, report_image_loaded } from "../linked";
+import { report_use_image, report_image_loaded } from "../linked";
 export var TextureMap: Map<string, Image> = new Map<string, Image>();
 
-report_inject_image(inject_image);
-export function inject_image(name: string): Image {
+report_use_image(use_image);
+export function use_image(name: string): Image {
   var image: Image = new Image();
   image._index = Image.index++;
   TextureMap.set(name, image);

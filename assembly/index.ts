@@ -11,7 +11,7 @@ export {
 export { Image } from "./primitives/Image";
 export { Matrix } from "./primitives/Matrix";
 export { Path2DElement } from "./primitives/Path2DElement";
-export { inject_image, TextureMap } from "./primitives/TextureMap";
+export { use_image, TextureMap } from "./primitives/TextureMap";
 export { CanvasMap, CanvasRenderingContext2DInitializer } from "./primitives/CanvasMap";
 
 export { CanvasGradient } from "./renderer/CanvasGradient";

@@ -20,9 +20,9 @@
  (type $FF (func (param f64) (result f64)))
  (import "Math" "PI" (global $~lib/bindings/Math/PI f64))
  (import "env" "abort" (func $~lib/env/abort (param i32 i32 i32 i32)))
- (import "__as_interop" "report_inject_image" (func $assembly/linked/util/report_inject_image (param i32)))
+ (import "__as_interop" "report_use_image" (func $assembly/linked/util/report_use_image (param i32)))
  (import "__as_interop" "report_image_loaded" (func $assembly/linked/util/report_image_loaded (param i32)))
- (import "__as_interop" "report_inject_canvas" (func $assembly/linked/util/report_inject_canvas (param i32)))
+ (import "__as_interop" "report_use_canvas" (func $assembly/linked/util/report_use_canvas (param i32)))
  (import "__as_interop" "create_linear_gradient" (func $assembly/linked/util/create_linear_gradient (param i32 f64 f64 f64 f64)))
  (import "__as_interop" "add_color_stop" (func $assembly/linked/util/add_color_stop (param i32 f64 i32)))
  (import "__as_interop" "create_pattern" (func $assembly/linked/util/create_pattern (param i32 f64 i32)))
@@ -45,7 +45,7 @@
  (data (i32.const 408) "\05\00\00\00w\00h\00i\00t\00e\00")
  (data (i32.const 424) "\06\00\00\00k\00i\00t\00t\00e\00n\00")
  (table $0 4 anyfunc)
- (elem (i32.const 0) $null $assembly/primitives/TextureMap/inject_image $assembly/primitives/TextureMap/image_loaded $assembly/primitives/CanvasMap/inject_canvas)
+ (elem (i32.const 0) $null $assembly/primitives/TextureMap/use_image $assembly/primitives/TextureMap/image_loaded $assembly/primitives/CanvasMap/use_canvas)
  (global $~lib/internal/allocator/AL_BITS i32 (i32.const 3))
  (global $~lib/internal/allocator/AL_SIZE i32 (i32.const 8))
  (global $~lib/internal/allocator/AL_MASK i32 (i32.const 7))
@@ -2405,7 +2405,7 @@
    i32.store offset=8
   end
  )
- (func $assembly/primitives/TextureMap/inject_image (; 42 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/primitives/TextureMap/use_image (; 42 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   block (result i32)
@@ -4151,7 +4151,7 @@
   i32.store offset=8
   get_local $5
  )
- (func $assembly/primitives/CanvasMap/inject_canvas (; 50 ;) (type $iv) (param $0 i32)
+ (func $assembly/primitives/CanvasMap/use_canvas (; 50 ;) (type $iv) (param $0 i32)
   get_global $assembly/primitives/CanvasMap/CanvasMap
   i32.load
   get_local $0
@@ -12091,7 +12091,7 @@
   call $~lib/map/Map<String,Image>#constructor
   set_global $assembly/primitives/TextureMap/TextureMap
   i32.const 1
-  call $assembly/linked/util/report_inject_image
+  call $assembly/linked/util/report_use_image
   i32.const 2
   call $assembly/linked/util/report_image_loaded
   block (result i32)
@@ -12107,7 +12107,7 @@
   end
   set_global $assembly/primitives/CanvasMap/CanvasMap
   i32.const 3
-  call $assembly/linked/util/report_inject_canvas
+  call $assembly/linked/util/report_use_canvas
   get_global $~lib/bindings/Math/PI
   f64.const 180
   f64.div

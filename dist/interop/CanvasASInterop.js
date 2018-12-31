@@ -12,28 +12,28 @@ class CanvasASInterop {
         this.gradients = {};
         this.wasm = null;
         this.image_loaded = 0;
-        this.inject_image = 0;
-        this.inject_canvas = 0;
+        this.use_image = 0;
+        this.use_canvas = 0;
     }
-    injectCanvas(name, value) {
-        if (this.inject_canvas === 0)
+    useCanvas(name, value) {
+        if (this.use_canvas === 0)
             throw new Error("CanvasASInterop hasn't loaded yet.");
-        var func = this.wasm.getFunction(this.inject_canvas);
+        var func = this.wasm.getFunction(this.use_canvas);
         this.contexts.set(name, value);
         func(this.wasm.newString(name));
         return this;
     }
-    injectImage(name, value) {
-        if (this.inject_image === 0)
+    useImage(name, value) {
+        if (this.use_image === 0)
             throw new Error("CanvasASInterop hasn't loaded yet.");
-        if (this.inject_image === 0)
+        if (this.image_loaded === 0)
             throw new Error("CanvasASInterop hasn't loaded yet.");
         value.then(e => e.blob())
             .then(e => createImageBitmap(e))
             .then(bitmap => {
             const strPtr = this.wasm.newString(name);
-            const injectFunc = this.wasm.getFunction(this.inject_image);
-            const imagePointer = injectFunc(strPtr);
+            const useFunc = this.wasm.getFunction(this.use_image);
+            const imagePointer = useFunc(strPtr);
             const imageIndex = imagePointer / Int32Array.BYTES_PER_ELEMENT;
             this.images[this.wasm.I32[imageIndex]] = bitmap;
             const loadedFunc = this.wasm.getFunction(this.image_loaded);
@@ -52,9 +52,9 @@ class CanvasASInterop {
             remove_image: this.remove_image.bind(this),
             remove_pattern: this.remove_pattern.bind(this),
             remove_gradient: this.remove_gradient.bind(this),
-            report_inject_image: this.report_inject_image.bind(this),
+            report_use_image: this.report_use_image.bind(this),
             report_image_loaded: this.report_image_loaded.bind(this),
-            report_inject_canvas: this.report_inject_canvas.bind(this),
+            report_use_canvas: this.report_use_canvas.bind(this),
             render: this.render.bind(this),
         };
     }
@@ -319,11 +319,11 @@ class CanvasASInterop {
         const imageLoadedFunc = this.wasm.getFunction(this.image_loaded);
         imageLoadedFunc(imagePointer, img.width, img.height);
     }
-    report_inject_image(inject_image) {
-        this.inject_image = inject_image;
+    report_use_image(use_image) {
+        this.use_image = use_image;
     }
-    report_inject_canvas(inject_canvas) {
-        this.inject_canvas = inject_canvas;
+    report_use_canvas(use_canvas) {
+        this.use_canvas = use_canvas;
     }
     report_image_loaded(image_loaded) {
         this.image_loaded = image_loaded;
