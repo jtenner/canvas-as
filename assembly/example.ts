@@ -7,7 +7,6 @@ import {
   ImageData,
   CanvasMap,
 } from "./index";
-import { log } from "./linked";
 
 let ctx: OptimizedCanvasRenderingContext2D;
 let data: ImageData;
@@ -42,15 +41,24 @@ export function init(): void {
 
 }
 
+var rot: f64 = 0.0;
+
 export function tick(): void {
   // perform some simple drawing calls
   ctx.clearRect(0.0, 0.0, 800.0, 600.0);
-  ctx.putImageData(data, 0, 0);
-  var size = memory.size();
+
+  rot += 0.1;
+  if (rot > 7.0) rot -= Math.PI * 2;
+  ctx.save();
+  ctx.rotate(rot);
+  ctx.fillStyle = "blue";
+  ctx.fillRect(100.0, 100.0, 300.0, 400.0);
+  ctx.restore();
+  ctx.commit();
+
   var data2: ImageData = ctx.getImageData(0, 0, 800, 600);
   ctx2.putImageData(data2, 0, 0);
   data2.dispose();
-  log(0, size);
 }
 
 export { memory }

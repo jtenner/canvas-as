@@ -819,92 +819,131 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this._transformF[this._stackIndex] += this._transformB[this._stackIndex] * x + this._transformD[this._stackIndex] * y;
   }
 
+  @inline
   private update_direction(): void {
-    if (this._directionCurrent == this._direction[this._stackIndex]) return;
-    this._directionCurrent = this._direction[this._stackIndex];
-    super.write_direction(this._directionCurrent);
-  }
-
-  private update_fill_style(): void {
-    if (this._fillStyleCurrent == this._fillStyle[this._stackIndex]) return;
-    this._fillStyle[this._stackIndex].set(this._fillStyleCurrent);
-    switch (this._fillStyleCurrent.which) {
-      case FillStrokeWhich.Gradient:
-        super.write_fill_gradient(<CanvasGradient>this._fillStyleCurrent.gradient);
-        return;
-      case FillStrokeWhich.Pattern:
-        super.write_fill_pattern(<CanvasPattern>this._fillStyleCurrent.pattern);
-        return;
-      case FillStrokeWhich.Style:
-        super.write_fill_style(<string>this._fillStyleCurrent.style);
-        return;
+    var isSame: bool = this._directionCurrent == this._direction[this._stackIndex];
+    if (!isSame) {
+      this._directionCurrent = this._direction[this._stackIndex];
+      super.write_direction(this._directionCurrent);
     }
   }
 
+  @inline
+  private update_fill_style(): void {
+    var isSame: bool = this._fillStyleCurrent == this._fillStyle[this._stackIndex];
+    if (!isSame) {
+      this._fillStyle[this._stackIndex].set(this._fillStyleCurrent);
+      switch (this._fillStyleCurrent.which) {
+        case FillStrokeWhich.Gradient:
+          super.write_fill_gradient(<CanvasGradient>this._fillStyleCurrent.gradient);
+          break;
+        case FillStrokeWhich.Pattern:
+          super.write_fill_pattern(<CanvasPattern>this._fillStyleCurrent.pattern);
+          break;
+        case FillStrokeWhich.Style:
+          super.write_fill_style(<string>this._fillStyleCurrent.style);
+          break;
+      }
+    }
+  }
+
+  @inline
   private update_filter(): void {
-    if (this._filterCurrent == this._filter[this._stackIndex]) return;
-    this._filterCurrent = this._filter[this._stackIndex];
-    super.write_filter(this._filterCurrent);
+    var isSame: bool = this._filterCurrent == this._filter[this._stackIndex];
+    if (!isSame) {
+      this._filterCurrent = this._filter[this._stackIndex];
+      super.write_filter(this._filterCurrent);
+    }
   }
 
+  @inline
   private update_font(): void {
-    if (this._fontCurrent == this._font[this._stackIndex]) return;
-    this._fontCurrent = this._font[this._stackIndex];
-    super.write_font(this._fontCurrent);
+    var isSame: bool = this._fontCurrent == this._font[this._stackIndex];
+    if (!isSame) {
+      this._fontCurrent = this._font[this._stackIndex];
+      super.write_font(this._fontCurrent);
+    }
   }
 
+  @inline
   private update_global_alpha(): void {
-    if (this._globalAlphaCurrent == this._globalAlpha[this._stackIndex]) return;
-    this._globalAlphaCurrent = this._globalAlpha[this._stackIndex];
-    super.write_global_alpha(this._globalAlphaCurrent);
+    var isSame: bool = this._globalAlphaCurrent == this._globalAlpha[this._stackIndex];
+    if (!isSame) {
+      this._globalAlphaCurrent = this._globalAlpha[this._stackIndex];
+      super.write_global_alpha(this._globalAlphaCurrent);
+    }
   }
 
+  @inline
   private update_global_composite_operation(): void {
-    if (this._globalCompositeOperationCurrent == this._globalCompositeOperation[this._stackIndex]) return;
-    this._globalCompositeOperationCurrent = this._globalCompositeOperation[this._stackIndex];
-    super.write_global_composite_operation(this._globalCompositeOperationCurrent);
+    var isSame: bool = this._globalCompositeOperationCurrent == this._globalCompositeOperation[this._stackIndex];
+    if (!isSame) {
+      this._globalCompositeOperationCurrent = this._globalCompositeOperation[this._stackIndex];
+      super.write_global_composite_operation(this._globalCompositeOperationCurrent);
+    }
   }
 
+  @inline
   private update_image_smoothing_enabled(): void {
-    if (this._imageSmoothingEnabledCurrent == this._imageSmoothingEnabled[this._stackIndex]) return;
-    this._imageSmoothingEnabledCurrent = this._imageSmoothingEnabled[this._stackIndex];
-    super.write_image_smoothing_enabled(this._imageSmoothingEnabledCurrent);
+    var isSame: bool = this._imageSmoothingEnabledCurrent == this._imageSmoothingEnabled[this._stackIndex];
+    if (!isSame) {
+      this._imageSmoothingEnabledCurrent = this._imageSmoothingEnabled[this._stackIndex];
+      super.write_image_smoothing_enabled(this._imageSmoothingEnabledCurrent);
+    }
   }
 
+  @inline
   private update_image_smoothing_quality(): void {
-    if (this._imageSmoothingQualityCurrent == this._imageSmoothingQuality[this._stackIndex]) return;
-    this._imageSmoothingQualityCurrent = this._imageSmoothingQuality[this._stackIndex];
-    super.write_image_smoothing_quality(this._imageSmoothingQualityCurrent);
+    var isSame: bool = this._imageSmoothingQualityCurrent == this._imageSmoothingQuality[this._stackIndex];
+    if (!isSame) {
+      this._imageSmoothingQualityCurrent = this._imageSmoothingQuality[this._stackIndex];
+      super.write_image_smoothing_quality(this._imageSmoothingQualityCurrent);
+    }
   }
 
+  @inline
   private update_line_cap(): void {
-    if (this._lineCapCurrent == this._lineCap[this._stackIndex]) return;
-    this._lineCapCurrent = this._lineCap[this._stackIndex];
-    super.write_line_cap(this._lineCapCurrent);
+    var isSame: bool = this._lineCapCurrent == this._lineCap[this._stackIndex];
+    if (!isSame) {
+      this._lineCapCurrent = this._lineCap[this._stackIndex];
+      super.write_line_cap(this._lineCapCurrent);
+    }
   }
 
+  @inline
   private update_line_join(): void {
-    if (this._lineJoinCurrent == this._lineJoin[this._stackIndex]) return;
-    this._lineJoinCurrent = this._lineJoin[this._stackIndex];
-    super.write_line_join(this._lineJoinCurrent);
+    var isSame: bool = this._lineJoinCurrent == this._lineJoin[this._stackIndex];
+    if (!isSame) {
+      this._lineJoinCurrent = this._lineJoin[this._stackIndex];
+      super.write_line_join(this._lineJoinCurrent);
+    }
   }
 
+  @inline
   private update_line_width(): void {
-    if (this._lineWidthCurrent == this._lineWidth[this._stackIndex]) return;
-    this._lineWidthCurrent = this._lineWidth[this._stackIndex];
-    super.write_line_width(this._lineWidthCurrent);
+    var isSame: bool = this._lineWidthCurrent == this._lineWidth[this._stackIndex];
+    if (!isSame) {
+      this._lineWidthCurrent = this._lineWidth[this._stackIndex];
+      super.write_line_width(this._lineWidthCurrent);
+    }
   }
 
+  @inline
   private update_miter_limit(): void {
-    if (this._miterLimitCurrent == this._miterLimit[this._stackIndex]) return;
-    this._miterLimitCurrent = this._miterLimit[this._stackIndex];
-    super.write_miter_limit(this._miterLimitCurrent);
+    var isSame: bool = this._miterLimitCurrent == this._miterLimit[this._stackIndex];
+    if (!isSame) {
+      this._miterLimitCurrent = this._miterLimit[this._stackIndex];
+      super.write_miter_limit(this._miterLimitCurrent);
+    }
   }
 
+  @inline
   private update_line_dash_offset(): void {
-    if (this._lineDashOffsetCurrent == this._lineDashOffset[this._stackIndex]) return;
-    this._lineDashOffsetCurrent = this._lineDashOffset[this._stackIndex];
-    super.write_line_dash_offset(this._lineDashOffsetCurrent);
+    var isSame: bool = this._lineDashOffsetCurrent == this._lineDashOffset[this._stackIndex];
+    if (!isSame) {
+      this._lineDashOffsetCurrent = this._lineDashOffset[this._stackIndex];
+      super.write_line_dash_offset(this._lineDashOffsetCurrent);
+    }
   }
 
   @inline
@@ -928,81 +967,103 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     }
   }
 
+  @inline
   private update_shadow_blur(): void {
-    if (this._shadowBlurCurrent == this._shadowBlur[this._stackIndex]) return;
-    this._shadowBlurCurrent = this._shadowBlur[this._stackIndex];
-    super.write_shadow_blur(this._shadowBlurCurrent);
-  }
-
-  private update_shadow_color(): void {
-    if (this._shadowColorCurrent == this._shadowColor[this._stackIndex]) return;
-    this._shadowColorCurrent = this._shadowColor[this._stackIndex];
-    super.write_shadow_color(this._shadowColorCurrent);
-  }
-
-  private update_shadow_offset_x(): void {
-    if (this._shadowOffsetXCurrent == this._shadowOffsetX[this._stackIndex]) return;
-    this._shadowOffsetXCurrent = this._shadowOffsetX[this._stackIndex];
-    super.write_shadow_offset_x(this._shadowOffsetXCurrent);
-  }
-
-  private update_shadow_offset_y(): void {
-    if (this._shadowOffsetYCurrent == this._shadowOffsetY[this._stackIndex]) return;
-    this._shadowOffsetYCurrent = this._shadowOffsetY[this._stackIndex];
-    super.write_shadow_offset_y(this._shadowOffsetYCurrent);
-  }
-
-  private update_stroke_style(): void {
-    if (this._strokeStyleCurrent == this._strokeStyle[this._stackIndex]) return;
-    this._strokeStyle[this._stackIndex].set(this._strokeStyleCurrent);
-    switch (this._strokeStyleCurrent.which) {
-      case FillStrokeWhich.Gradient:
-        super.write_stroke_gradient(<CanvasGradient>this._strokeStyleCurrent.gradient);
-        return;
-      case FillStrokeWhich.Pattern:
-        super.write_stroke_pattern(<CanvasPattern>this._strokeStyleCurrent.pattern);
-        return;
-      case FillStrokeWhich.Style:
-        super.write_stroke_style(<string>this._strokeStyleCurrent.style);
-        return;
+    var isSame: bool = this._shadowBlurCurrent == this._shadowBlur[this._stackIndex];
+    if (!isSame) {
+      this._shadowBlurCurrent = this._shadowBlur[this._stackIndex];
+      super.write_shadow_blur(this._shadowBlurCurrent);
     }
   }
 
+  @inline
+  private update_shadow_color(): void {
+    var isSame: bool = this._shadowColorCurrent == this._shadowColor[this._stackIndex];
+    if (!isSame) {
+      this._shadowColorCurrent = this._shadowColor[this._stackIndex];
+      super.write_shadow_color(this._shadowColorCurrent);
+    }
+  }
+
+  @inline
+  private update_shadow_offset_x(): void {
+    var isSame: bool = this._shadowOffsetXCurrent == this._shadowOffsetX[this._stackIndex];
+    if (!isSame) {
+      this._shadowOffsetXCurrent = this._shadowOffsetX[this._stackIndex];
+      super.write_shadow_offset_x(this._shadowOffsetXCurrent);
+    }
+  }
+
+  @inline
+  private update_shadow_offset_y(): void {
+    var isSame: bool = this._shadowOffsetYCurrent == this._shadowOffsetY[this._stackIndex];
+    if (!isSame) {
+      this._shadowOffsetYCurrent = this._shadowOffsetY[this._stackIndex];
+      super.write_shadow_offset_y(this._shadowOffsetYCurrent);
+    }
+  }
+
+  @inline
+  private update_stroke_style(): void {
+    var isSame: bool = this._strokeStyleCurrent == this._strokeStyle[this._stackIndex];
+    if (!isSame) {
+      this._strokeStyle[this._stackIndex].set(this._strokeStyleCurrent);
+      switch (this._strokeStyleCurrent.which) {
+        case FillStrokeWhich.Gradient:
+          super.write_stroke_gradient(<CanvasGradient>this._strokeStyleCurrent.gradient);
+          break;
+        case FillStrokeWhich.Pattern:
+          super.write_stroke_pattern(<CanvasPattern>this._strokeStyleCurrent.pattern);
+          break;
+        case FillStrokeWhich.Style:
+          super.write_stroke_style(<string>this._strokeStyleCurrent.style);
+          break;
+      }
+    }
+  }
+
+  @inline
   private update_text_align(): void {
-    if (this._textAlignCurrent == this._textAlign[this._stackIndex]) return;
-    this._textAlignCurrent = this._textAlign[this._stackIndex];
-    super.write_text_align(this._textAlignCurrent);
+    var isSame: bool = this._textAlignCurrent == this._textAlign[this._stackIndex];
+    if (!isSame) {
+      this._textAlignCurrent = this._textAlign[this._stackIndex];
+      super.write_text_align(this._textAlignCurrent);
+    }
   }
 
+  @inline
   private update_text_baseline(): void {
-    if (this._textBaselineCurrent == this._textBaseline[this._stackIndex]) return;
-    this._textBaselineCurrent = this._textBaseline[this._stackIndex];
-    super.write_text_baseline(this._textBaselineCurrent);
+    var isSame: bool = this._textBaselineCurrent == this._textBaseline[this._stackIndex]
+    if (!isSame) {
+      this._textBaselineCurrent = this._textBaseline[this._stackIndex];
+      super.write_text_baseline(this._textBaselineCurrent);
+    }
   }
 
+  @inline
   private update_transform(): void {
-    if (
-      this._transformA[this._stackIndex] == this._transformACurrent
+    var isSame: bool = this._transformA[this._stackIndex] == this._transformACurrent
       && this._transformB[this._stackIndex] == this._transformBCurrent
       && this._transformC[this._stackIndex] == this._transformCCurrent
       && this._transformD[this._stackIndex] == this._transformDCurrent
       && this._transformE[this._stackIndex] == this._transformECurrent
-      && this._transformF[this._stackIndex] == this._transformFCurrent
-    ) return;
-    this._transformACurrent = this._transformA[this._stackIndex];
-    this._transformBCurrent = this._transformB[this._stackIndex];
-    this._transformCCurrent = this._transformC[this._stackIndex];
-    this._transformDCurrent = this._transformD[this._stackIndex];
-    this._transformECurrent = this._transformE[this._stackIndex];
-    this._transformFCurrent = this._transformF[this._stackIndex];
-    super.write_set_transform(
-      this._transformACurrent,
-      this._transformBCurrent,
-      this._transformCCurrent,
-      this._transformDCurrent,
-      this._transformECurrent,
-      this._transformFCurrent,
-    );
+      && this._transformF[this._stackIndex] == this._transformFCurrent;
+    if (!isSame) {
+      this._transformACurrent = this._transformA[this._stackIndex];
+      this._transformBCurrent = this._transformB[this._stackIndex];
+      this._transformCCurrent = this._transformC[this._stackIndex];
+      this._transformDCurrent = this._transformD[this._stackIndex];
+      this._transformECurrent = this._transformE[this._stackIndex];
+      this._transformFCurrent = this._transformF[this._stackIndex];
+      super.write_set_transform(
+        this._transformACurrent,
+        this._transformBCurrent,
+        this._transformCCurrent,
+        this._transformDCurrent,
+        this._transformECurrent,
+        this._transformFCurrent,
+      );
+    }
   }
 
   @inline

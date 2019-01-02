@@ -332,13 +332,13 @@ class CanvasASInterop {
         context.putImageData(imageData, dx, dy);
     }
     put_image_data_dirty(name, imageDataPointer, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight) {
-        var { I32 } = this.wasm;
+        var { U32, I32 } = this.wasm;
         var contextName = this.wasm.getString(name);
         if (!this.contexts.has(contextName))
             throw new Error("Cannot find context: " + contextName);
         var context = this.contexts.get(contextName);
         var imagePointerIndex = imageDataPointer / Int32Array.BYTES_PER_ELEMENT;
-        var dataPointer = I32[imagePointerIndex];
+        var dataPointer = U32[imagePointerIndex];
         var width = I32[imagePointerIndex + 1];
         var height = I32[imagePointerIndex + 2];
         var imageData = new ImageData(width, height);

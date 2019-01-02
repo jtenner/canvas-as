@@ -431,12 +431,12 @@ export class CanvasASInterop<T> {
   }
 
   private put_image_data_dirty(name: number, imageDataPointer: number, dx: number, dy: number, dirtyX: number, dirtyY: number, dirtyWidth: number, dirtyHeight: number): void {
-    var { I32 } = this.wasm!;
+    var { U32, I32 } = this.wasm!;
     var contextName: string = this.wasm!.getString(name)
     if (!this.contexts.has(contextName)) throw new Error("Cannot find context: " + contextName);
     var context: CanvasRenderingContext2D = this.contexts.get(contextName)!;
     var imagePointerIndex = imageDataPointer / Int32Array.BYTES_PER_ELEMENT;
-    var dataPointer: number = I32[imagePointerIndex];
+    var dataPointer: number = U32[imagePointerIndex];
     var width: number = I32[imagePointerIndex + 1];
     var height: number = I32[imagePointerIndex + 2];
     var imageData: ImageData = new ImageData(width, height);

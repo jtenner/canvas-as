@@ -31,6 +31,7 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
   }
 
   public commit(): void {
+    if (super.index == 0) return;
     this.write_commit();
     super.index = 0;
     render(this._id, this.data);
