@@ -20,6 +20,15 @@ export declare function create_string(index: i32, stringPointer: string): void;
 @external("__as_interop", "create_image")
 export declare function create_image(imagePointer: Image, source: string): void;
 
+@external("__as_interop", "put_image_data")
+export declare function put_image_data(id: string, data: ImageData, dx: i32, dy: i32): void;
+
+@external("__as_interop", "put_image_data_dirty")
+export declare function put_image_data_dirty(id: string, imagedata: ImageData, dx: i32, dy: i32, dirtyX: i32, dirtyY: i32, dirtyWidth: i32, dirtyHeight: i32): void;
+
+@external("__as_interop", "get_image_data")
+export declare function get_image_data(id: string, imageData: ImageData, sx: i32, sy: i32, sw: i32, sh: i32): void;
+
 @external("__as_interop", "remove_image")
 export declare function remove_image(index: i32): void;
 
@@ -41,8 +50,5 @@ export declare function report_use_canvas(use: (name: string) => void): void;
 @external("__as_interop", "render")
 export declare function render(canvas: string, committed: Float64Array): void;
 
-@external("__as_interop", "put_image_data")
-export declare function put_image_data(id: string, data: ImageData, dx: i32, dy: i32): void;
-
-@external("__as_interop", "put_image_data_dirty")
-export declare function put_image_data_dirty(id: string, imagedata: ImageData, dx: i32, dy: i32, dirtyX: i32, dirtyY: i32, dirtyWidth: i32, dirtyHeight: i32): void;
+@external("__as_interop", "log")
+export declare function log(a: i32, b: i32): void;

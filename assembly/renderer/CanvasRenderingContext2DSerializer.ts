@@ -11,7 +11,12 @@ import {
 } from "../../src/shared";
 import { Serializer } from "./Serializer";
 import { Image, ImageData } from "../primitives";
-import { create_string, put_image_data, put_image_data_dirty } from "../linked";
+import {
+  create_string,
+  get_image_data,
+  put_image_data,
+  put_image_data_dirty,
+} from "../linked";
 import { CanvasPattern } from "./CanvasPattern";
 import { CanvasGradient } from "./CanvasGradient";
 import { render } from "../linked";
@@ -29,6 +34,12 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
     this.write_commit();
     super.index = 0;
     render(this._id, this.data);
+  }
+
+  public getImageData(sx: i32, sy: i32, sw: i32, sh: i32): ImageData {
+    var ref: ImageData = new ImageData(1, 2, false);
+    get_image_data(this._id, ref, sx, sy, sw, sh);
+    return ref;
   }
 
   public putImageData(imageData: ImageData, dx: i32, dy: i32): void {

@@ -21,6 +21,7 @@ export declare class CanvasASInterop<T> {
     private create_pattern;
     private create_radial_gradient;
     private create_string;
+    private get_image_data;
     private put_image_data;
     private put_image_data_dirty;
     private remove_image;
@@ -30,5 +31,6 @@ export declare class CanvasASInterop<T> {
     private report_use_image;
     private report_use_canvas;
     private report_image_loaded;
+    private log;
 }
 //# sourceMappingURL=CanvasASInterop.d.ts.map

@@ -5,6 +5,9 @@ export {
   create_pattern,
   create_radial_gradient,
   create_string,
+  get_image_data,
+  put_image_data,
+  put_image_data_dirty,
   remove_image,
   remove_gradient,
   remove_pattern,
@@ -12,6 +15,5 @@ export {
   report_image_loaded,
   report_use_canvas,
   report_use_image,
-  put_image_data,
-  put_image_data_dirty,
+  log,
 } from "./util";

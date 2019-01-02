@@ -58,23 +58,15 @@ yarn asinit .
 
 ## Create the AssemblyScript entry point
 
-Edit `assembly/index.ts` to contain the following things:
-
-1. an import to `"../node_modules/canvas-as/assembly"` because we will consume the library directly
-1. an `init(): void` function to be called after the wasm module is properly loaded
-1. an `update(): void` function to be called once every time the `CanvasASInterop#update` function is called
-1. a `draw(): Float64Array` function to be called once every time the `CanvasASInterop#draw` function is called
-
-For example:
+A really great way to get started is create a module that looks something like this:
 
 ```ts
 // You need to import your own allocator
 import "allocator/tlsf";
 
 // import CanvasRenderingContext2D and Image
-import { CanvasRenderingContext2D, Image } from "./index";
+import { Image, CanvasMap } from "./index";
 
-let ctx: CanvasRenderingContext2D = new CanvasRenderingContext2D();
 let kitten: Image = new Image();
 let rotation: f64 = 0;
 let rotValue: f64 = Math.PI / 180.0;
@@ -82,16 +74,14 @@ let rotValue: f64 = Math.PI / 180.0;
 export function init(): void {
   // You cannot load an image until the wasm module has been completely loaded
   kitten.src = "https://placekitten.com/300/300";
-  // contexts must be initialized until the `constructor()` bugs are fixed in assemblyscript on the main branch
-  ctx.init();
+  // you can either get, or getOptimzed versions of the canvas context here
+  ctx = CanvasMap.getOptimized("main");
 }
 
-export function update(): void {
-  // rotate the cat
+export function tick(): void {
+  // update the world
   rotation += rotValue;
-}
 
-export function draw(): Float64Array {
   // perform some simple drawing calls
   ctx.clearRect(0.0, 0.0, 800.0, 600.0);
   ctx.save();
@@ -101,8 +91,8 @@ export function draw(): Float64Array {
   ctx.drawImagePosition(kitten, 0.0, 0.0);
   ctx.restore();
 
-  // We must always return a reference to a `Float64Array`. The commit function is repurposed for the AssemblyScript context
-  return ctx.commit();
+  // calling commit() actually draws the canvas
+  ctx.commit();
 }
 
 export { memory }
@@ -114,7 +104,7 @@ The setup uses glue code provided by the `AssemblyScript` loader. Currently the 
 
 ```ts
 // import the canvas interop
-import { CanvasASInterop } from "canvas-as";
+import { instantiateStreaming } from "canvas-as";
 
 // create a context
 const ctx = document.querySelector("canvas").getContext("2d");
@@ -124,22 +114,21 @@ const imports: any = {
 
 // use an async function to load your module
 async function main(): Promise<void> {
-  const interop: CanvasASInterop = new CanvasASInterop(ctx, fetch("./path/to/optimized.wasm"), imports);
-
   // just need to wait for the module to instantiate
-  await interop.loaded;
+  const interop: CanvasASInterop<any> = await instantiateStreaming<any>(fetch("./my/module.wasm", imports));
 
-  // init() is called in assemblyscript for you
+  // initialize the canvas context inside wasm
+  interop.useContext("main", ctx);
+
+  // call the init function yourself to help wasm get the reference it needs
+  interop.wasm.init();
 
   // setup a request animation frame loop
   requestAnimationFrame(function loop() {
     requestAnimationFrame(loop);
 
-    // call update() and draw()
-    interop.update();
-
-    // draw automatically passes the `Float64Array` reference to the internal `#render()` function
-    interop.draw();
+    // call tick()
+    interop.tick();
   });
 }
 
@@ -200,28 +189,34 @@ const blob = new Blob([buff], { type: "application/wasm" });
 const url = URL.createObjectURL(blob);
 const imports = {};
 
-const interop = new CanvasAS.CanvasASInterop(ctx, fetch(url), imports);
+const interop = await instantiateStreaming<any>(fetch(url));
+interop.useContext("my-context", ctx);
 ```
 
 Loading images using the canvas interop happens like this now:
 
 ```ts
 // ./src/index.ts
-const source: string = require("./path/to/image.png");
-interop.injectImage("image-name", fetch(source));
+var source: string = require("./path/to/image.png");
+interop.useImage("image-name", fetch(source));
 ```
 
 Then inside your assemblyscript application:
 
 ```ts
+var ctx: CanvasRenderingContext2D = CanvasMap.get("my-context");
+
 // ./assembly/index.ts
 if (TextureMap.has("image-name")) {
   // this image may not be loaded yet
   image = TextureMap.get("image-name");
 }
-```
 
-Don't forget to check to see if the image has been `loaded` before creating a pattern with it.
+// always check to see if the image has been loaded
+if (image != null && image.loaded) {
+  // do something with image
+}
+```
 
 ## License
 
