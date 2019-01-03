@@ -506,7 +506,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
   }
 
   public getLineDash(): Float64Array {
-    var array: Float64Array | null = null;
+    var array: Float64Array;
     for (var i = this._stackIndex; i >= 0; --i) {
       if (this._lineDash[i] == null) continue;
       array = this._lineDash[i];
