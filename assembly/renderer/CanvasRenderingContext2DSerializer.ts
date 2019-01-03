@@ -16,6 +16,8 @@ import {
   get_image_data,
   put_image_data,
   put_image_data_dirty,
+  inspect,
+  log,
 } from "../linked";
 import { CanvasPattern } from "./CanvasPattern";
 import { CanvasGradient } from "./CanvasGradient";
@@ -35,6 +37,11 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
     this.write_commit();
     super.index = 0;
     render(this._id, this.data);
+  }
+
+  public inspect(): void {
+    this.write_inspect();
+    inspect(this.data);
   }
 
   public getImageData(sx: i32, sy: i32, sw: i32, sh: i32): ImageData {
@@ -264,6 +271,11 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
       CanvasInstruction.ImageSmoothingQuality,
       <f64>value,
     );
+  }
+
+  @inline
+  protected write_inspect(): void {
+    this.write_zero(CanvasInstruction.Inspect);
   }
 
   @inline
@@ -519,8 +531,6 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
   protected write_commit(): void {
     this.write_zero(CanvasInstruction.Commit);
     this.index = 0;
-    this._stringMap.clear();
-    this._stringIndex = 0;
   }
 
   @inline

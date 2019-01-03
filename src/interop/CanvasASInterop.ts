@@ -70,6 +70,7 @@ export class CanvasASInterop<T> {
       create_string: this.create_string.bind(this),
       create_image: this.create_image.bind(this),
       get_image_data: this.get_image_data.bind(this),
+      inspect: this.inspect.bind(this),
       remove_image: this.remove_image.bind(this),
       remove_pattern: this.remove_pattern.bind(this),
       remove_gradient: this.remove_gradient.bind(this),
@@ -90,7 +91,7 @@ export class CanvasASInterop<T> {
     var data: Float64Array = this.wasm!.getArray(Float64Array as any as TypedArrayConstructor, dataPointer);
     while (index < data.length) {
       if (data[index] === CanvasInstruction.Commit) {
-        this.strings.clear();
+        //this.strings.clear();
         break;
       }
       switch(data[index]) {
@@ -241,6 +242,7 @@ export class CanvasASInterop<T> {
           ctx.imageSmoothingQuality = ImageSmoothingQuality[data[index + 2]] as "high" | "low" | "medium";
           break;
         }
+        case CanvasInstruction.Inspect: { break; }
         case CanvasInstruction.LineCap: {
           ctx.lineCap = LineCap[data[index + 2]] as CanvasLineCap;
           break;
@@ -481,6 +483,231 @@ export class CanvasASInterop<T> {
 
   private report_image_loaded(image_loaded: number): void {
     this.image_loaded = image_loaded;
+  }
+
+  private inspect(a: number): void {
+    var results: string[] = [];
+    var data: Float64Array = this.wasm!.getArray(Float64Array as any, a);
+    var i: number = 0;
+    while (i < data.length) {
+      switch (data[i]) {
+        case CanvasInstruction.Arc: {
+          results.push("Arc");
+          break;
+        }
+        case CanvasInstruction.ArcTo: {
+          results.push("ArcTo");
+          break;
+        }
+        case CanvasInstruction.BeginPath: {
+          results.push("BeginPath");
+          break;
+        }
+        case CanvasInstruction.BezierCurveTo: {
+          results.push("BezierCurveTo");
+          break;
+        }
+        case CanvasInstruction.Clip: {
+          results.push("Clip");
+          break;
+        }
+        case CanvasInstruction.ClosePath: {
+          results.push("ClosePath");
+          break;
+        }
+        case CanvasInstruction.Commit: {
+          results.push("Commit");
+          break;
+        }
+        case CanvasInstruction.ClearRect: {
+          results.push("ClearRect");
+          break;
+        }
+        case CanvasInstruction.Direction: {
+          results.push("Direction");
+          break;
+        }
+        case CanvasInstruction.DrawFocusIfNeeded: {
+          results.push("DrawFocusIfNeeded");
+          break;
+        }
+        case CanvasInstruction.DrawImage: {
+          results.push("DrawImage");
+          break;
+        }
+        case CanvasInstruction.Ellipse: {
+          results.push("Ellipse");
+          break;
+        }
+        case CanvasInstruction.Fill: {
+          results.push("Fill");
+          break;
+        }
+        case CanvasInstruction.FillGradient: {
+          results.push("FillGradient");
+          break;
+        }
+        case CanvasInstruction.FillPattern: {
+          results.push("FillPattern");
+          break;
+        }
+        case CanvasInstruction.FillRect: {
+          results.push("FillRect");
+          break;
+        }
+        case CanvasInstruction.FillStyle: {
+          results.push("FillStyle");
+          break;
+        }
+        case CanvasInstruction.FillText: {
+          results.push("FillText");
+          break;
+        }
+        case CanvasInstruction.Filter: {
+          results.push("Filter");
+          break;
+        }
+        case CanvasInstruction.Font: {
+          results.push("Font");
+          break;
+        }
+        case CanvasInstruction.GlobalAlpha: {
+          results.push("GlobalAlpha");
+          break;
+        }
+        case CanvasInstruction.GlobalCompositeOperation: {
+          results.push("GlobalCompositeOperation");
+          break;
+        }
+        case CanvasInstruction.ImageSmoothingEnabled: {
+          results.push("ImageSmoothingEnabled");
+          break;
+        }
+        case CanvasInstruction.ImageSmoothingQuality: {
+          results.push("ImageSmoothingQuality");
+          break;
+        }
+        case CanvasInstruction.LineCap: {
+          results.push("LineCap");
+          break;
+        }
+        case CanvasInstruction.LineDash: {
+          results.push("LineDash");
+          break;
+        }
+        case CanvasInstruction.LineDashOffset: {
+          results.push("LineDashOffset");
+          break;
+        }
+        case CanvasInstruction.LineJoin: {
+          results.push("LineJoin");
+          break;
+        }
+        case CanvasInstruction.LineTo: {
+          results.push("LineTo");
+          break;
+        }
+        case CanvasInstruction.LineWidth: {
+          results.push("LineWidth");
+          break;
+        }
+        case CanvasInstruction.MiterLimit: {
+          results.push("MiterLimit");
+          break;
+        }
+        case CanvasInstruction.MoveTo: {
+          results.push("MoveTo");
+          break;
+        }
+        case CanvasInstruction.QuadraticCurveTo: {
+          results.push("QuadraticCurveTo");
+          break;
+        }
+        case CanvasInstruction.Rect: {
+          results.push("Rect");
+          break;
+        }
+        case CanvasInstruction.Restore: {
+          results.push("Restore");
+          break;
+        }
+        case CanvasInstruction.Rotate: {
+          results.push("Rotate");
+          break;
+        }
+        case CanvasInstruction.Save: {
+          results.push("Save");
+          break;
+        }
+        case CanvasInstruction.Scale: {
+          results.push("Scale");
+          break;
+        }
+        case CanvasInstruction.SetTransform: {
+          results.push("SetTransform");
+          break;
+        }
+        case CanvasInstruction.ShadowBlur: {
+          results.push("ShadowBlur");
+          break;
+        }
+        case CanvasInstruction.ShadowColor: {
+          results.push("ShadowColor");
+          break;
+        }
+        case CanvasInstruction.ShadowOffsetX: {
+          results.push("ShadowOffsetX");
+          break;
+        }
+        case CanvasInstruction.ShadowOffsetY: {
+          results.push("ShadowOffsetY");
+          break;
+        }
+        case CanvasInstruction.Stroke: {
+          results.push("Stroke");
+          break;
+        }
+        case CanvasInstruction.StrokeGradient: {
+          results.push("StrokeGradient");
+          break;
+        }
+        case CanvasInstruction.StrokePattern: {
+          results.push("StrokePattern");
+          break;
+        }
+        case CanvasInstruction.StrokeRect: {
+          results.push("StrokeRect");
+          break;
+        }
+        case CanvasInstruction.StrokeStyle: {
+          results.push("StrokeStyle");
+          break;
+        }
+        case CanvasInstruction.StrokeText: {
+          results.push("StrokeText");
+          break;
+        }
+        case CanvasInstruction.TextAlign: {
+          results.push("TextAlign");
+          break;
+        }
+        case CanvasInstruction.TextBaseline: {
+          results.push("TextBaseline");
+          break;
+        }
+        case CanvasInstruction.Translate: {
+          results.push("Translate");
+          break;
+        }
+        case CanvasInstruction.Transform: {
+          results.push("Transform");
+          break;
+        }
+      }
+      if (data[i] === CanvasInstruction.Inspect) break;
+      i = data[i + 1];
+    }
+    console.log(results);
   }
 
   private log(a: number, b: number): void {

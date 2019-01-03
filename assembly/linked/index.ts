@@ -6,6 +6,7 @@ export {
   create_radial_gradient,
   create_string,
   get_image_data,
+  inspect,
   put_image_data,
   put_image_data_dirty,
   remove_image,

@@ -52,3 +52,6 @@ export declare function render(canvas: string, committed: Float64Array): void;
 
 @external("__as_interop", "log")
 export declare function log(a: i32, b: i32): void;
+
+@external("__as_interop", "inspect")
+export declare function inspect(data: Float64Array): void;

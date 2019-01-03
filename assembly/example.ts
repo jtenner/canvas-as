@@ -4,61 +4,63 @@ import "allocator/tlsf";
 // import CanvasRenderingContext2D and Image
 import {
   OptimizedCanvasRenderingContext2D,
-  ImageData,
+  CanvasRenderingContext2D,
   CanvasMap,
 } from "./index";
+import { log } from "./linked";
 
-let ctx: OptimizedCanvasRenderingContext2D;
-let data: ImageData;
-let ctx2: OptimizedCanvasRenderingContext2D;
-export function init(): void {
-  data = new ImageData(400, 400);
-  ctx = CanvasMap.getOptimized("main");
-  ctx2 = CanvasMap.getOptimized("main2");
-
-  var r: i32 = 0;
-  var g: i32 = 0;
-  var b: i32 = 0;
-  var a: i32 = 0;
-  var fx: f64 = 0.0;
-  var fy: f64 = 0.0;
-  var pi_2: f64 = Math.PI / 2.0;
-
-  for (var y = 0; y < 400; ++y) {
-    for (var x = 0; x < 400; ++x) {
-      r = (400 * y  + x) << 2;
-      g = r + 1;
-      b = r + 2;
-      a = r + 3;
-      fx = <f64>x;
-      fy = <f64>y;
-      data.data[r] = <u8>Math.floor(255.0 * Math.sin(fx / 400.0 * pi_2));
-      data.data[g] = <u8>Math.floor(255.0 * Math.sin(fy / 400.0 * pi_2));
-      data.data[b] = <u8>Math.floor(255.0 * Math.sin(Math.sqrt(fx * fy) / 400.0 * pi_2));
-      data.data[a] = <u8>255;
-    }
-  }
-
+class Star {
+  x: f64;
+  y: f64;
 }
 
-var rot: f64 = 0.0;
+let ctx: CanvasRenderingContext2D;
+let stars: Star[] = new Array<Star>(0);
 
+export function init(): void {
+  var star: Star;
+  ctx = CanvasMap.get("main");
+  for (var i = 0; i < 1000; i++) {
+    star = new Star();
+    star.x = Math.random() * 800.0;
+    star.y = Math.random() * 600.0;
+    stars.push(star);
+  }
+}
+
+let pi2: f64 = Math.PI * 2;
 export function tick(): void {
-  // perform some simple drawing calls
-  ctx.clearRect(0.0, 0.0, 800.0, 600.0);
 
-  rot += 0.1;
-  if (rot > 7.0) rot -= Math.PI * 2;
+  // perform some simple drawing calls
+  ctx.fillStyle = "black";
+  ctx.fillRect(0.0, 0.0, 800.0, 600.0);
+
   ctx.save();
-  ctx.rotate(rot);
-  ctx.fillStyle = "blue";
-  ctx.fillRect(100.0, 100.0, 300.0, 400.0);
+  ctx.beginPath();
+  ctx.rect(100.0, 100.0, 600.0, 400.0);
+  ctx.clip();
+
+
+  var star: Star;
+  for (var i = 0; i < stars.length; i++) {
+    star = stars[i];
+    star.y += 1.0;
+    if (star.y > 600.0) star.y -= 600.0;
+
+    ctx.save();
+    ctx.fillStyle = "white";
+    ctx.translate(star.x, star.y);
+
+    ctx.beginPath();
+    ctx.arc(0.0, 0.0, 1, 0, pi2);
+    ctx.fill();
+
+    ctx.restore();
+    if (i % 50 == 0) ctx.commit();
+  }
+
   ctx.restore();
   ctx.commit();
-
-  var data2: ImageData = ctx.getImageData(0, 0, 800, 600);
-  ctx2.putImageData(data2, 0, 0);
-  data2.dispose();
 }
 
 export { memory }

@@ -23,6 +23,7 @@ export const enum CanvasInstruction {
   GlobalCompositeOperation,
   ImageSmoothingEnabled,
   ImageSmoothingQuality,
+  Inspect,
   LineCap,
   LineDash,
   LineDashOffset,

@@ -22,15 +22,15 @@ if (!canvas2.parentElement) {
 const ctx = canvas.getContext("2d");
 const ctx2 = canvas2.getContext("2d");
 const fs = require("fs");
-const buff = fs.readFileSync("./build/untouched.wasm");
+const buff = fs.readFileSync("./build/optimized.wasm");
 const blob = new Blob([buff], { type: "application/wasm" });
 const url = URL.createObjectURL(blob);
 
 async function main() {
   const interop = await instantiateStreaming(fetch(url), {});
-  interop.useContext("main", ctx);
-  interop.useContext("main2", ctx2);
-  interop.wasm.init();
+  interop.useContext("main", ctx)
+    .wasm
+    .init();
   function loop() {
     interop.wasm.tick();
   }

@@ -50,6 +50,7 @@ class CanvasASInterop {
             create_string: this.create_string.bind(this),
             create_image: this.create_image.bind(this),
             get_image_data: this.get_image_data.bind(this),
+            inspect: this.inspect.bind(this),
             remove_image: this.remove_image.bind(this),
             remove_pattern: this.remove_pattern.bind(this),
             remove_gradient: this.remove_gradient.bind(this),
@@ -70,7 +71,7 @@ class CanvasASInterop {
         var data = this.wasm.getArray(Float64Array, dataPointer);
         while (index < data.length) {
             if (data[index] === 6 /* Commit */) {
-                this.strings.clear();
+                //this.strings.clear();
                 break;
             }
             switch (data[index]) {
@@ -172,111 +173,114 @@ class CanvasASInterop {
                     ctx.imageSmoothingQuality = shared_1.ImageSmoothingQuality[data[index + 2]];
                     break;
                 }
-                case 24 /* LineCap */: {
+                case 24 /* Inspect */: {
+                    break;
+                }
+                case 25 /* LineCap */: {
                     ctx.lineCap = shared_1.LineCap[data[index + 2]];
                     break;
                 }
-                case 25 /* LineDash */: {
+                case 26 /* LineDash */: {
                     // setLineDash accepts a typed array instead of just a number[]
                     ctx.setLineDash(this.wasm.getArray(Float64Array, data[index + 2]));
                     break;
                 }
-                case 26 /* LineDashOffset */: {
+                case 27 /* LineDashOffset */: {
                     ctx.lineDashOffset = data[index + 2];
                     break;
                 }
-                case 27 /* LineJoin */: {
+                case 28 /* LineJoin */: {
                     ctx.lineJoin = shared_1.LineJoin[data[index + 2]];
                     break;
                 }
-                case 28 /* LineTo */: {
+                case 29 /* LineTo */: {
                     ctx.lineTo(data[index + 2], data[index + 3]);
                     break;
                 }
-                case 29 /* LineWidth */: {
+                case 30 /* LineWidth */: {
                     ctx.lineWidth = data[index + 2];
                     break;
                 }
-                case 30 /* MiterLimit */: {
+                case 31 /* MiterLimit */: {
                     ctx.miterLimit = data[index + 2];
                     break;
                 }
-                case 31 /* MoveTo */: {
+                case 32 /* MoveTo */: {
                     ctx.moveTo(data[index + 2], data[index + 3]);
                     break;
                 }
-                case 32 /* QuadraticCurveTo */: {
+                case 33 /* QuadraticCurveTo */: {
                     ctx.quadraticCurveTo(data[index + 2], data[index + 3], data[index + 4], data[index + 5]);
                     break;
                 }
-                case 33 /* Rect */: {
+                case 34 /* Rect */: {
                     ctx.rect(data[index + 2], data[index + 3], data[index + 4], data[index + 5]);
                     break;
                 }
-                case 34 /* Restore */: {
+                case 35 /* Restore */: {
                     ctx.restore();
                     break;
                 }
-                case 35 /* Rotate */: {
+                case 36 /* Rotate */: {
                     ctx.rotate(data[index + 2]);
                     break;
                 }
-                case 36 /* Save */: {
+                case 37 /* Save */: {
                     ctx.save();
                     break;
                 }
-                case 37 /* Scale */: {
+                case 38 /* Scale */: {
                     ctx.scale(data[index + 2], data[index + 3]);
                     break;
                 }
-                case 38 /* SetTransform */: {
+                case 39 /* SetTransform */: {
                     ctx.setTransform(data[index + 2], data[index + 3], data[index + 4], data[index + 5], data[index + 6], data[index + 7]);
                     break;
                 }
-                case 39 /* ShadowBlur */: {
+                case 40 /* ShadowBlur */: {
                     ctx.shadowBlur = data[index + 2];
                     break;
                 }
-                case 40 /* ShadowColor */: {
+                case 41 /* ShadowColor */: {
                     if (!this.strings.has(data[index + 2]))
                         continue;
                     ctx.shadowColor = this.strings.get(data[index + 2]);
                     break;
                 }
-                case 41 /* ShadowOffsetX */: {
+                case 42 /* ShadowOffsetX */: {
                     ctx.shadowOffsetX = data[index + 2];
                     break;
                 }
-                case 42 /* ShadowOffsetY */: {
+                case 43 /* ShadowOffsetY */: {
                     ctx.shadowOffsetY = data[index + 2];
                     break;
                 }
-                case 47 /* StrokeStyle */: {
+                case 48 /* StrokeStyle */: {
                     if (!this.strings.has(data[index + 2]))
                         ctx.fillStyle = this.strings.get(data[index + 2]);
                     break;
                 }
-                case 44 /* StrokeGradient */: {
+                case 45 /* StrokeGradient */: {
                     ctx.strokeStyle = this.gradients[data[index + 2]];
                     break;
                 }
-                case 45 /* StrokePattern */: {
+                case 46 /* StrokePattern */: {
                     ctx.strokeStyle = this.patterns[data[index + 2]];
                     break;
                 }
-                case 49 /* TextAlign */: {
+                case 50 /* TextAlign */: {
                     ctx.textAlign = shared_1.TextAlign[data[index + 2]];
                     break;
                 }
-                case 50 /* TextBaseline */: {
+                case 51 /* TextBaseline */: {
                     ctx.textBaseline = shared_1.TextBaseline[data[index + 2]];
                     break;
                 }
-                case 52 /* Transform */: {
+                case 53 /* Transform */: {
                     ctx.transform(data[index + 2], data[index + 3], data[index + 4], data[index + 5], data[index + 6], data[index + 7]);
                     break;
                 }
-                case 51 /* Translate */: {
+                case 52 /* Translate */: {
                     ctx.translate(data[index + 2], data[index + 3]);
                     break;
                 }
@@ -375,6 +379,231 @@ class CanvasASInterop {
     }
     report_image_loaded(image_loaded) {
         this.image_loaded = image_loaded;
+    }
+    inspect(a) {
+        var results = [];
+        var data = this.wasm.getArray(Float64Array, a);
+        var i = 0;
+        while (i < data.length) {
+            switch (data[i]) {
+                case 0 /* Arc */: {
+                    results.push("Arc");
+                    break;
+                }
+                case 1 /* ArcTo */: {
+                    results.push("ArcTo");
+                    break;
+                }
+                case 2 /* BeginPath */: {
+                    results.push("BeginPath");
+                    break;
+                }
+                case 3 /* BezierCurveTo */: {
+                    results.push("BezierCurveTo");
+                    break;
+                }
+                case 4 /* Clip */: {
+                    results.push("Clip");
+                    break;
+                }
+                case 5 /* ClosePath */: {
+                    results.push("ClosePath");
+                    break;
+                }
+                case 6 /* Commit */: {
+                    results.push("Commit");
+                    break;
+                }
+                case 7 /* ClearRect */: {
+                    results.push("ClearRect");
+                    break;
+                }
+                case 8 /* Direction */: {
+                    results.push("Direction");
+                    break;
+                }
+                case 9 /* DrawFocusIfNeeded */: {
+                    results.push("DrawFocusIfNeeded");
+                    break;
+                }
+                case 10 /* DrawImage */: {
+                    results.push("DrawImage");
+                    break;
+                }
+                case 11 /* Ellipse */: {
+                    results.push("Ellipse");
+                    break;
+                }
+                case 12 /* Fill */: {
+                    results.push("Fill");
+                    break;
+                }
+                case 13 /* FillGradient */: {
+                    results.push("FillGradient");
+                    break;
+                }
+                case 14 /* FillPattern */: {
+                    results.push("FillPattern");
+                    break;
+                }
+                case 15 /* FillRect */: {
+                    results.push("FillRect");
+                    break;
+                }
+                case 16 /* FillStyle */: {
+                    results.push("FillStyle");
+                    break;
+                }
+                case 17 /* FillText */: {
+                    results.push("FillText");
+                    break;
+                }
+                case 18 /* Filter */: {
+                    results.push("Filter");
+                    break;
+                }
+                case 19 /* Font */: {
+                    results.push("Font");
+                    break;
+                }
+                case 20 /* GlobalAlpha */: {
+                    results.push("GlobalAlpha");
+                    break;
+                }
+                case 21 /* GlobalCompositeOperation */: {
+                    results.push("GlobalCompositeOperation");
+                    break;
+                }
+                case 22 /* ImageSmoothingEnabled */: {
+                    results.push("ImageSmoothingEnabled");
+                    break;
+                }
+                case 23 /* ImageSmoothingQuality */: {
+                    results.push("ImageSmoothingQuality");
+                    break;
+                }
+                case 25 /* LineCap */: {
+                    results.push("LineCap");
+                    break;
+                }
+                case 26 /* LineDash */: {
+                    results.push("LineDash");
+                    break;
+                }
+                case 27 /* LineDashOffset */: {
+                    results.push("LineDashOffset");
+                    break;
+                }
+                case 28 /* LineJoin */: {
+                    results.push("LineJoin");
+                    break;
+                }
+                case 29 /* LineTo */: {
+                    results.push("LineTo");
+                    break;
+                }
+                case 30 /* LineWidth */: {
+                    results.push("LineWidth");
+                    break;
+                }
+                case 31 /* MiterLimit */: {
+                    results.push("MiterLimit");
+                    break;
+                }
+                case 32 /* MoveTo */: {
+                    results.push("MoveTo");
+                    break;
+                }
+                case 33 /* QuadraticCurveTo */: {
+                    results.push("QuadraticCurveTo");
+                    break;
+                }
+                case 34 /* Rect */: {
+                    results.push("Rect");
+                    break;
+                }
+                case 35 /* Restore */: {
+                    results.push("Restore");
+                    break;
+                }
+                case 36 /* Rotate */: {
+                    results.push("Rotate");
+                    break;
+                }
+                case 37 /* Save */: {
+                    results.push("Save");
+                    break;
+                }
+                case 38 /* Scale */: {
+                    results.push("Scale");
+                    break;
+                }
+                case 39 /* SetTransform */: {
+                    results.push("SetTransform");
+                    break;
+                }
+                case 40 /* ShadowBlur */: {
+                    results.push("ShadowBlur");
+                    break;
+                }
+                case 41 /* ShadowColor */: {
+                    results.push("ShadowColor");
+                    break;
+                }
+                case 42 /* ShadowOffsetX */: {
+                    results.push("ShadowOffsetX");
+                    break;
+                }
+                case 43 /* ShadowOffsetY */: {
+                    results.push("ShadowOffsetY");
+                    break;
+                }
+                case 44 /* Stroke */: {
+                    results.push("Stroke");
+                    break;
+                }
+                case 45 /* StrokeGradient */: {
+                    results.push("StrokeGradient");
+                    break;
+                }
+                case 46 /* StrokePattern */: {
+                    results.push("StrokePattern");
+                    break;
+                }
+                case 47 /* StrokeRect */: {
+                    results.push("StrokeRect");
+                    break;
+                }
+                case 48 /* StrokeStyle */: {
+                    results.push("StrokeStyle");
+                    break;
+                }
+                case 49 /* StrokeText */: {
+                    results.push("StrokeText");
+                    break;
+                }
+                case 50 /* TextAlign */: {
+                    results.push("TextAlign");
+                    break;
+                }
+                case 51 /* TextBaseline */: {
+                    results.push("TextBaseline");
+                    break;
+                }
+                case 52 /* Translate */: {
+                    results.push("Translate");
+                    break;
+                }
+                case 53 /* Transform */: {
+                    results.push("Transform");
+                    break;
+                }
+            }
+            if (data[i] === 24 /* Inspect */)
+                break;
+            i = data[i + 1];
+        }
+        console.log(results);
     }
     log(a, b) {
         console.log(a, b);

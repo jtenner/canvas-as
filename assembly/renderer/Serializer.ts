@@ -1,3 +1,5 @@
+import { log } from "../linked";
+
 export class Serializer<T> {
   index: i32 = 0;
   data: Float64Array = new Float64Array(8000);
@@ -114,6 +116,8 @@ export class Serializer<T> {
 
   @inline
   protected grow(): void {
+    log(-1, this.data.length);
+    log(-2, this.index);
     var data: Float64Array = new Float64Array(this.data.length + 8000);
     var length: i32 = this.data.length;
     var i: i32 = 0;

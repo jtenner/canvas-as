@@ -31,6 +31,7 @@ export declare class CanvasASInterop<T> {
     private report_use_image;
     private report_use_canvas;
     private report_image_loaded;
+    private inspect;
     private log;
 }
 //# sourceMappingURL=CanvasASInterop.d.ts.map

@@ -12,7 +12,7 @@ import {
 } from "../../src/shared";
 import { FillStrokeWhichValue, Path2DElement, Matrix, Image, FillStrokeWhich } from "../primitives";
 import { doubleTypedArray, copyTypedArray } from "../util";
-import { create_linear_gradient, create_pattern, create_radial_gradient } from "../linked";
+import { create_linear_gradient, create_pattern, create_radial_gradient, log } from "../linked";
 import { CanvasGradient } from "./CanvasGradient";
 import { CanvasPattern } from "./CanvasPattern";
 
@@ -74,10 +74,11 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
   private _stackIndex: i32 = 0;
 
   // path variables
-  private _path: Path2DElement[] = new Array<Path2DElement>(1000);
-  private _pathIndex: i32 = 0;
+  private _path: Path2DElement[] = new Array<Path2DElement>(0);
+  private _pathIndex: i32 = 1;
+  private _writtenPathIndex: i32 = 0;
 
-  private _hardSave: bool[] = new Array<bool>(0);
+  private _hardRestore: bool[] = new Array<bool>(0);
 
   init(): void {
     var i: i32 = 0;
@@ -109,8 +110,9 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
       this._strokeStyle.push(new FillStrokeWhichValue());
       this._textAlign.push(TextAlign.start);
       this._textBaseline.push(TextBaseline.alphabetic);
-      this._hardSave.push(false);
-      this._path.push(new Path2DElement());
+      this._hardRestore.push(false);
+      var elem: Path2DElement = new Path2DElement();
+      this._path.push(elem);
       ++i;
     }
     this._directionCurrent = Direction.inherit;
@@ -140,11 +142,10 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this._strokeStyleCurrent = new FillStrokeWhichValue();
     this._textAlignCurrent = TextAlign.start;
     this._textBaselineCurrent = TextBaseline.alphabetic;
-    this.write_path_zero(CanvasInstruction.BeginPath, true);
     super.init();
   }
 
-  public save(): void {
+  public save(hard: bool = false): void {
     var current: i32 = this._stackIndex;
     var next: i32 = current + 1;
     this._direction[next] = this.direction;
@@ -156,6 +157,10 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this._imageSmoothingEnabled[next] = this.imageSmoothingEnabled;
     this._imageSmoothingQuality[next] = this.imageSmoothingQuality;
     this._lineCap[next] = this.lineCap;
+    if (this._lineDash[next] != null) {
+      memory.free(changetype<usize>(this._lineDash[next].buffer));
+      memory.free(changetype<usize>(this._lineDash[next]));
+    }
     this._lineDash[next] = this.getLineDash();
     this._lineDashOffset[next] = this.lineDashOffset;
     this._lineJoin[next] = this.lineJoin;
@@ -174,16 +179,14 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this._strokeStyle[this._stackIndex].set(this._strokeStyle[next]);
     this._textAlign[next] = this.textAlign;
     this._textBaseline[next] = this.textBaseline;
-    this._hardSave[next] = false;
-    if (this._hardSave[current]) {
-      this.write_save();
-    }
+    this._hardRestore[next] = hard;
+    if (hard) this.write_save();
     this._stackIndex = next;
   }
 
   public restore(): void {
     if (this._stackIndex == 0) return;
-    if (this._hardSave[this._stackIndex]) {
+    if (this._hardRestore[this._stackIndex]) {
       --this._stackIndex;
       this._directionCurrent = this.direction;
       this._fillStyle[this._stackIndex].set(this._fillStyleCurrent);
@@ -244,7 +247,9 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
   }
 
   public beginPath(): void {
-    this._pathIndex = 1;
+    this._writtenPathIndex = 0;
+    this._pathIndex = 0;
+    this.write_path_zero(CanvasInstruction.BeginPath, true);
   }
 
   public bezierCurveTo(cp1x: f64, cp1y: f64, cp2x: f64, cp2y: f64, x: f64, y: f64): void {
@@ -267,7 +272,6 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
 
   public clip(): void {
     if (this._pathIndex == 1) return;
-    this._hardSave[this._stackIndex] = true;
     this.write_path_zero(CanvasInstruction.Clip, false);
     this.update_path();
   }
@@ -502,7 +506,13 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
   }
 
   public getLineDash(): Float64Array {
-    return copyTypedArray(this._lineDash[this._stackIndex]);
+    var array: Float64Array | null = null;
+    for (var i = this._stackIndex; i >= 0; --i) {
+      if (this._lineDash[i] == null) continue;
+      array = this._lineDash[i];
+    }
+    if (array == null) throw new Error("Cannot get lineDash value. The lineDash stack is null.");
+    return array;
   }
 
   public setLineDash(value: Float64Array): void {
@@ -1068,10 +1078,10 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
 
   @inline
   private update_path(): void {
-    var i: i32 = 0;
     var pathItem: Path2DElement;
-    while (i < this._pathIndex) {
-      pathItem = this._path[i];
+    while (this._writtenPathIndex < this._pathIndex) {
+      pathItem = this._path[this._writtenPathIndex];
+      if (pathItem == null) throw new Error("Something happened!");
       if (pathItem.updateTransform) {
         this._transformA[this._stackIndex] = pathItem.transformA;
         this._transformB[this._stackIndex] = pathItem.transformB;
@@ -1111,15 +1121,14 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
           break;
         }
       }
-      ++i;
+      ++this._writtenPathIndex;
     }
-    this._pathIndex = 1;
   }
 
   @inline
   private write_path_zero(instruction: CanvasInstruction, updateTransform: bool): void {
-    var pathItem: Path2DElement = this._path[this._pathIndex++];
-    pathItem.instruction = instruction
+    var pathItem: Path2DElement = this._path[this._pathIndex];
+    pathItem.instruction = instruction;
     pathItem.count = 0;
     if (updateTransform) {
       pathItem.transformA = this._transformA[this._stackIndex];
@@ -1130,6 +1139,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
       pathItem.transformF = this._transformF[this._stackIndex];
       pathItem.updateTransform = true;
     }
+    this._pathIndex++;
   }
 
   @inline
@@ -1193,7 +1203,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
 
   @inline
   private write_path_six(instruction: CanvasInstruction, updateTransform: bool, a: f64, b: f64, c: f64, d: f64, e: f64, f: f64): void {
-    var pathItem: Path2DElement = this._path[this._pathIndex++];
+    var pathItem: Path2DElement = this._path[this._pathIndex];
     pathItem.instruction = instruction
     pathItem.count = 6;
     pathItem.a = a;
@@ -1211,6 +1221,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
       pathItem.transformF = this._transformF[this._stackIndex];
       pathItem.updateTransform = true;
     }
+    ++this._pathIndex;
   }
 
   @inline

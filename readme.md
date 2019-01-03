@@ -115,7 +115,7 @@ const imports: any = {
 // use an async function to load your module
 async function main(): Promise<void> {
   // just need to wait for the module to instantiate
-  const interop: CanvasASInterop<any> = await instantiateStreaming<any>(fetch("./my/module.wasm", imports));
+  const interop: CanvasASInterop<any> = await instantiateStreaming<any>(fetch("./my/module.wasm"), imports);
 
   // initialize the canvas context inside wasm
   interop.useContext("main", ctx);
@@ -142,7 +142,7 @@ This renderer is used when you want to minimize the number of javascript functio
 For instance, take the following example.
 
 ```ts
-var ctx = new OptimizedCanvasRenderingContext2D();
+var ctx = CanvasMap.getOptimized("main");
 
 ctx.beginPath();
 ctx.moveTo(10.0, 10.0);
@@ -171,7 +171,7 @@ There are a bunch of problems that `canvas-as` currently does not solve.
 - Canvas mouse events
 - Canvas touch events
 - Canvas keyboard event
-- object lifetime management (managed object disposal and re-use with `@deconstructor` when AS supports it)
+- object lifetime management (managed object disposal and re-use with `@deconstructor` if and when AS supports it)
 - Canvas style management (changing the cursor, element size, etc)
 
 These things are all techincally possible with the exception of object lifetime management which is currently under development by the AssemblyScript team. Once destructors are supported, `canvas-as` will automatically perform memory management for you.

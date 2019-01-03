@@ -64,7 +64,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
       this._imageSmoothingEnabled.push(true);
       this._imageSmoothingQuality.push(ImageSmoothingQuality.low);
       this._lineCap.push(LineCap.butt);
-      this._lineDash.push(new Float64Array(0));
+      this._lineDash.push(null);
       this._lineDashOffset.push(0.0);
       this._lineJoin.push(LineJoin.miter);
       this._lineWidth.push(1.0);
@@ -84,6 +84,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
       this._textBaseline.push(TextBaseline.alphabetic);
       i++;
     }
+    this._lineDash[0] = new Float64Array(0);
     super.init();
   }
 
@@ -99,7 +100,12 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
     this._imageSmoothingEnabled[next] = this.imageSmoothingEnabled;
     this._imageSmoothingQuality[next] = this.imageSmoothingQuality;
     this._lineCap[next] = this.lineCap;
-    this._lineDash[next] = this.getLineDash();
+    var nextLineDash: Float64Array = this._lineDash[next];
+    if (nextLineDash != null) {
+      memory.free(changetype<usize>(this._lineDash[next].buffer));
+      memory.free(changetype<usize>(this._lineDash[next]));
+    }
+    this._lineDash[next] = null;
     this._lineDashOffset[next] = this.lineDashOffset;
     this._lineJoin[next] = this.lineJoin;
     this._lineWidth[next] = this.lineWidth;
@@ -337,7 +343,13 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   }
 
   public getLineDash(): Float64Array {
-    return copyTypedArray(this._lineDash[this._stackIndex]);
+    var array: Float64Array | null = null;
+    for (var i = this._stackIndex; i >= 0; --i) {
+      if (this._lineDash[i] == null) continue;
+      array = this._lineDash[i];
+    }
+    if (array == null) throw new Error("Cannot get lineDash value. The lineDash stack is null.");
+    return array;
   }
 
   public setLineDash(value: Float64Array): void {
