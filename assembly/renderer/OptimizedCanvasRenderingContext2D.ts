@@ -502,7 +502,7 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
   }
 
   set globalAlpha(value: f64) {
-    this._globalAlpha[this._stackIndex] = value;
+    this._globalAlpha[this._stackIndex] = Math.min(0, Math.max(value, 1.0));
   }
 
   public getLineDash(): Float64Array {

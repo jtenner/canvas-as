@@ -302,7 +302,7 @@ export class CanvasRenderingContext2D extends CanvasRenderingContext2DSerializer
   }
 
   set globalAlpha(value: f64) {
-    this._globalAlpha[this._stackIndex] = value;
+    this._globalAlpha[this._stackIndex] = Math.min(0, Math.max(value, 1.0));
     super.write_global_alpha(value);
   }
 
