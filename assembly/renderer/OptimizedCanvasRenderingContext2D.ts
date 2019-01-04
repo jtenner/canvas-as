@@ -157,11 +157,12 @@ export class OptimizedCanvasRenderingContext2D extends CanvasRenderingContext2DS
     this._imageSmoothingEnabled[next] = this.imageSmoothingEnabled;
     this._imageSmoothingQuality[next] = this.imageSmoothingQuality;
     this._lineCap[next] = this.lineCap;
-    if (this._lineDash[next] != null) {
-      memory.free(changetype<usize>(this._lineDash[next].buffer));
-      memory.free(changetype<usize>(this._lineDash[next]));
+    var nextLineDash: Float64Array = this._lineDash[next];
+    if (nextLineDash != null) {
+      memory.free(changetype<usize>(nextLineDash.buffer));
+      memory.free(changetype<usize>(nextLineDash));
     }
-    this._lineDash[next] = this.getLineDash();
+    this._lineDash[next] = null;
     this._lineDashOffset[next] = this.lineDashOffset;
     this._lineJoin[next] = this.lineJoin;
     this._lineWidth[next] = this.lineWidth;

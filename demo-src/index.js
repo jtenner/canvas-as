@@ -4,23 +4,15 @@ const { Buffer } = require("buffer");
 window.Buffer = Buffer;
 const { instantiateStreaming } = require("../src");
 const canvas = document.querySelector("#main") || document.createElement("canvas");
-const canvas2 = document.querySelector("#main2") || document.createElement("canvas");
 canvas.id = "main";
-canvas2.id = "main2";
 
 canvas.width = 800;
-canvas2.width = 800;
 canvas.height = 600;
-canvas2.height = 600;
 if (!canvas.parentElement) {
   document.body.appendChild(canvas);
 }
-if (!canvas2.parentElement) {
-  document.body.appendChild(canvas2);
-}
 
 const ctx = canvas.getContext("2d");
-const ctx2 = canvas2.getContext("2d");
 const fs = require("fs");
 const buff = fs.readFileSync("./build/optimized.wasm");
 const blob = new Blob([buff], { type: "application/wasm" });

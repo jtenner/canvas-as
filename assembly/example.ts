@@ -19,7 +19,7 @@ let stars: Star[] = new Array<Star>(0);
 export function init(): void {
   var star: Star;
   ctx = CanvasMap.getOptimized("main");
-  for (var i = 0; i < 1000; i++) {
+  for (var i = 0; i < 500; i++) {
     star = new Star();
     star.x = Math.random() * 800.0;
     star.y = Math.random() * 600.0;

@@ -5901,7 +5901,7 @@
    set_local $1
    loop $repeat|0
     get_local $1
-    i32.const 1000
+    i32.const 500
     i32.lt_s
     i32.eqz
     br_if $break|0
@@ -10302,60 +10302,7 @@
    unreachable
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#getLineDash (; 99 ;) (type $ii) (param $0 i32) (result i32)
-  (local $1 i32)
-  (local $2 i32)
-  block $break|0
-   get_local $0
-   i32.load offset=336
-   set_local $2
-   loop $repeat|0
-    block $continue|0
-     get_local $2
-     i32.const 0
-     i32.ge_s
-     i32.eqz
-     br_if $break|0
-     block
-      get_local $0
-      i32.load offset=96
-      get_local $2
-      call $~lib/array/Array<Float64Array>#__get
-      i32.const 0
-      i32.eq
-      if
-       br $continue|0
-      end
-      get_local $0
-      i32.load offset=96
-      get_local $2
-      call $~lib/array/Array<Float64Array>#__get
-      set_local $1
-     end
-    end
-    get_local $2
-    i32.const 1
-    i32.sub
-    set_local $2
-    br $repeat|0
-    unreachable
-   end
-   unreachable
-  end
-  get_local $1
-  i32.const 0
-  i32.eq
-  if
-   i32.const 0
-   i32.const 408
-   i32.const 514
-   i32.const 23
-   call $~lib/env/abort
-   unreachable
-  end
-  get_local $1
- )
- (func $~lib/array/Array<Float64Array>#__set (; 100 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<Float64Array>#__set (; 99 ;) (type $iiiv) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -10411,77 +10358,77 @@
   get_local $2
   i32.store offset=8
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineDashOffset (; 101 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineDashOffset (; 100 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=104
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineJoin (; 102 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineJoin (; 101 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=120
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<i32>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineWidth (; 103 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:lineWidth (; 102 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=128
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:miterLimit (; 104 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:miterLimit (; 103 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=144
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowBlur (; 105 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowBlur (; 104 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=256
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowColor (; 106 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowColor (; 105 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=272
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<String>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowOffsetX (; 107 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowOffsetX (; 106 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=280
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowOffsetY (; 108 ;) (type $iF) (param $0 i32) (result f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:shadowOffsetY (; 107 ;) (type $iF) (param $0 i32) (result f64)
   get_local $0
   i32.load offset=296
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<f64>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:textAlign (; 109 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:textAlign (; 108 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=320
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<i32>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:textBaseline (; 110 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#get:textBaseline (; 109 ;) (type $ii) (param $0 i32) (result i32)
   get_local $0
   i32.load offset=328
   get_local $0
   i32.load offset=336
   call $~lib/array/Array<i32>#__get
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#save (; 111 ;) (type $iiv) (param $0 i32) (param $1 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#save (; 110 ;) (type $iiv) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -10491,7 +10438,8 @@
   (local $8 i32)
   (local $9 i32)
   (local $10 i32)
-  (local $11 f64)
+  (local $11 i32)
+  (local $12 f64)
   get_local $0
   i32.load offset=336
   set_local $2
@@ -10578,14 +10526,13 @@
   i32.load offset=96
   get_local $3
   call $~lib/array/Array<Float64Array>#__get
+  set_local $6
+  get_local $6
   i32.const 0
   i32.ne
   if
    block $~lib/memory/memory.free|inlined.29
-    get_local $0
-    i32.load offset=96
-    get_local $3
-    call $~lib/array/Array<Float64Array>#__get
+    get_local $6
     i32.load
     set_local $5
     block
@@ -10597,13 +10544,8 @@
     unreachable
    end
    block $~lib/memory/memory.free|inlined.30
-    get_local $0
-    i32.load offset=96
-    get_local $3
-    call $~lib/array/Array<Float64Array>#__get
-    set_local $5
     block
-     get_local $5
+     get_local $6
      call $~lib/allocator/tlsf/__memory_free
      br $~lib/memory/memory.free|inlined.30
      unreachable
@@ -10614,8 +10556,7 @@
   get_local $0
   i32.load offset=96
   get_local $3
-  get_local $0
-  call $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#getLineDash
+  i32.const 0
   call $~lib/array/Array<Float64Array>#__set
   get_local $0
   i32.load offset=104
@@ -10771,8 +10712,8 @@
    block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.71 (result i32)
     get_local $0
     i32.load offset=4
-    set_local $6
-    get_local $6
+    set_local $7
+    get_local $7
     i32.load offset=8
     i32.const 3
     i32.shr_u
@@ -10784,8 +10725,8 @@
     block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.72 (result i32)
      get_local $0
      i32.load offset=4
-     set_local $6
-     get_local $6
+     set_local $7
+     get_local $7
      i32.load offset=8
      i32.const 3
      i32.shr_u
@@ -10799,8 +10740,8 @@
     block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.73 (result i32)
      get_local $0
      i32.load offset=4
-     set_local $6
-     get_local $6
+     set_local $7
+     get_local $7
      i32.load offset=8
      i32.const 3
      i32.shr_u
@@ -10808,45 +10749,45 @@
     i32.const 8000
     i32.add
     call $~lib/internal/typedarray/TypedArray<f64>#constructor
-    set_local $6
+    set_local $7
     block $~lib/internal/typedarray/TypedArray<f64>#get:length|inlined.74 (result i32)
      get_local $0
      i32.load offset=4
-     set_local $7
-     get_local $7
+     set_local $8
+     get_local $8
      i32.load offset=8
      i32.const 3
      i32.shr_u
     end
-    set_local $7
-    i32.const 0
     set_local $8
+    i32.const 0
+    set_local $9
     block $break|0
      loop $continue|0
+      get_local $9
       get_local $8
-      get_local $7
       i32.lt_s
       if
        block
         block (result f64)
-         get_local $6
-         tee_local $9
-         get_local $8
+         get_local $7
          tee_local $10
+         get_local $9
+         tee_local $11
          get_local $0
          i32.load offset=4
-         get_local $8
+         get_local $9
          call $~lib/internal/typedarray/TypedArray<f64>#__unchecked_get
          call $~lib/internal/typedarray/TypedArray<f64>#__unchecked_set
-         get_local $9
          get_local $10
+         get_local $11
          call $~lib/internal/typedarray/TypedArray<f64>#__unchecked_get
         end
         drop
-        get_local $8
+        get_local $9
         i32.const 1
         i32.add
-        set_local $8
+        set_local $9
        end
        br $continue|0
       end
@@ -10856,9 +10797,9 @@
      get_local $0
      i32.load offset=4
      i32.load
-     set_local $9
+     set_local $10
      block
-      get_local $9
+      get_local $10
       call $~lib/allocator/tlsf/__memory_free
       br $~lib/memory/memory.free|inlined.31
       unreachable
@@ -10868,9 +10809,9 @@
     block $~lib/memory/memory.free|inlined.32
      get_local $0
      i32.load offset=4
-     set_local $9
+     set_local $10
      block
-      get_local $9
+      get_local $10
       call $~lib/allocator/tlsf/__memory_free
       br $~lib/memory/memory.free|inlined.32
       unreachable
@@ -10878,24 +10819,24 @@
      unreachable
     end
     get_local $0
-    get_local $6
+    get_local $7
     i32.store offset=4
    end
    block
     get_local $4
     f64.convert_s/i32
-    set_local $11
+    set_local $12
     block (result f64)
      get_local $0
      i32.load offset=4
-     tee_local $8
+     tee_local $9
      get_local $0
      i32.load
-     tee_local $7
-     get_local $11
+     tee_local $8
+     get_local $12
      call $~lib/internal/typedarray/TypedArray<f64>#__unchecked_set
+     get_local $9
      get_local $8
-     get_local $7
      call $~lib/internal/typedarray/TypedArray<f64>#__unchecked_get
     end
     drop
@@ -10909,18 +10850,18 @@
    block
     get_local $5
     f64.convert_s/i32
-    set_local $11
+    set_local $12
     block (result f64)
      get_local $0
      i32.load offset=4
-     tee_local $8
+     tee_local $9
      get_local $0
      i32.load
-     tee_local $7
-     get_local $11
+     tee_local $8
+     get_local $12
      call $~lib/internal/typedarray/TypedArray<f64>#__unchecked_set
+     get_local $9
      get_local $8
-     get_local $7
      call $~lib/internal/typedarray/TypedArray<f64>#__unchecked_get
     end
     drop
@@ -10936,7 +10877,7 @@
   get_local $3
   i32.store offset=336
  )
- (func $~lib/array/Array<Path2DElement>#__get (; 112 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Path2DElement>#__get (; 111 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -10963,7 +10904,7 @@
    unreachable
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#beginPath (; 113 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#beginPath (; 112 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -11044,7 +10985,7 @@
   i32.add
   i32.store offset=344
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#rect (; 114 ;) (type $iFFFFv) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#rect (; 113 ;) (type $iFFFFv) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -11133,7 +11074,7 @@
    i32.store8 offset=60
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#clip (; 115 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#clip (; 114 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -11250,7 +11191,7 @@
       if
        i32.const 0
        i32.const 408
-       i32.const 1084
+       i32.const 1085
        i32.const 28
        call $~lib/env/abort
        unreachable
@@ -13689,7 +13630,7 @@
    end
   end
  )
- (func $~lib/array/Array<Star>#__get (; 116 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Star>#__get (; 115 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   get_local $0
@@ -13716,7 +13657,7 @@
    unreachable
   end
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#translate (; 117 ;) (type $iFFv) (param $0 i32) (param $1 f64) (param $2 f64)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#translate (; 116 ;) (type $iFFv) (param $0 i32) (param $1 f64) (param $2 f64)
   get_local $0
   i32.load offset=224
   get_local $0
@@ -13770,7 +13711,7 @@
   f64.add
   call $~lib/array/Array<f64>#__set
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#arc (; 118 ;) (type $iFFFFFiv) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64) (param $5 f64) (param $6 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#arc (; 117 ;) (type $iFFFFFiv) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (param $4 f64) (param $5 f64) (param $6 i32)
   (local $7 i32)
   (local $8 i32)
   (local $9 f64)
@@ -13873,7 +13814,7 @@
   i32.add
   i32.store offset=344
  )
- (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#fill (; 119 ;) (type $iv) (param $0 i32)
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#fill (; 118 ;) (type $iv) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -15768,7 +15709,7 @@
       if
        i32.const 0
        i32.const 408
-       i32.const 1084
+       i32.const 1085
        i32.const 28
        call $~lib/env/abort
        unreachable
@@ -19751,6 +19692,59 @@
     i32.store
    end
   end
+ )
+ (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#getLineDash (; 119 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  block $break|0
+   get_local $0
+   i32.load offset=336
+   set_local $2
+   loop $repeat|0
+    block $continue|0
+     get_local $2
+     i32.const 0
+     i32.ge_s
+     i32.eqz
+     br_if $break|0
+     block
+      get_local $0
+      i32.load offset=96
+      get_local $2
+      call $~lib/array/Array<Float64Array>#__get
+      i32.const 0
+      i32.eq
+      if
+       br $continue|0
+      end
+      get_local $0
+      i32.load offset=96
+      get_local $2
+      call $~lib/array/Array<Float64Array>#__get
+      set_local $1
+     end
+    end
+    get_local $2
+    i32.const 1
+    i32.sub
+    set_local $2
+    br $repeat|0
+    unreachable
+   end
+   unreachable
+  end
+  get_local $1
+  i32.const 0
+  i32.eq
+  if
+   i32.const 0
+   i32.const 408
+   i32.const 515
+   i32.const 23
+   call $~lib/env/abort
+   unreachable
+  end
+  get_local $1
  )
  (func $assembly/renderer/OptimizedCanvasRenderingContext2D/OptimizedCanvasRenderingContext2D#restore (; 120 ;) (type $iv) (param $0 i32)
   (local $1 i32)
