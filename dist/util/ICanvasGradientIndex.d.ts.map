@@ -1,1 +1,1 @@
-{"version":3,"file":"ICanvasGradientIndex.d.ts","sourceRoot":"","sources":["../../src/util/ICanvasGradientIndex.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,oBAAoB;IACnC,CAAC,KAAK,EAAE,MAAM,GAAG,cAAc,GAAG,IAAI,CAAC;CACxC"}
+{"version":3,"file":"ICanvasGradientIndex.d.ts","sourceRoot":"","sources":["../src/util/ICanvasGradientIndex.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,oBAAoB;IACnC,CAAC,KAAK,EAAE,MAAM,GAAG,cAAc,GAAG,IAAI,CAAC;CACxC"}
