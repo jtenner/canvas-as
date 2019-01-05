@@ -2,7 +2,9 @@ import { ASUtil } from "assemblyscript/lib/loader";
 import { IImageBitmapIndex, ICanvasPatternIndex, ICanvasGradientIndex } from "../util";
 export declare class CanvasASInterop<T> {
     contexts: Map<string, CanvasRenderingContext2D>;
-    strings: Map<number, string>;
+    strings: {
+        [hash: number]: string;
+    };
     images: IImageBitmapIndex;
     patterns: ICanvasPatternIndex;
     gradients: ICanvasGradientIndex;
