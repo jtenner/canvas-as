@@ -7,6 +7,7 @@ import {
   CanvasRenderingContext2D,
   CanvasMap,
 } from "./index";
+import { log } from "./linked";
 
 class Star {
   x: f64;
@@ -15,11 +16,12 @@ class Star {
 
 let ctx: OptimizedCanvasRenderingContext2D;
 let stars: Star[] = new Array<Star>(0);
+let size: i32 = 0;
 
 export function init(): void {
   var star: Star;
   ctx = CanvasMap.getOptimized("main");
-  for (var i = 0; i < 500; i++) {
+  for (var i = 0; i < 100; i++) {
     star = new Star();
     star.x = Math.random() * 800.0;
     star.y = Math.random() * 600.0;
@@ -60,6 +62,12 @@ export function tick(): void {
 
   ctx.restore();
   ctx.commit();
+
+  var nextSize: i32 = memory.size();
+  if (nextSize !== size) {
+    log(size, nextSize);
+    size = nextSize;
+  }
 }
 
 export { memory }

@@ -23,11 +23,22 @@ import { CanvasPattern } from "./CanvasPattern";
 import { CanvasGradient } from "./CanvasGradient";
 import { render } from "../linked";
 
+const HEADER_SIZE = (offsetof<String>() + 1) & ~1;
+const FNV_OFFSET: u32 = 2166136261;
+const FNV_PRIME: u32 = 16777619;
+
+function hashStr(key: string): u32 {
+  var v = FNV_OFFSET;
+  for (let i: usize = 0, k: usize = key.length << 1; i < k; ++i) {
+    v = (v ^ <u32>load<u8>(changetype<usize>(key) + i, HEADER_SIZE)) * FNV_PRIME;
+  }
+  return v;
+}
+
 export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruction> {
   public _id: string = "";
-  private _stringMap: Map<string, i32> = new Map<string, i32>();
-  private _stringIndex: i32 = -1;
-
+  private _stringHashes: f64[] = new Array<f64>(0);
+  private _stringHashIndex: i32 = 0;
   public init(): void {
     super.init();
   }
@@ -36,6 +47,9 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
     if (super.index == 0) return;
     this.write_commit();
     super.index = 0;
+    for (var i = 0; i < this._stringHashes.length; i++) {
+      unchecked(this._stringHashes[i] = 0.0);
+    }
     render(this._id, this.data);
   }
 
@@ -535,12 +549,15 @@ export class CanvasRenderingContext2DSerializer extends Serializer<CanvasInstruc
 
   @inline
   protected send_string(value: string): f64 {
-    if (this._stringMap.has(value)) {
-      return <f64>this._stringMap.get(value);
+    var hash: f64 = <f64>hashStr(value);
+    if (this._stringHashes.includes(hash)) return hash;
+
+    if (this._stringHashIndex < this._stringHashes.length) {
+      unchecked(this._stringHashes[this._stringHashIndex] = hash);
+    } else {
+      this._stringHashes.push(hash);
     }
-    ++this._stringIndex;
-    this._stringMap.set(value, this._stringIndex);
-    create_string(this._stringIndex, value);
-    return <f64>this._stringIndex;
+    create_string(hash, value);
+    return hash;
   }
 }

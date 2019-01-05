@@ -15,7 +15,7 @@ export declare function create_pattern(index: i32, imageIndex: f64, patternType:
 export declare function create_radial_gradient(index: i32, x0: f64, y0: f64, r0: f64, x1: f64, y1: f64, r1: f64): void;
 
 @external("__as_interop", "create_string")
-export declare function create_string(index: i32, stringPointer: string): void;
+export declare function create_string(index: f64, stringPointer: string): void;
 
 @external("__as_interop", "create_image")
 export declare function create_image(imagePointer: Image, source: string): void;

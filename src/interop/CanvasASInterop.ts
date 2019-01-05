@@ -24,7 +24,7 @@ const ctx = document.createElement("canvas").getContext("2d");
 
 export class CanvasASInterop<T> {
   public contexts: Map<string, CanvasRenderingContext2D> = new Map<string, CanvasRenderingContext2D>();
-  public strings: Map<number, string> = new Map<number, string>();
+  public strings: { [hash: number]: string } = {};
   public images: IImageBitmapIndex = {};
   public patterns: ICanvasPatternIndex = {};
   public gradients: ICanvasGradientIndex = {};
@@ -91,7 +91,7 @@ export class CanvasASInterop<T> {
     var data: Float64Array = this.wasm!.getArray(Float64Array as any as TypedArrayConstructor, dataPointer);
     while (index < data.length) {
       if (data[index] === CanvasInstruction.Commit) {
-        //this.strings.clear();
+        this.strings = {};
         break;
       }
       switch(data[index]) {
@@ -202,14 +202,14 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.FillStyle: {
-          if (!this.strings.has(data[index + 2])) continue;
-          ctx.fillStyle = this.strings.get(data[index + 2])!;
+          if (!this.strings[data[index + 2]]) break;
+          ctx.fillStyle = this.strings[data[index + 2]];
           break;
         }
         case CanvasInstruction.FillText: {
-          if (!this.strings.has(data[index + 2])) continue;
+          if (!this.strings[data[index + 2]]) break;
           ctx.fillText(
-            this.strings.get(data[index + 2])!,
+            this.strings[data[index + 2]]!,
             data[index + 3],
             data[index + 4],
             data[index + 5] === -1 ? void 0 : data[index + 5],
@@ -217,13 +217,13 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.Filter: {
-          if (!this.strings.has(data[index + 2])) continue;
-          ctx.filter = this.strings.get(data[index + 2])!;
+          if (!this.strings[data[index + 1]]) break;
+          ctx.filter = this.strings[data[index + 1]]!;
           break;
         }
         case CanvasInstruction.Font: {
-          if (!this.strings.has(data[index + 2])) continue;
-          ctx.font = this.strings.get(data[index + 2])!;
+          if (!this.strings[data[index + 2]]) break;
+          ctx.font = this.strings[data[index + 1]]!;
           break;
         }
         case CanvasInstruction.GlobalAlpha: {
@@ -326,8 +326,8 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.ShadowColor: {
-          if (!this.strings.has(data[index + 2])) continue;
-          ctx.shadowColor = this.strings.get(data[index + 2])!;
+          if (!this.strings[data[index + 2]]) break;
+          ctx.shadowColor = this.strings[data[index + 1]]!;
           break;
         }
         case CanvasInstruction.ShadowOffsetX: {
@@ -339,8 +339,8 @@ export class CanvasASInterop<T> {
           break;
         }
         case CanvasInstruction.StrokeStyle: {
-          if (!this.strings.has(data[index + 2]))
-          ctx.fillStyle = this.strings.get(data[index + 2])!;
+          if (!this.strings[data[index + 2]]) break;
+          ctx.fillStyle = this.strings[data[index + 1]]!;
           break;
         }
         case CanvasInstruction.StrokeGradient: {
@@ -402,7 +402,7 @@ export class CanvasASInterop<T> {
   }
 
   private create_string(index: number, stringPointer: number): void {
-    this.strings.set(index, this.wasm!.getString(stringPointer));
+    this.strings[index] = this.wasm!.getString(stringPointer);
   }
 
   private get_image_data(name: number, imageDataPointer: number, sx: number, sy: number, sw: number, sh: number): void {
@@ -490,224 +490,224 @@ export class CanvasASInterop<T> {
     var data: Float64Array = this.wasm!.getArray(Float64Array as any, a);
     var i: number = 0;
     while (i < data.length) {
+      debugger;
       switch (data[i]) {
         case CanvasInstruction.Arc: {
-          results.push("Arc");
+          console.log("Arc");
           break;
         }
         case CanvasInstruction.ArcTo: {
-          results.push("ArcTo");
+          console.log("ArcTo");
           break;
         }
         case CanvasInstruction.BeginPath: {
-          results.push("BeginPath");
+          console.log("BeginPath");
           break;
         }
         case CanvasInstruction.BezierCurveTo: {
-          results.push("BezierCurveTo");
+          console.log("BezierCurveTo");
           break;
         }
         case CanvasInstruction.Clip: {
-          results.push("Clip");
+          console.log("Clip");
           break;
         }
         case CanvasInstruction.ClosePath: {
-          results.push("ClosePath");
+          console.log("ClosePath");
           break;
         }
         case CanvasInstruction.Commit: {
-          results.push("Commit");
+          console.log("Commit");
           break;
         }
         case CanvasInstruction.ClearRect: {
-          results.push("ClearRect");
+          console.log("ClearRect");
           break;
         }
         case CanvasInstruction.Direction: {
-          results.push("Direction");
+          console.log("Direction");
           break;
         }
         case CanvasInstruction.DrawFocusIfNeeded: {
-          results.push("DrawFocusIfNeeded");
+          console.log("DrawFocusIfNeeded");
           break;
         }
         case CanvasInstruction.DrawImage: {
-          results.push("DrawImage");
+          console.log("DrawImage");
           break;
         }
         case CanvasInstruction.Ellipse: {
-          results.push("Ellipse");
+          console.log("Ellipse");
           break;
         }
         case CanvasInstruction.Fill: {
-          results.push("Fill");
+          console.log("Fill");
           break;
         }
         case CanvasInstruction.FillGradient: {
-          results.push("FillGradient");
+          console.log("FillGradient");
           break;
         }
         case CanvasInstruction.FillPattern: {
-          results.push("FillPattern");
+          console.log("FillPattern");
           break;
         }
         case CanvasInstruction.FillRect: {
-          results.push("FillRect");
+          console.log("FillRect");
           break;
         }
         case CanvasInstruction.FillStyle: {
-          results.push("FillStyle");
+          console.log("FillStyle");
           break;
         }
         case CanvasInstruction.FillText: {
-          results.push("FillText");
+          console.log("FillText");
           break;
         }
         case CanvasInstruction.Filter: {
-          results.push("Filter");
+          console.log("Filter");
           break;
         }
         case CanvasInstruction.Font: {
-          results.push("Font");
+          console.log("Font");
           break;
         }
         case CanvasInstruction.GlobalAlpha: {
-          results.push("GlobalAlpha");
+          console.log("GlobalAlpha");
           break;
         }
         case CanvasInstruction.GlobalCompositeOperation: {
-          results.push("GlobalCompositeOperation");
+          console.log("GlobalCompositeOperation");
           break;
         }
         case CanvasInstruction.ImageSmoothingEnabled: {
-          results.push("ImageSmoothingEnabled");
+          console.log("ImageSmoothingEnabled");
           break;
         }
         case CanvasInstruction.ImageSmoothingQuality: {
-          results.push("ImageSmoothingQuality");
+          console.log("ImageSmoothingQuality");
           break;
         }
         case CanvasInstruction.LineCap: {
-          results.push("LineCap");
+          console.log("LineCap");
           break;
         }
         case CanvasInstruction.LineDash: {
-          results.push("LineDash");
+          console.log("LineDash");
           break;
         }
         case CanvasInstruction.LineDashOffset: {
-          results.push("LineDashOffset");
+          console.log("LineDashOffset");
           break;
         }
         case CanvasInstruction.LineJoin: {
-          results.push("LineJoin");
+          console.log("LineJoin");
           break;
         }
         case CanvasInstruction.LineTo: {
-          results.push("LineTo");
+          console.log("LineTo");
           break;
         }
         case CanvasInstruction.LineWidth: {
-          results.push("LineWidth");
+          console.log("LineWidth");
           break;
         }
         case CanvasInstruction.MiterLimit: {
-          results.push("MiterLimit");
+          console.log("MiterLimit");
           break;
         }
         case CanvasInstruction.MoveTo: {
-          results.push("MoveTo");
+          console.log("MoveTo");
           break;
         }
         case CanvasInstruction.QuadraticCurveTo: {
-          results.push("QuadraticCurveTo");
+          console.log("QuadraticCurveTo");
           break;
         }
         case CanvasInstruction.Rect: {
-          results.push("Rect");
+          console.log("Rect");
           break;
         }
         case CanvasInstruction.Restore: {
-          results.push("Restore");
+          console.log("Restore");
           break;
         }
         case CanvasInstruction.Rotate: {
-          results.push("Rotate");
+          console.log("Rotate");
           break;
         }
         case CanvasInstruction.Save: {
-          results.push("Save");
+          console.log("Save");
           break;
         }
         case CanvasInstruction.Scale: {
-          results.push("Scale");
+          console.log("Scale");
           break;
         }
         case CanvasInstruction.SetTransform: {
-          results.push("SetTransform");
+          console.log("SetTransform");
           break;
         }
         case CanvasInstruction.ShadowBlur: {
-          results.push("ShadowBlur");
+          console.log("ShadowBlur");
           break;
         }
         case CanvasInstruction.ShadowColor: {
-          results.push("ShadowColor");
+          console.log("ShadowColor");
           break;
         }
         case CanvasInstruction.ShadowOffsetX: {
-          results.push("ShadowOffsetX");
+          console.log("ShadowOffsetX");
           break;
         }
         case CanvasInstruction.ShadowOffsetY: {
-          results.push("ShadowOffsetY");
+          console.log("ShadowOffsetY");
           break;
         }
         case CanvasInstruction.Stroke: {
-          results.push("Stroke");
+          console.log("Stroke");
           break;
         }
         case CanvasInstruction.StrokeGradient: {
-          results.push("StrokeGradient");
+          console.log("StrokeGradient");
           break;
         }
         case CanvasInstruction.StrokePattern: {
-          results.push("StrokePattern");
+          console.log("StrokePattern");
           break;
         }
         case CanvasInstruction.StrokeRect: {
-          results.push("StrokeRect");
+          console.log("StrokeRect");
           break;
         }
         case CanvasInstruction.StrokeStyle: {
-          results.push("StrokeStyle");
+          console.log("StrokeStyle");
           break;
         }
         case CanvasInstruction.StrokeText: {
-          results.push("StrokeText");
+          console.log("StrokeText");
           break;
         }
         case CanvasInstruction.TextAlign: {
-          results.push("TextAlign");
+          console.log("TextAlign");
           break;
         }
         case CanvasInstruction.TextBaseline: {
-          results.push("TextBaseline");
+          console.log("TextBaseline");
           break;
         }
         case CanvasInstruction.Translate: {
-          results.push("Translate");
+          console.log("Translate");
           break;
         }
         case CanvasInstruction.Transform: {
-          results.push("Transform");
+          console.log("Transform");
           break;
         }
       }
       if (data[i] === CanvasInstruction.Inspect) break;
       i = data[i + 1];
     }
-    console.log(results);
   }
 
   private log(a: number, b: number): void {

@@ -13,7 +13,7 @@ export class Serializer<T> {
     var next: i32 = this.index + 2;
     if (this.data.length <= next) this.grow();
     this.write(<f64>instruction);
-    this.write(next);
+    this.write(<f64>next);
   }
 
   @inline
@@ -21,7 +21,7 @@ export class Serializer<T> {
     var next: i32 = this.index + 3;
     if (this.data.length <= next) this.grow();
     this.write(<f64>instruction);
-    this.write(next);
+    this.write(<f64>next);
     this.write(value);
   }
 
@@ -31,7 +31,7 @@ export class Serializer<T> {
     var next: i32 = this.index + 4;
     if (this.data.length <= next) this.grow();
     this.write(<f64>instruction);
-    this.write(next);
+    this.write(<f64>next);
     this.write(a);
     this.write(b);
   }
@@ -41,7 +41,7 @@ export class Serializer<T> {
     var next: i32 = this.index + 6;
     if (this.data.length <= next) this.grow();
     this.write(<f64>instruction);
-    this.write(next);
+    this.write(<f64>next);
     this.write(a);
     this.write(b);
     this.write(c);
@@ -53,7 +53,7 @@ export class Serializer<T> {
     var next: i32 = this.index + 7;
     if (this.data.length <= next) this.grow();
     this.write(<f64>instruction);
-    this.write(next);
+    this.write(<f64>next);
     this.write(a);
     this.write(b);
     this.write(c);
@@ -66,7 +66,7 @@ export class Serializer<T> {
     var next: i32 = this.index + 8;
     if (this.data.length <= next) this.grow();
     this.write(<f64>instruction);
-    this.write(next);
+    this.write(<f64>next);
     this.write(a);
     this.write(b);
     this.write(c);
@@ -80,7 +80,7 @@ export class Serializer<T> {
     var next: i32 = this.index + 10;
     if (this.data.length <= next) this.grow();
     this.write(<f64>instruction);
-    this.write(next);
+    this.write(<f64>next);
     this.write(a);
     this.write(b);
     this.write(c);
@@ -96,7 +96,7 @@ export class Serializer<T> {
     var next: i32 = this.index + 11;
     if (this.data.length <= next) this.grow();
     this.write(<f64>instruction);
-    this.write(next);
+    this.write(<f64>next);
     this.write(a);
     this.write(b);
     this.write(c);
