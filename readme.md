@@ -4,6 +4,12 @@ A small canvas rendering framerwork powered by `AssemblyScript` 🎉🎉🎉.
 
 ## About
 
+The `canvas-as` project was an experiemnt that lead to the development of a highly behavior tested version called [as2d](http://github.com/as2d/as2d). Since this project is not tested, and likely slower, I have deprecated it to be replaced by as2d.
+
+Thank you for your understanding. I have left this repo here for achival reasons.
+
+---------------
+
 The `canvas-as` framework is a fun project that utilizes a lot of the hard work provided by the AssemblyScript project, which actually turned out to be quite performant! It avoids using repeated function calls over the wasm bridge, and compiles a set of canvas instructions to make drawing onto a canvas much easier from within `AssemblyScript`.  
 
 ## Goal
